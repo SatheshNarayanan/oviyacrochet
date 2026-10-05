@@ -1,0 +1,224 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING_PAYMENT
+  PLACED
+  CONFIRMED
+  IN_PRODUCTION
+  READY_TO_SHIP
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  RAZORPAY
+  COD
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+enum DiscountScope {
+  PRODUCT
+  CATEGORY
+  STOREWIDE
+}
+
+model User {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  phone        String?
+  passwordHash String?
+  role         Role      @default(CUSTOMER)
+  addresses    Address[]
+  orders       Order[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Address {
+  id        String  @id @default(cuid())
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName  String
+  phone     String
+  line1     String
+  line2     String?
+  city      String
+  state     String
+  pincode   String
+  country   String  @default("India")
+  isDefault Boolean @default(false)
+}
+
+model Category {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  slug      String     @unique
+  imageUrl  String?
+  products  Product[]
+  discounts Discount[]
+}
+
+model Product {
+  id          String            @id @default(cuid())
+  name        String
+  slug        String            @unique
+  description String
+  details     Json?
+  price       Decimal           @db.Decimal(10, 2)
+  categoryId  String
+  category    Category          @relation(fields: [categoryId], references: [id])
+  images      ProductImage[]
+  discounts   ProductDiscount[]
+  isActive    Boolean           @default(true)
+  isFeatured  Boolean           @default(false)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  orderItems  OrderItem[]
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  alt       String
+  position  Int     @default(0)
+  isPrimary Boolean @default(false)
+}
+
+model Discount {
+  id         String            @id @default(cuid())
+  name       String
+  code       String?           @unique
+  type       DiscountType
+  value      Decimal           @db.Decimal(10, 2)
+  scope      DiscountScope
+  categoryId String?
+  category   Category?         @relation(fields: [categoryId], references: [id])
+  startsAt   DateTime
+  endsAt     DateTime?
+  isActive   Boolean           @default(true)
+  stackable  Boolean           @default(false)
+  products   ProductDiscount[]
+  orders     Order[]
+}
+
+model ProductDiscount {
+  productId  String
+  discountId String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  discount   Discount @relation(fields: [discountId], references: [id], onDelete: Cascade)
+
+  @@id([productId, discountId])
+}
+
+model Order {
+  id              String               @id @default(cuid())
+  orderNumber     String               @unique
+  userId          String?
+  user            User?                @relation(fields: [userId], references: [id])
+  customerName    String
+  customerEmail   String
+  customerPhone   String
+  shippingAddress Json
+  items           OrderItem[]
+  subtotal        Decimal              @db.Decimal(10, 2)
+  discountTotal   Decimal              @db.Decimal(10, 2) @default(0)
+  shippingFee     Decimal              @db.Decimal(10, 2) @default(0)
+  total           Decimal              @db.Decimal(10, 2)
+  discountId      String?
+  discount        Discount?            @relation(fields: [discountId], references: [id])
+  status          OrderStatus          @default(PENDING_PAYMENT)
+  paymentMethod   PaymentMethod
+  paymentStatus   PaymentStatus        @default(PENDING)
+  trackingNumber  String?
+  courierName     String?
+  notes           String?
+  isSeenByAdmin   Boolean              @default(false)
+  payments        Payment[]
+  history         OrderStatusHistory[]
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+}
+
+model OrderItem {
+  id              String  @id @default(cuid())
+  orderId         String
+  order           Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId       String
+  product         Product @relation(fields: [productId], references: [id])
+  nameSnapshot    String
+  imageSnapshot   String
+  unitPrice       Decimal @db.Decimal(10, 2)
+  discountApplied Decimal @db.Decimal(10, 2) @default(0)
+  finalUnitPrice  Decimal @db.Decimal(10, 2)
+  quantity        Int
+  customization   String?
+}
+
+model Payment {
+  id                String        @id @default(cuid())
+  orderId           String
+  order             Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  provider          String
+  providerOrderId   String?
+  providerPaymentId String?
+  signature         String?
+  amount            Decimal       @db.Decimal(10, 2)
+  status            PaymentStatus @default(PENDING)
+  rawPayload        Json?
+  createdAt         DateTime      @default(now())
+}
+
+model OrderStatusHistory {
+  id        String      @id @default(cuid())
+  orderId   String
+  order     Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  status    OrderStatus
+  note      String?
+  emailSent Boolean     @default(false)
+  changedBy String?
+  createdAt DateTime    @default(now())
+}
+
+model Setting {
+  key   String @id
+  value Json
+}
+
+model EmailLog {
+  id        String   @id @default(cuid())
+  to        String
+  subject   String
+  template  String
+  orderId   String?
+  status    String
+  error     String?
+  createdAt DateTime @default(now())
+}
