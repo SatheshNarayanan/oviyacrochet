@@ -4,6 +4,7 @@ import { prisma } from "@/lib/db";
 import { getEffectivePrice, applyCoupon } from "@/lib/pricing";
 import { toDiscountInput } from "@/lib/discount-mapper";
 import { generateOrderNumber } from "@/lib/utils";
+import { auth } from "@/auth";
 import Razorpay from "razorpay";
 
 const CheckoutSchema = z.object({
@@ -39,6 +40,10 @@ export async function POST(req: NextRequest) {
 
     const { items, contact, address, paymentMethod, discountId } = parsed.data;
     const now = new Date();
+
+    // Get logged-in user if any (to link order to account)
+    const session = await auth();
+    const loggedInUserId = session?.user?.id ?? null;
 
     // Check COD enabled
     if (paymentMethod === "COD") {
@@ -129,6 +134,7 @@ export async function POST(req: NextRequest) {
     const order = await prisma.order.create({
       data: {
         orderNumber,
+        userId: loggedInUserId,
         customerName: contact.fullName,
         customerEmail: contact.email,
         customerPhone: contact.phone,
@@ -170,7 +176,30 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ orderNumber: order.orderNumber, orderId: order.id });
     }
 
-    // Create Razorpay order
+    // ── Demo mode: skip Razorpay when keys are placeholder ──────────────────
+    const keyId = process.env.RAZORPAY_KEY_ID ?? "";
+    const isDemoMode = !keyId || keyId.includes("xxxx") || keyId === "rzp_test_xxxxxxxxxxxx";
+
+    if (isDemoMode) {
+      // Mark the order as placed (simulating a successful payment)
+      await prisma.order.update({
+        where: { id: order.id },
+        data: {
+          status: "PLACED",
+          paymentStatus: "PAID",
+          history: {
+            create: { status: "PLACED", note: "Demo mode — payment simulated" },
+          },
+        },
+      });
+      return NextResponse.json({
+        orderNumber: order.orderNumber,
+        orderId: order.id,
+        demo: true,
+      });
+    }
+
+    // ── Real Razorpay ────────────────────────────────────────────────────────
     const razorpay = new Razorpay({
       key_id: process.env.RAZORPAY_KEY_ID!,
       key_secret: process.env.RAZORPAY_KEY_SECRET!,
@@ -204,3 +233,4 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
+

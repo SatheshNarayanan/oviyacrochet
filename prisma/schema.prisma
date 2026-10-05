@@ -54,6 +54,7 @@ model User {
   phone        String?
   passwordHash String?
   role         Role      @default(CUSTOMER)
+  theme        String?   @default("system")
   addresses    Address[]
   orders       Order[]
   createdAt    DateTime  @default(now())
@@ -85,21 +86,23 @@ model Category {
 }
 
 model Product {
-  id          String            @id @default(cuid())
-  name        String
-  slug        String            @unique
-  description String
-  details     Json?
-  price       Decimal           @db.Decimal(10, 2)
-  categoryId  String
-  category    Category          @relation(fields: [categoryId], references: [id])
-  images      ProductImage[]
-  discounts   ProductDiscount[]
-  isActive    Boolean           @default(true)
-  isFeatured  Boolean           @default(false)
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
-  orderItems  OrderItem[]
+  id              String            @id @default(cuid())
+  name            String
+  slug            String            @unique
+  description     String
+  details         Json?
+  price           Decimal           @db.Decimal(10, 2)
+  categoryId      String
+  category        Category          @relation(fields: [categoryId], references: [id])
+  images          ProductImage[]
+  discounts       ProductDiscount[]
+  isActive        Boolean           @default(true)
+  isFeatured      Boolean           @default(false)
+  featuredPosition Int?             @default(0)
+  featuredLabel   String?           @default("Featured")
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  orderItems      OrderItem[]
 }
 
 model ProductImage {
@@ -220,5 +223,23 @@ model EmailLog {
   orderId   String?
   status    String
   error     String?
+  createdAt DateTime @default(now())
+}
+model GalleryImage {
+  id        String   @id @default(cuid())
+  url       String
+  alt       String
+  position  Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  town      String
+  quote     String
+  isActive  Boolean  @default(true)
+  position  Int      @default(0)
   createdAt DateTime @default(now())
 }

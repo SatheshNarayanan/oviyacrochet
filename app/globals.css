@@ -570,3 +570,66 @@ button, select, input, textarea { font: inherit; color: inherit; }
     align-items: start;
   }
 }
+
+/* ── Landing page grids ─────────────────────────────────── */
+.routes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.route-tile:hover {
+  border-color: var(--pri) !important;
+  transform: translateY(-3px);
+}
+@media (min-width: 768px) {
+  .routes-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 1024px) {
+  .routes-grid { grid-template-columns: repeat(6, 1fr); }
+  .route-tile { min-height: 150px; }
+}
+
+.feat-grid {
+  display: grid;
+  gap: 16px;
+}
+@media (min-width: 768px) {
+  .feat-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.steps-grid {
+  display: grid;
+  gap: 14px;
+}
+@media (min-width: 768px) {
+  .steps-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.ig-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+@media (min-width: 768px) {
+  .ig-grid { grid-template-columns: repeat(6, 1fr); }
+}
+
+.quotes-grid {
+  display: grid;
+  gap: 14px;
+}
+@media (min-width: 768px) {
+  .quotes-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* sec padding */
+.sec { padding: 36px 0; }
+@media (min-width: 1024px) { .sec { padding: 56px 0; } }
+
+/* band = lavender step section */
+.band {
+  background: var(--lav);
+  border-top: 2px dashed var(--pri);
+  border-bottom: 2px dashed var(--pri);
+}
+

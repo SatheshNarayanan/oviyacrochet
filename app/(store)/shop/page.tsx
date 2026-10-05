@@ -74,7 +74,8 @@ async function getProducts(params: { category?: string; sort?: string; sale?: st
 
     if (params.sale === "1") return mapped.filter((p) => p.discountPercent > 0);
     return mapped;
-  } catch {
+  } catch (err) {
+    console.error("[ShopPage] Failed to fetch products:", err);
     return [];
   }
 }
