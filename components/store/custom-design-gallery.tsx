@@ -4,14 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 const slideshowDesigns = [
-  { id: "batman", character: "Batman", title: "Batman-inspired Design", blurb: "Dark cowl with ears, cape and gauntlet cuffs, finished with a bold yellow accent.", image: "/images/custom-gallery/batman.webp" },
-  { id: "levi", character: "Levi", title: "Levi-inspired Design", blurb: "Scout regiment cape and detailed Survey Corps aesthetic.", image: "/images/custom-gallery/levi.webp" },
-  { id: "luffy", character: "Luffy", title: "Luffy-inspired Design", blurb: "Straw-hat style cap with a red band, red vest and blue shorts.", image: "/images/custom-gallery/luffy.webp" },
-  { id: "naruto", character: "Naruto", title: "Naruto-inspired Design", blurb: "Orange and navy jacket set with a headband and spiky-hair hat.", image: "/images/custom-gallery/naruto.webp" },
-  { id: "zoro", character: "Zoro", title: "Zoro-inspired Design", blurb: "Deep green coat with a red sash, green hat and miniature crochet swords.", image: "/images/custom-gallery/zoro.webp" },
-  { id: "mermaid-princess", character: "Mermaid Princess", title: "Mermaid Princess-inspired Design", blurb: "Beautiful under-the-sea aesthetics with scale patterns and elegant fins.", image: "/images/custom-gallery/mermaid%20princess.webp" },
-  { id: "micky-mouse", character: "Mickey Mouse", title: "Mickey Mouse-inspired Design", blurb: "Iconic red, white, and black style featuring classic round mouse ears.", image: "/images/custom-gallery/micky%20mouse.webp" },
-  { id: "pikachu", character: "Pikachu", title: "Pikachu-inspired Design", blurb: "Bright yellow set with pointed black-tipped ears and a lightning bolt tail.", image: "/images/custom-gallery/pikachu.webp" },
+  { id: "batman", character: "Batman", title: "Batman-inspired Design", blurb: "Dark cowl with ears, cape and gauntlet cuffs, finished with a bold yellow accent.", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/batman.webp` : "/images/custom-gallery/batman.webp" },
+  { id: "levi", character: "Levi", title: "Levi-inspired Design", blurb: "Scout regiment cape and detailed Survey Corps aesthetic.", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/levi.webp` : "/images/custom-gallery/levi.webp" },
+  { id: "luffy", character: "Luffy", title: "Luffy-inspired Design", blurb: "Straw-hat style cap with a red band, red vest and blue shorts.", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/luffy.webp` : "/images/custom-gallery/luffy.webp" },
+  { id: "naruto", character: "Naruto", title: "Naruto-inspired Design", blurb: "Orange and navy jacket set with a headband and spiky-hair hat.", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/naruto.webp` : "/images/custom-gallery/naruto.webp" },
+  { id: "zoro", character: "Zoro", title: "Zoro-inspired Design", blurb: "Deep green coat with a red sash, green hat and miniature crochet swords.", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/zoro.webp` : "/images/custom-gallery/zoro.webp" },
+  { id: "mermaid-princess", character: "Mermaid Princess", title: "Mermaid Princess-inspired Design", blurb: "Beautiful under-the-sea aesthetics with scale patterns and elegant fins.", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/mermaid%20princess.webp` : "/images/custom-gallery/mermaid%20princess.webp" },
+  { id: "micky-mouse", character: "Mickey Mouse", title: "Mickey Mouse-inspired Design", blurb: "Iconic red, white, and black style featuring classic round mouse ears.", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/micky%20mouse.webp` : "/images/custom-gallery/micky%20mouse.webp" },
+  { id: "pikachu", character: "Pikachu", title: "Pikachu-inspired Design", blurb: "Bright yellow set with pointed black-tipped ears and a lightning bolt tail.", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/pikachu.webp` : "/images/custom-gallery/pikachu.webp" },
 ];
 
 export function CustomDesignGallery() {
@@ -52,17 +52,17 @@ export function CustomDesignGallery() {
                   pointerEvents: index === currentIndex ? "auto" : "none",
                 }}
               >
-                <Image 
-                  src={design.image} 
-                  alt={design.title} 
-                  fill 
-                  sizes="(max-width: 600px) 100vw, 600px" 
-                  style={{ objectFit: "cover" }} 
-                  priority={index === 0} 
+                <Image
+                  src={design.image}
+                  alt={design.title}
+                  fill
+                  sizes="(max-width: 600px) 100vw, 600px"
+                  style={{ objectFit: "cover" }}
+                  priority={index === 0}
                 />
               </div>
             ))}
-            
+
             {/* Navigation Arrows */}
             <button
               onClick={prevSlide}
@@ -73,7 +73,7 @@ export function CustomDesignGallery() {
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
             </button>
-            
+
             <button
               onClick={nextSlide}
               style={{ position: "absolute", top: "50%", right: "12px", transform: "translateY(-50%)", width: "40px", height: "40px", borderRadius: "50%", background: "var(--surface)", border: "1px solid var(--line)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", boxShadow: "0 4px 12px rgba(0,0,0,0.1)", zIndex: 10, transition: "transform 0.2s" }}
@@ -83,7 +83,7 @@ export function CustomDesignGallery() {
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </button>
-            
+
             {/* Slide Indicators */}
             <div style={{ position: "absolute", bottom: "16px", left: "0", right: "0", display: "flex", justifyContent: "center", gap: "6px", zIndex: 10 }}>
               {slideshowDesigns.map((_, index) => (
@@ -112,12 +112,12 @@ export function CustomDesignGallery() {
         {slideshowDesigns.map((design) => (
           <div key={design.id} style={{ display: "flex", flexDirection: "column", background: "var(--surface)", borderRadius: "16px", overflow: "hidden", boxShadow: "0 4px 16px rgba(0,0,0,0.06)", border: "1px solid var(--line)", transition: "transform 0.2s, box-shadow 0.2s" }} onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 12px 24px rgba(0,0,0,0.1)"; }} onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.06)"; }}>
             <div style={{ position: "relative", width: "100%", aspectRatio: "4/5", background: "var(--ice)" }}>
-              <Image 
-                src={design.image} 
-                alt={design.title} 
-                fill 
-                sizes="(max-width: 1200px) 33vw, 25vw" 
-                style={{ objectFit: "cover" }} 
+              <Image
+                src={design.image}
+                alt={design.title}
+                fill
+                sizes="(max-width: 1200px) 33vw, 25vw"
+                style={{ objectFit: "cover" }}
               />
             </div>
             <div style={{ padding: "20px", display: "flex", flexDirection: "column", flexGrow: 1 }}>

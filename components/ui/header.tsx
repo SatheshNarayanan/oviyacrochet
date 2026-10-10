@@ -162,7 +162,7 @@ export function Header({ isAdmin = false, offerText }: HeaderProps) {
             aria-label="Oviya's Crochet — home"
             style={{ textDecoration: "none", display: "flex", alignItems: "center" }}
           >
-            <Image src="/logo.webp" alt="Oviya's Crochet" width={100} height={100} style={{ borderRadius: "50%", objectFit: "cover" }} />
+            <Image src={process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/oc-logo.png` : "/logo.webp"} alt="Oviya's Crochet" width={120} height={120} style={{ borderRadius: "50%", objectFit: "cover" }} />
           </Link>
           {isAdmin && (
             <span className="brand-text">Admin</span>

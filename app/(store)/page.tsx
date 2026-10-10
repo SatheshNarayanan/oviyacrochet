@@ -24,19 +24,19 @@ export const metadata: Metadata = {
 
 /* §9.1 Category cards data */
 const CATEGORY_CARDS = [
-  { slug: "amigurumi", label: "Amigurumi", image: "/cat_amigurumi.jpg" },
-  { slug: "bags", label: "Bags", image: "/cat_bags.jpg" },
-  { slug: "home-decor", label: "Home Décor", image: "/cat_home_decor.jpg" },
-  { slug: "baby", label: "Baby Gifts", image: "/cat_baby.jpg" },
-  { slug: "accessories", label: "Accessories", image: "/cat_accessories.jpg" },
-  { slug: "gift-hampers", label: "Gift Hampers", image: "/hero_placeholder.jpg" },
+  { slug: "amigurumi", label: "Amigurumi", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/cat_amigurumi.jpg` : "/cat_amigurumi.jpg" },
+  { slug: "bags", label: "Bags", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/cat_bags.jpg` : "/cat_bags.jpg" },
+  { slug: "home-decor", label: "Home Décor", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/cat_home_decor.jpg` : "/cat_home_decor.jpg" },
+  { slug: "baby", label: "Baby Gifts", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/cat_baby.jpg` : "/cat_baby.jpg" },
+  { slug: "accessories", label: "Accessories", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/cat_accessories.jpg` : "/cat_accessories.jpg" },
+  { slug: "gift-hampers", label: "Gift Hampers", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/hero_placeholder.jpg` : "/hero_placeholder.jpg" },
 ];
 
 const COLLECTION_TILES = [
-  { href: "/shop?category=amigurumi", label: "Amigurumi", bg: "#CFEBDD", image: "/coll_amigurumi.jpg" },
-  { href: "/shop?category=bags", label: "Bags & Pouches", bg: "#F9C6DB", image: "/coll_bags.jpg" },
-  { href: "/shop?category=accessories", label: "Accessories", bg: "#E7D6FA", image: "/coll_accessories.jpg" },
-  { href: "/shop?category=home-decor", label: "Home Décor", bg: "#FBE3B5", image: "/cat_home_decor.jpg" },
+  { href: "/shop?category=amigurumi", label: "Amigurumi", bg: "#CFEBDD", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/coll_amigurumi.jpg` : "/coll_amigurumi.jpg" },
+  { href: "/shop?category=bags", label: "Bags & Pouches", bg: "#F9C6DB", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/coll_bags.jpg` : "/coll_bags.jpg" },
+  { href: "/shop?category=accessories", label: "Accessories", bg: "#E7D6FA", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/coll_accessories.jpg` : "/coll_accessories.jpg" },
+  { href: "/shop?category=home-decor", label: "Home Décor", bg: "#FBE3B5", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/cat_home_decor.jpg` : "/cat_home_decor.jpg" },
 ];
 
 const HOW_STEPS = [
@@ -143,7 +143,7 @@ export default async function HomePage() {
 
         <div className="art" style={{ position: "relative", width: "100%", maxWidth: 500, justifySelf: "center", aspectRatio: "1", borderRadius: "24px", overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.08)" }}>
           <Image
-            src="/hero_placeholder.jpg"
+            src={process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/hero_placeholder.jpg` : "/hero_placeholder.jpg"}
             alt="Handmade crochet toys and bags"
             fill
             sizes="(max-width: 1023px) 100vw, 50vw"
@@ -258,10 +258,10 @@ export default async function HomePage() {
           </div>
           <div className="co-photos" aria-hidden="true">
             <div className="a">
-              <Image src="/girl_outfit.jpg" alt="Custom crochet baby girl outfit" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "cover" }} />
+              <Image src={process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/girl_outfit.jpg` : "/girl_outfit.jpg"} alt="Custom crochet baby girl outfit" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "cover" }} />
             </div>
             <div className="b">
-              <Image src="/boy_outfit.jpg" alt="Custom crochet baby boy outfit" fill sizes="(max-width: 768px) 50vw, 30vw" style={{ objectFit: "cover" }} />
+              <Image src={process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/boy_outfit.jpg` : "/boy_outfit.jpg"} alt="Custom crochet baby boy outfit" fill sizes="(max-width: 768px) 50vw, 30vw" style={{ objectFit: "cover" }} />
             </div>
           </div>
         </div>
@@ -296,45 +296,6 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* ── SUPERHERO & ANIME CAROUSEL ── */}
-        {/* <div style={{ marginTop: 64, paddingBottom: 16 }}>
-          <div className="container" style={{ marginBottom: 20 }}>
-            <h3 style={{ fontSize: 24, fontFamily: "var(--font-heading)", fontWeight: 600 }}>Superhero &amp; Anime Knits</h3>
-            <p style={{ marginTop: 4, fontSize: 15, color: "var(--text-muted)" }}>A few of our made-to-order pieces. Yours could be next.</p>
-          </div>
-          <div className="hide-scroll" style={{
-            display: "flex", gap: 16, overflowX: "auto", scrollSnapType: "x mandatory", 
-            paddingInline: "max(var(--pad-mobile), calc((100vw - 1160px) / 2))",
-          }}>
-            {[
-              { src: "/superhero_batman.jpg", title: "Batman set", sub: "Cowl, cape and gauntlets" },
-              { src: "/superhero_spiderman.jpg", title: "Spider-Man set", sub: "Bodysuit, hat and booties" },
-              { src: "/superhero_naruto.png", title: "Naruto set", sub: "Jacket, pants and headband" },
-              { src: "/superhero_luffy.jpg", title: "Luffy set", sub: "Straw hat, vest and shorts" },
-              { src: "/superhero_zoro.png", title: "Zoro set", sub: "Coat, sash and hat" }
-            ].map((item, i) => (
-              <figure key={i} style={{ flex: "0 0 min(260px, 72%)", scrollSnapAlign: "start", margin: 0 }}>
-                <div style={{ position: "relative", aspectRatio: "4/5", borderRadius: 18, overflow: "hidden", background: "#d8e4f2" }}>
-                  <Image src={item.src} alt={item.title} fill sizes="260px" style={{ objectFit: "cover" }} />
-                </div>
-                <figcaption style={{ padding: "10px 4px 0", fontWeight: 600, fontSize: 15 }}>
-                  {item.title}
-                  <small style={{ display: "block", fontWeight: 400, color: "var(--text-muted)", fontSize: 13, marginTop: 2 }}>{item.sub}</small>
-                </figcaption>
-              </figure>
-            ))}
-            <div style={{ 
-              flex: "0 0 min(260px, 72%)", scrollSnapAlign: "start", 
-              background: "var(--ink)", borderRadius: 18, padding: 24, display: "flex", flexDirection: "column", justifyContent: "center" 
-            }}>
-              <h4 style={{ color: "#fff", fontSize: 20, lineHeight: 1.3, margin: "0 0 10px", fontWeight: 600 }}>Don&apos;t see your character?</h4>
-              <p style={{ color: "#c9d6e8", fontSize: 15, marginBottom: 20 }}>Tell us the name or send a picture. We&apos;ll reach back by email.</p>
-              <Link href="/custom-orders" className="btn btn--white" style={{ alignSelf: "flex-start", padding: "10px 18px", fontSize: 14 }}>
-                Request a custom piece
-              </Link>
-            </div>
-          </div>
-        </div> */}
       </section>
 
       {/* ── §9.3 STAGGERED COLLECTION TILES ─────────────────────────── */}
@@ -383,7 +344,7 @@ export default async function HomePage() {
               position: "absolute",
               right: 0, top: 0, width: "70%", aspectRatio: "1/1"
             }}>
-              <Image src="/kanniyakumari_scenic_1.jpg" alt="Beautiful sunrise in Kanniyakumari with subtle crochet texture" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "cover" }} />
+              <Image src={process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/kanniyakumari_scenic_1.jpg` : "/kanniyakumari_scenic_1.jpg"} alt="Beautiful sunrise in Kanniyakumari with subtle crochet texture" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "cover" }} />
             </div>
             <div className="collage__front" style={{
               borderRadius: "var(--radius-img)",
@@ -393,7 +354,7 @@ export default async function HomePage() {
               position: "absolute",
               left: 0, bottom: "20px", width: "42%", aspectRatio: "1/1"
             }}>
-              <Image src="/kanniyakumari_scenic_2.jpg" alt="Palm trees and coast in Kanniyakumari with cozy handmade crochet texture" fill sizes="(max-width: 768px) 50vw, 30vw" style={{ objectFit: "cover" }} />
+              <Image src={process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/kanniyakumari_scenic_2.jpg` : "/kanniyakumari_scenic_2.jpg"} alt="Palm trees and coast in Kanniyakumari with cozy handmade crochet texture" fill sizes="(max-width: 768px) 50vw, 30vw" style={{ objectFit: "cover" }} />
             </div>
           </div>
         </div>

@@ -47,6 +47,9 @@ export const metadata: Metadata = {
     locale: "en_IN",
   },
   twitter: { card: "summary_large_image" },
+  icons: {
+    icon: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/favicon.png` : "/favicon.png",
+  },
 };
 
 export default function RootLayout({

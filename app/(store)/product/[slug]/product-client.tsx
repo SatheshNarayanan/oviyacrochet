@@ -88,6 +88,9 @@ export function ProductActions({
   const [selectedColor, setSelectedColor] = useState(colors?.[0]);
   const [activeTab, setActiveTab] = useState<"details" | "shipping">("details");
   const [wishlisted, setWishlisted] = useState(false);
+  const [pin, setPin] = useState("");
+  const [pinMsg, setPinMsg] = useState("");
+  const [pinOk, setPinOk] = useState(false);
   const addItem = useCartStore((s) => s.addItem);
   const openCart = useCartStore((s) => s.openCart);
   const { toast } = useToast();
@@ -102,6 +105,16 @@ export function ProductActions({
     });
     toast(`Added ${qty}× ${name} to cart 🧶`);
     openCart();
+  };
+
+  const checkPin = () => {
+    if (/^\d{6}$/.test(pin)) {
+      setPinOk(true);
+      setPinMsg("Delivery available! Ships in 5-7 working days.");
+    } else {
+      setPinOk(false);
+      setPinMsg("Please enter a valid 6-digit PIN code.");
+    }
   };
 
   const savePercent = discountPercent && discountPercent > 0 ? Math.round(discountPercent) : 0;
@@ -158,11 +171,18 @@ export function ProductActions({
         <MapPin size={18} aria-hidden="true" style={{ color: "var(--text-muted)", flexShrink: 0 }} />
         <input 
           type="text" 
+          value={pin}
+          onChange={(e) => setPin(e.target.value)}
           placeholder="Enter pincode for delivery info" 
           style={{ fontSize: "0.9rem", color: "var(--text)", border: "none", outline: "none", background: "transparent", flex: 1, padding: 0 }}
         />
-        <button type="button" style={{ color: "var(--mint)", fontWeight: 600 }}>Check</button>
+        <button type="button" onClick={checkPin} style={{ color: "var(--mint)", fontWeight: 600 }}>Check</button>
       </div>
+      {pinMsg && (
+        <p style={{ marginTop: 8, fontSize: "0.85rem", color: pinOk ? "var(--mint)" : "var(--danger)", fontWeight: 500 }}>
+          {pinMsg}
+        </p>
+      )}
 
       {/* Color options */}
       {colors && colors.length > 0 && (
