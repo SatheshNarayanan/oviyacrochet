@@ -396,8 +396,8 @@ export function CheckoutForm({
         )}
         <div style={{
           display: "flex", justifyContent: "space-between",
-          fontFamily: "Baloo 2", fontWeight: 700, fontSize: 18,
-          borderTop: "2px dashed var(--line)", paddingTop: 10, marginTop: 6,
+          fontFamily: "var(--font-display)", fontWeight: 400, fontSize: 18,
+          borderTop: "2px solid var(--color-pewter-gray)", paddingTop: 10, marginTop: 6,
         }}>
           <span>Total</span>
           <span>{formatINR(total)}</span>

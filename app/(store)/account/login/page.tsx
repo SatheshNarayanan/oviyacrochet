@@ -9,7 +9,7 @@ import { Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") ?? "/account";
+  const callbackUrl = searchParams.get("callbackUrl") ?? "/shop";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,21 +37,21 @@ function LoginForm() {
   };
 
   const inp: React.CSSProperties = {
-    width: "100%", border: "1.5px solid var(--line)", borderRadius: 10,
-    padding: "10px 12px 10px 38px", background: "var(--bg)", fontSize: 14,
-    color: "var(--ink)", boxSizing: "border-box", fontFamily: "inherit",
+    width: "100%", border: "2px solid var(--color-jet-black)", borderRadius: 10,
+    padding: "10px 12px 10px 38px", background: "var(--surface)", fontSize: 14,
+    color: "var(--color-jet-black)", boxSizing: "border-box", fontFamily: "var(--font-primary)",
   };
   const lbl: React.CSSProperties = {
     display: "flex", flexDirection: "column", gap: 6,
-    fontSize: 13, fontWeight: 600, color: "var(--ink)",
+    fontSize: 13, fontWeight: 600, color: "var(--color-jet-black)",
   };
 
   return (
     <div style={{ minHeight: "80vh", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
       <div style={{ width: "100%", maxWidth: 400 }}>
         <div style={{ textAlign: "center", marginBottom: 28 }}>
-          <h1 style={{ fontSize: 24, fontWeight: 700, margin: "0 0 6px" }}>Welcome back 👋</h1>
-          <p style={{ color: "var(--mute)", fontSize: 14, margin: 0 }}>Sign in to your account</p>
+          <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 400, fontSize: 28, margin: "0 0 6px", color: "var(--color-jet-black)" }}>Welcome back 👋</h1>
+          <p style={{ color: "var(--text-muted)", fontSize: 14, margin: 0 }}>Sign in to your account</p>
         </div>
 
         <div className="box" style={{ padding: 28 }}>
@@ -81,7 +81,7 @@ function LoginForm() {
             </label>
 
             {error && (
-              <p style={{ color: "var(--pink)", fontSize: 13, background: "color-mix(in srgb, var(--pink) 8%, var(--bg))", border: "1px solid color-mix(in srgb, var(--pink) 20%, transparent)", borderRadius: 8, padding: "10px 12px", margin: 0 }}>
+              <p style={{ color: "#dc2626", fontSize: 13, background: "color-mix(in srgb, #dc2626 8%, var(--bg))", border: "1px solid color-mix(in srgb, #dc2626 20%, transparent)", borderRadius: 8, padding: "10px 12px", margin: 0 }}>
                 {error}
               </p>
             )}
@@ -93,9 +93,9 @@ function LoginForm() {
           </form>
         </div>
 
-        <p style={{ textAlign: "center", fontSize: 14, color: "var(--mute)", marginTop: 20 }}>
+        <p style={{ textAlign: "center", fontSize: 14, color: "var(--text-muted)", marginTop: 20 }}>
           Don&apos;t have an account?{" "}
-          <Link href="/account/signup" style={{ color: "var(--pri)", fontWeight: 600, textDecoration: "none" }}>
+          <Link href="/account/signup" style={{ color: "var(--color-jet-black)", fontWeight: 600, textDecoration: "underline", textDecorationColor: "var(--color-cotton-candy)" }}>
             Create one
           </Link>
         </p>

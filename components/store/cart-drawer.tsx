@@ -81,7 +81,7 @@ export function CartDrawer() {
           borderBottom: "2px dashed var(--line)",
         }}>
           <ShoppingBag size={20} aria-hidden="true" />
-          <span style={{ fontFamily: "Baloo 2", fontWeight: 700, fontSize: 20, flex: 1 }}>
+          <span style={{ fontFamily: "var(--font-display)", fontWeight: 400, fontSize: 20, flex: 1 }}>
             Your cart
           </span>
           <button
@@ -137,7 +137,7 @@ export function CartDrawer() {
                     <p style={{ fontWeight: 600, fontSize: 14, marginBottom: 4, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                       {item.name}
                     </p>
-                    <p style={{ fontWeight: 700, color: "var(--pri)", fontSize: 15 }}>
+                    <p style={{ fontWeight: 700, color: "var(--color-cotton-candy)", fontSize: 15 }}>
                       {formatINR(item.price * item.quantity)}
                     </p>
                   </div>
@@ -184,12 +184,30 @@ export function CartDrawer() {
         {items.length > 0 && (
           <div style={{
             padding: "16px 20px",
-            borderTop: "2px dashed var(--line)",
+            borderTop: "1px solid var(--line)",
             display: "flex", flexDirection: "column", gap: 12,
           }}>
+            {/* Free-shipping progress bar (guide §4.9) */}
+            {(() => {
+              const FREE_SHIPPING_THRESHOLD = 999;
+              const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - total);
+              const pct = Math.min(100, Math.round((total / FREE_SHIPPING_THRESHOLD) * 100));
+              return (
+                <div className="shipping-progress">
+                  {remaining > 0
+                    ? <span>₹{remaining.toLocaleString("en-IN")} away from free shipping 🚚</span>
+                    : <span style={{ color: "var(--mint-deep)", fontWeight: 600 }}>You&apos;ve unlocked free shipping! 🎉</span>
+                  }
+                  <div className="shipping-progress__bar">
+                    <span className="shipping-progress__fill" style={{ width: `${pct}%` }} />
+                  </div>
+                </div>
+              );
+            })()}
+
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <span style={{ color: "var(--mute)", fontSize: 14 }}>Subtotal</span>
-              <span style={{ fontFamily: "Baloo 2", fontWeight: 700, fontSize: 20 }}>
+              <span style={{ fontFamily: "var(--font-display)", fontWeight: 400, fontSize: 20 }}>
                 {formatINR(total)}
               </span>
             </div>

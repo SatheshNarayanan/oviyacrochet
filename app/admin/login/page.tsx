@@ -61,20 +61,20 @@ function LoginForm() {
               width: 56,
               height: 56,
               borderRadius: 16,
-              background: "linear-gradient(135deg, var(--pri), var(--pink))",
+              background: "linear-gradient(135deg, var(--color-cotton-candy), var(--color-jet-black))",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               margin: "0 auto 16px",
-              boxShadow: "0 8px 24px color-mix(in srgb, var(--pri) 30%, transparent)",
+              boxShadow: "0 8px 24px rgba(255,153,204,0.35)",
             }}
           >
             <Lock size={24} color="white" />
           </div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, margin: "0 0 4px", color: "var(--ink)" }}>
+          <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 400, fontSize: 26, margin: "0 0 4px", color: "var(--color-jet-black)" }}>
             Admin Login
           </h1>
-          <p style={{ color: "var(--mute)", fontSize: 14, margin: 0 }}>
+          <p style={{ color: "var(--text-muted)", fontSize: 14, margin: 0 }}>
             Oviya&apos;s Crochet — Staff only
           </p>
         </div>
@@ -110,14 +110,14 @@ function LoginForm() {
                   autoComplete="email"
                   style={{
                     width: "100%",
-                    border: "1.5px solid var(--line)",
+                    border: "2px solid var(--color-jet-black)",
                     borderRadius: 10,
                     padding: "10px 12px 10px 38px",
-                    background: "var(--bg)",
+                    background: "var(--surface)",
                     fontSize: 14,
-                    color: "var(--ink)",
+                    color: "var(--color-jet-black)",
                     boxSizing: "border-box",
-                    fontFamily: "inherit",
+                    fontFamily: "var(--font-primary)",
                     outline: "none",
                   }}
                 />
@@ -149,14 +149,14 @@ function LoginForm() {
                   autoComplete="current-password"
                   style={{
                     width: "100%",
-                    border: "1.5px solid var(--line)",
+                    border: "2px solid var(--color-jet-black)",
                     borderRadius: 10,
                     padding: "10px 40px 10px 38px",
-                    background: "var(--bg)",
+                    background: "var(--surface)",
                     fontSize: 14,
-                    color: "var(--ink)",
+                    color: "var(--color-jet-black)",
                     boxSizing: "border-box",
-                    fontFamily: "inherit",
+                    fontFamily: "var(--font-primary)",
                     outline: "none",
                   }}
                 />
@@ -186,10 +186,10 @@ function LoginForm() {
             {error && (
               <p
                 style={{
-                  color: "var(--pink)",
+                  color: "#dc2626",
                   fontSize: 13,
-                  background: "color-mix(in srgb, var(--pink) 8%, var(--bg))",
-                  border: "1px solid color-mix(in srgb, var(--pink) 20%, transparent)",
+                  background: "color-mix(in srgb, #dc2626 8%, var(--bg))",
+                  border: "1px solid color-mix(in srgb, #dc2626 20%, transparent)",
                   borderRadius: 8,
                   padding: "10px 12px",
                   margin: 0,

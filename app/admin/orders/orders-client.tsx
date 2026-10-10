@@ -119,7 +119,7 @@ export function AdminOrdersClient({ data }: { data: AdminData }) {
           { label: "In production", value: data.stats.inProduction },
         ].map((stat) => (
           <div key={stat.label} className="stat-card">
-            <b style={{ display: "block", fontFamily: "Baloo 2", fontSize: 22, fontWeight: 700 }}>
+            <b style={{ display: "block", fontFamily: "var(--font-display)", fontSize: 22, fontWeight: 400 }}>
               {stat.value}
             </b>
             <span style={{ color: "var(--mute)", fontSize: 12 }}>{stat.label}</span>

@@ -76,7 +76,7 @@ export default function TrackPage() {
           ) : (
             <div className="box">
               <p style={{ fontSize: 13, color: "var(--mute)", marginBottom: 4 }}>ORDER NUMBER</p>
-              <p style={{ fontFamily: "Baloo 2", fontWeight: 700, fontSize: 18, color: "var(--pri)", marginBottom: 16 }}>
+              <p style={{ fontFamily: "var(--font-display)", fontWeight: 400, fontSize: 18, color: "var(--color-cotton-candy)", marginBottom: 16 }}>
                 {result.data?.orderNumber}
               </p>
               <div style={{ background: "var(--lav)", borderRadius: 12, padding: "12px 16px", marginBottom: 12 }}>

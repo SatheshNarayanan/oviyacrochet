@@ -1,25 +1,21 @@
 "use client";
 
+/* 5 sort options per the UI/UX update guide §4.5 */
 const SORT_OPTIONS = [
-  { value: "newest", label: "Newest" },
-  { value: "price_asc", label: "Price: Low to High" },
-  { value: "price_desc", label: "Price: High to Low" },
+  { value: "featured",    label: "Featured" },
+  { value: "newest",      label: "New arrivals" },
+  { value: "best_selling",label: "Best selling" },
+  { value: "price_asc",   label: "Price: low to high" },
+  { value: "price_desc",  label: "Price: high to low" },
 ];
 
 export function SortSelect({ activeSort }: { activeSort: string }) {
   return (
-    <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14 }}>
-      <span style={{ color: "var(--mute)" }}>Sort:</span>
+    <label className="sort-label">
+      <span>Sort:</span>
       <select
+        className="sort-select"
         defaultValue={activeSort}
-        style={{
-          border: "1px solid var(--line)",
-          borderRadius: 8,
-          padding: "4px 8px",
-          background: "var(--bg)",
-          fontSize: 14,
-          color: "var(--ink)",
-        }}
         onChange={(e) => {
           const url = new URL(window.location.href);
           url.searchParams.set("sort", e.target.value);

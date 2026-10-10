@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, Heart, MapPin } from "lucide-react";
 import { useCartStore } from "@/lib/cart-store";
 import { useToast } from "@/components/ui/toast";
 import { formatINR, phClass } from "@/lib/utils";
@@ -14,22 +14,14 @@ interface ProductGalleryProps {
   discountPercent?: number;
 }
 
-export function ProductGallery({ images, productName, discountPercent }: ProductGalleryProps) {
+export function ProductGallery({ images, productName }: ProductGalleryProps) {
   const [active, setActive] = useState(0);
-  const sorted = [...images].sort((a, b) => (a.isPrimary ? -1 : 1));
+  const sorted = [...images].sort((a) => (a.isPrimary ? -1 : 1));
 
   return (
     <div>
-      {/* Main image */}
-      <div
-        className={`ph ${phClass(0)}`}
-        style={{ borderRadius: "var(--r-img)", position: "relative", aspectRatio: "1", overflow: "hidden" }}
-      >
-        {discountPercent && discountPercent > 0 ? (
-          <span className="badge-discount" aria-label={`${Math.round(discountPercent)}% discount`}>
-            {Math.round(discountPercent)}% off
-          </span>
-        ) : null}
+      {/* v2 Main image — .pdp__main */}
+      <div className={`pdp__main ph ${phClass(0)}`} style={{ position: "relative" }}>
         {sorted[active]?.url ? (
           <Image
             src={sorted[active].url}
@@ -40,38 +32,33 @@ export function ProductGallery({ images, productName, discountPercent }: Product
             priority
           />
         ) : (
-          <YarnMascot size={120} animate={false} />
+          <div style={{ display: "grid", placeItems: "center", height: "100%" }}>
+            <YarnMascot size={120} animate={false} />
+          </div>
         )}
       </div>
 
-      {/* Thumbnails */}
+      {/* v2 Thumbnails — .pdp__thumbs */}
       {sorted.length > 1 && (
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: `repeat(${Math.min(sorted.length, 4)}, 1fr)`,
-          gap: 8, marginTop: 8,
-        }}>
+        <div className="pdp__thumbs">
           {sorted.map((img, i) => (
             <button
               key={i}
               onClick={() => setActive(i)}
               aria-label={`View image ${i + 1}`}
-              style={{
-                border: `2px solid ${i === active ? "var(--pri)" : "var(--line)"}`,
-                borderRadius: "var(--r-thumb)",
-                overflow: "hidden",
-                aspectRatio: "1",
-                cursor: "pointer",
-                padding: 0,
-                background: "none",
-                position: "relative",
-              }}
+              aria-current={i === active ? "true" : undefined}
+              className={`ph ${phClass(i)}`}
+              style={{ position: "relative" }}
             >
-              <div className={`ph ${phClass(i)}`} style={{ borderRadius: 0, aspectRatio: "1" }}>
-                {img.url && (
-                  <Image src={img.url} alt={img.alt || productName} fill sizes="80px" style={{ objectFit: "cover" }} />
-                )}
-              </div>
+              {img.url && (
+                <Image
+                  src={img.url}
+                  alt={img.alt || productName}
+                  fill
+                  sizes="80px"
+                  style={{ objectFit: "cover" }}
+                />
+              )}
             </button>
           ))}
         </div>
@@ -99,6 +86,8 @@ export function ProductActions({
 }: ProductActionsProps) {
   const [qty, setQty] = useState(1);
   const [selectedColor, setSelectedColor] = useState(colors?.[0]);
+  const [activeTab, setActiveTab] = useState<"details" | "shipping">("details");
+  const [wishlisted, setWishlisted] = useState(false);
   const addItem = useCartStore((s) => s.addItem);
   const openCart = useCartStore((s) => s.openCart);
   const { toast } = useToast();
@@ -115,77 +104,152 @@ export function ProductActions({
     openCart();
   };
 
+  const savePercent = discountPercent && discountPercent > 0 ? Math.round(discountPercent) : 0;
+
   return (
     <div>
-      <p style={{ color: "var(--mute)", margin: "0 0 4px", fontSize: 13 }}>{categoryName}</p>
-      <h1 className="text-pdp-h1" style={{ marginBottom: 12 }}>{name}</h1>
+      {/* Head row: title + wishlist */}
+      <div className="pdp__head">
+        <div>
+          <p style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginBottom: 4, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+            {categoryName}
+          </p>
+          <h1 className="pdp__title">{name}</h1>
+        </div>
+        <button
+          className="icon-btn"
+          aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
+          onClick={() => { setWishlisted((w) => !w); toast(wishlisted ? "Removed from wishlist" : "Saved to wishlist ♡"); }}
+          style={{ color: wishlisted ? "var(--danger)" : undefined, flexShrink: 0 }}
+        >
+          <Heart size={18} fill={wishlisted ? "var(--danger)" : "none"} aria-hidden="true" />
+        </button>
+      </div>
 
-      {/* Price */}
-      <p style={{ marginBottom: 16 }}>
-        <span className="text-price">{formatINR(price)}</span>
-        {discountPercent && discountPercent > 0 ? (
-          <s style={{ fontFamily: "DM Sans", fontWeight: 400, fontSize: 16, color: "var(--mute)", marginLeft: 10 }}>
-            {formatINR(originalPrice)}
-          </s>
-        ) : null}
+      {/* v2 Price block */}
+      <div className="pdp__price">
+        <span className="now">{formatINR(price)}</span>
+        {savePercent > 0 && (
+          <>
+            <span className="mrp">MRP <s>{formatINR(originalPrice)}</s></span>
+            <span className="badge-save">SAVE {savePercent}%</span>
+          </>
+        )}
+      </div>
+      <p className="pdp__gst">GST Included · Free shipping on orders ₹999+</p>
+
+      {/* Description */}
+      <p style={{ lineHeight: 1.7, color: "var(--text)", marginBottom: 16, fontSize: "0.95rem" }}>{description}</p>
+
+      {/* Cream info chips */}
+      <div className="chips">
+        <span className="chip-info">✋ Handmade in India</span>
+        <span className="chip-info">100% Cotton Yarn</span>
+        <span className="chip-info">Made to Order</span>
+      </div>
+
+      {/* Policy line */}
+      <p style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginBottom: 16 }}>
+        🔄 Easy exchange within 7 days · Ships in 5–7 working days
       </p>
 
-      <p style={{ color: "var(--ink)", lineHeight: 1.6, marginBottom: 16, fontSize: 15 }}>{description}</p>
+      {/* Pincode / delivery check */}
+      <div className="pincode">
+        <MapPin size={18} aria-hidden="true" style={{ color: "var(--text-muted)", flexShrink: 0 }} />
+        <input 
+          type="text" 
+          placeholder="Enter pincode for delivery info" 
+          style={{ fontSize: "0.9rem", color: "var(--text)", border: "none", outline: "none", background: "transparent", flex: 1, padding: 0 }}
+        />
+        <button type="button" style={{ color: "var(--mint)", fontWeight: 600 }}>Check</button>
+      </div>
 
-      {/* Color swatches */}
+      {/* Color options */}
       {colors && colors.length > 0 && (
-        <div style={{ marginBottom: 16 }}>
-          <p style={{ fontWeight: 600, marginBottom: 8, fontSize: 14 }}>Colour</p>
-          <div style={{ display: "flex", gap: 10 }}>
+        <div style={{ marginTop: 16 }}>
+          <p style={{ fontWeight: 600, marginBottom: 8, fontSize: "0.9rem" }}>
+            Colour: <strong>{selectedColor}</strong>
+          </p>
+          <div className="options">
             {colors.map((c) => (
               <button
                 key={c}
+                className={`option${selectedColor === c ? " is-selected" : ""}`}
+                aria-pressed={selectedColor === c}
                 onClick={() => setSelectedColor(c)}
-                aria-label={`Select colour ${c}`}
-                style={{
-                  width: 32, height: 32,
-                  borderRadius: "50%",
-                  background: c,
-                  border: "3px solid var(--surface)",
-                  outline: selectedColor === c ? "2px solid var(--pri)" : "2px solid var(--line)",
-                  cursor: "pointer",
-                  transition: "outline 0.15s",
-                }}
-              />
+              >
+                {c}
+              </button>
             ))}
           </div>
         </div>
       )}
 
-      {/* Quantity + Add to cart */}
-      <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 16, flexWrap: "wrap" }}>
-        <div className="qty-stepper">
+      {/* Quantity label */}
+      <p style={{ fontWeight: 600, fontSize: "0.9rem", marginBottom: 8, marginTop: colors && colors.length > 0 ? 0 : 16 }}>
+        Quantity
+      </p>
+
+      {/* v2 Buy row: qty stepper + Add to cart */}
+      <div className="buy-row">
+        <div className="qty">
           <button
-            className="qty-btn"
             onClick={() => setQty((q) => Math.max(1, q - 1))}
             aria-label="Decrease quantity"
           >
             <Minus size={14} />
           </button>
-          <span style={{ padding: "0 16px", fontWeight: 700, minWidth: 40, textAlign: "center" }}>
+          <span style={{ width: "48px", textAlign: "center", fontWeight: 600, fontSize: "1rem" }} aria-label="Quantity">
             {qty}
           </span>
           <button
-            className="qty-btn"
             onClick={() => setQty((q) => q + 1)}
             aria-label="Increase quantity"
           >
             <Plus size={14} />
           </button>
         </div>
-        <button className="btn" onClick={handleAdd} style={{ flex: 1 }}>
+        <button className="btn btn--wide" onClick={handleAdd}>
           Add to cart
         </button>
       </div>
 
-      {/* Made to order note */}
-      <div className="mint-note">
-        🪡 Made to order. Ships in 5 to 7 days.
+      {/* v2 Tabs: More Details | Shipping & Return */}
+      <div className="tabs" role="tablist" aria-label="Product information">
+        <button
+          role="tab"
+          aria-selected={activeTab === "details"}
+          onClick={() => setActiveTab("details")}
+        >
+          More Details
+        </button>
+        <button
+          role="tab"
+          aria-selected={activeTab === "shipping"}
+          onClick={() => setActiveTab("shipping")}
+        >
+          Shipping &amp; Return
+        </button>
+      </div>
+
+      <div className="tab-panel" role="tabpanel">
+        {activeTab === "details" ? (
+          <div>
+            <p>{description}</p>
+            <ul style={{ paddingLeft: "1.2em", marginTop: 12, lineHeight: 1.8 }}>
+              <li>100% cotton yarn — soft, durable, hypoallergenic</li>
+              <li>Crocheted by hand in Kanniyakumari, India</li>
+              <li>Made to order — allow 5–7 working days</li>
+              <li>Perfect as a gift — gift wrapping available on request</li>
+            </ul>
+          </div>
+        ) : (
+          <div>
+            <p><strong>Shipping:</strong> Free on orders over ₹999. Standard delivery in 5–7 working days across India.</p>
+            <p style={{ marginTop: 12 }}><strong>Returns &amp; Exchanges:</strong> We accept exchanges within 7 days of delivery for unused items. Custom / made-to-order items cannot be returned unless defective.</p>
+            <p style={{ marginTop: 12 }}><strong>Packaging:</strong> Gift-wrapped in recycled tissue. We&apos;d love to add a personalised note — just mention it at checkout.</p>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -50,7 +50,7 @@ export default async function OrderSuccessPage({ params }: Props) {
         <div className="box" style={{ textAlign: "left", marginBottom: 24 }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
             <span style={{ color: "var(--mute)", fontSize: 14 }}>Order number</span>
-            <span style={{ fontWeight: 700, color: "var(--pri)", fontFamily: "Baloo 2" }}>
+            <span style={{ fontWeight: 400, color: "var(--color-cotton-candy)", fontFamily: "var(--font-display)" }}>
               {orderNumber}
             </span>
           </div>

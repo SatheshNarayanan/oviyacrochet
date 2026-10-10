@@ -6,7 +6,7 @@ import { Heart } from "lucide-react";
 import { useState } from "react";
 import { useCartStore } from "@/lib/cart-store";
 import { useToast } from "@/components/ui/toast";
-import { formatINR, phClass } from "@/lib/utils";
+import { formatINR } from "@/lib/utils";
 import { YarnMascot } from "@/components/ui/yarn-mascot";
 
 interface ProductCardProps {
@@ -19,20 +19,32 @@ interface ProductCardProps {
   primaryImage?: string;
   secondaryImage?: string;
   index?: number;
+  inStock?: boolean;
+  isNew?: boolean;
 }
 
+/**
+ * Borderless product tile — UI/UX guide §4.2–4.3.
+ * - 4:5 portrait image with hover secondary image
+ * - One badge max (Sale > New > in-stock indicator)
+ * - Heart wishlist (top-right overlay)
+ * - "+ Quick add" reveals on hover (CSS handles it)
+ * - No description snippets, no heavy card border
+ * - Sold-out: dimmed + "Notify me" button instead
+ */
 export function ProductCard({
   id,
   name,
   slug,
   price,
   originalPrice,
-  discountPercent,
+  discountPercent = 0,
   primaryImage,
   secondaryImage,
   index = 0,
+  inStock = true,
+  isNew = false,
 }: ProductCardProps) {
-  const [hovered, setHovered] = useState(false);
   const [wishlisted, setWishlisted] = useState(false);
   const addItem = useCartStore((s) => s.addItem);
   const openCart = useCartStore((s) => s.openCart);
@@ -41,14 +53,8 @@ export function ProductCard({
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    addItem({
-      productId: id,
-      name,
-      slug,
-      image: primaryImage ?? "",
-      price,
-      originalPrice,
-    });
+    if (!inStock) return;
+    addItem({ productId: id, name, slug, image: primaryImage ?? "", price, originalPrice });
     toast("Added to cart 🧶");
     openCart();
   };
@@ -60,104 +66,93 @@ export function ProductCard({
     toast(wishlisted ? "Removed from wishlist" : "Saved to wishlist ♡");
   };
 
-  const showSecond = hovered && secondaryImage;
-  const imgSrc = showSecond ? secondaryImage! : primaryImage;
+  /* Badge: priority = sold-out > sale > new */
+  let badge: { label: string; mod: string } | null = null;
+  if (!inStock)       badge = { label: "Sold out",        mod: "tile-badge--soldout" };
+  else if (discountPercent > 0) badge = { label: `Sale –${Math.round(discountPercent)}%`, mod: "tile-badge--sale" };
+  else if (isNew)     badge = { label: "New",             mod: "tile-badge--new" };
 
   return (
-    <Link
-      href={`/product/${slug}`}
-      className="card"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{ display: "block", textDecoration: "none" }}
-    >
-      {discountPercent && discountPercent > 0 ? (
-        <span className="badge-discount" aria-label={`${discountPercent}% discount`}>
-          {Math.round(discountPercent)}% off
-        </span>
-      ) : null}
+    <article className={`tile${!inStock ? " tile--soldout" : ""}`}>
+      {/* Image area wrapper */}
+      <div style={{ position: "relative" }}>
+        <Link href={`/product/${slug}`} className="tile__media" tabIndex={-1} aria-hidden="true">
+        {primaryImage ? (
+          <>
+            <Image
+              className="tile__img"
+              src={primaryImage}
+              alt={name}
+              fill
+              sizes="(max-width: 767px) 50vw, (max-width: 1099px) 33vw, 25vw"
+              style={{ objectFit: "cover" }}
+              priority={index < 4}
+            />
+            {secondaryImage && (
+              <Image
+                className="tile__img tile__img--alt"
+                src={secondaryImage}
+                alt=""
+                fill
+                sizes="(max-width: 767px) 50vw, (max-width: 1099px) 33vw, 25vw"
+                style={{ objectFit: "cover" }}
+                aria-hidden="true"
+              />
+            )}
+          </>
+        ) : (
+          <div style={{ display: "grid", placeItems: "center", height: "100%" }}>
+            <YarnMascot size={48} animate={false} />
+          </div>
+        )}
 
+        {/* Badge */}
+        {badge && <span className={`tile-badge ${badge.mod}`}>{badge.label}</span>}
+      </Link>
+
+      {/* Wishlist heart — overlaps image, outside <a> for separate click target */}
       <button
-        className="heart-btn"
-        aria-label={wishlisted ? "Remove from wishlist" : "Save to wishlist"}
+        className="tile__heart"
+        aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
         onClick={handleWishlist}
-        style={{
-          position: "absolute",
-          top: 12, right: 12,
-          width: 34, height: 34,
-          borderRadius: "50%",
-          border: 0,
-          background: "var(--surface)",
-          cursor: "pointer",
-          display: "grid",
-          placeItems: "center",
-          zIndex: 2,
-          color: "var(--pink)",
-          transition: "transform 0.15s",
-        }}
+        style={{ color: wishlisted ? "var(--danger)" : "inherit" }}
       >
-        <Heart
-          size={16}
-          fill={wishlisted ? "var(--pink)" : "none"}
-          aria-hidden="true"
-        />
+        <Heart size={16} fill={wishlisted ? "var(--danger)" : "none"} aria-hidden="true" />
       </button>
 
-      {/* Product image */}
-      <div className={`ph ${phClass(index)}`} style={{ borderRadius: "var(--r-tile)" }}>
-        {imgSrc ? (
-          <Image
-            src={imgSrc}
-            alt={name}
-            fill
-            sizes="(max-width: 768px) 50vw, 25vw"
-            style={{ objectFit: "cover", borderRadius: "var(--r-tile)", transition: "opacity 0.3s" }}
-          />
-        ) : (
-          <YarnMascot size={46} animate={false} />
-        )}
+      {/* Quick add / Notify me — CSS shows on hover (desktop) or always (touch) */}
+      {inStock ? (
+        <button
+          className="tile__add"
+          aria-label={`Quick add ${name} to cart`}
+          onClick={handleAddToCart}
+        >
+          + Quick add
+        </button>
+      ) : (
+        <button
+          className="tile__add notify-btn"
+          aria-label={`Notify me when ${name} is back in stock`}
+          onClick={(e) => { e.stopPropagation(); toast("We'll let you know when it's back! 📬"); }}
+          style={{ opacity: 1, transform: "none", position: "absolute", left: 10, right: 10, bottom: 10 }}
+        >
+          Notify me when it&apos;s back
+        </button>
+      )}
       </div>
 
-      <h3 className="text-card" style={{ margin: "10px 4px 2px" }}>{name}</h3>
-
-      <p className="price" style={{ margin: "0 4px" }}>
-        <span style={{ fontWeight: 700 }}>{formatINR(price)}</span>
-        {discountPercent && discountPercent > 0 && (
-          <s style={{ color: "var(--mute)", fontWeight: 400, marginLeft: 6, fontSize: 13 }}>
-            {formatINR(originalPrice)}
-          </s>
-        )}
-      </p>
-
-      <button
-        className="add-btn"
-        onClick={handleAddToCart}
-        aria-label={`Add ${name} to cart`}
-        style={{
-          margin: "8px 4px 0",
-          width: "calc(100% - 8px)",
-          border: "2px solid var(--pri)",
-          background: "transparent",
-          color: "var(--pri)",
-          borderRadius: "var(--r-pill)",
-          padding: "8px",
-          fontWeight: 700,
-          cursor: "pointer",
-          minHeight: 44,
-          fontSize: 14,
-          transition: "background 0.15s, color 0.15s",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.background = "var(--pri)";
-          e.currentTarget.style.color = "var(--pri-ink)";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.background = "transparent";
-          e.currentTarget.style.color = "var(--pri)";
-        }}
-      >
-        Add to cart
-      </button>
-    </Link>
+      {/* Text body */}
+      <div className="tile__body">
+        <h3 className="tile__title">
+          <Link href={`/product/${slug}`}>{name}</Link>
+        </h3>
+        <p className="tile__price">
+          <strong>{formatINR(price)}</strong>
+          {discountPercent > 0 && (
+            <s>{formatINR(originalPrice)}</s>
+          )}
+        </p>
+      </div>
+    </article>
   );
 }

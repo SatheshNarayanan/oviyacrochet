@@ -138,7 +138,7 @@ function buildEmailHtml(template: string, data: OrderEmailData): string {
         <!-- Footer -->
         <tr>
           <td style="padding:16px 24px;border-top:2px dashed #CDBCEB;text-align:center;font-size:12px;color:#6B5F82;">
-            Handmade with love in Tamil Nadu 🌸
+            Handmade with love in Kanniyakumari 🌸
           </td>
         </tr>
       </table>

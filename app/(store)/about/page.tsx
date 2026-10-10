@@ -3,7 +3,7 @@ import { YarnMascot } from "@/components/ui/yarn-mascot";
 
 export const metadata: Metadata = {
   title: "About — Oviya's Crochet",
-  description: "The story behind Oviya's Crochet — handmade in Tamil Nadu with love.",
+  description: "The story behind Oviya's Crochet — handmade in Kanniyakumari with love.",
 };
 
 export default function AboutPage() {
@@ -14,14 +14,14 @@ export default function AboutPage() {
           <YarnMascot size={100} animate />
         </div>
         <h1 className="text-hero" style={{ marginBottom: 12, color: "var(--pri)" }}>Our story</h1>
-        <p style={{ color: "var(--mute)", fontSize: 16 }}>Handmade with love in Tamil Nadu 🌸</p>
+        <p style={{ color: "var(--mute)", fontSize: 16 }}>Handmade with love in Kanniyakumari 🌸</p>
       </div>
 
       <div style={{ display: "grid", gap: 32 }}>
         <section>
           <h2 className="text-section" style={{ marginBottom: 12 }}>Hello, I'm Oviya!</h2>
           <p style={{ lineHeight: 1.8, color: "var(--ink)", marginBottom: 12 }}>
-            I'm a crochet artist from Tamil Nadu, India, and I've been crocheting since 2019.
+            I'm a crochet artist from Kanniyakumari, India, and I've been crocheting since 2019.
             What started as a hobby quickly became a passion — I love the meditative rhythm of the
             hook, the feel of soft cotton yarn, and the joy on people's faces when they receive
             something handmade just for them.

@@ -1,19 +1,35 @@
 import type { Metadata } from "next";
-import { Baloo_2, DM_Sans } from "next/font/google";
+import { DM_Sans, DM_Serif_Display, Montserrat, Nunito } from "next/font/google";
 import { Providers } from "@/components/ui/providers";
 import "./globals.css";
 
-const baloo = Baloo_2({
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  weight: ["500", "700"],
-  variable: "--font-baloo",
+  weight: ["300", "400", "500", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-primary",
   display: "swap",
 });
 
-const dmSans = DM_Sans({
+const dmSerifDisplay = DM_Serif_Display({
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  variable: "--font-dm",
+  weight: ["400"],
+  style: ["normal", "italic"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-heading",
+  display: "swap",
+});
+
+const nunito = Nunito({
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  variable: "--font-body",
   display: "swap",
 });
 
@@ -23,8 +39,8 @@ export const metadata: Metadata = {
     template: "%s | Oviya's Crochet",
   },
   description:
-    "Shop handmade crochet bags, amigurumi, home decor and gifts made to order in Tamil Nadu. Soft, dreamy, made just for you.",
-  keywords: ["crochet", "handmade", "amigurumi", "bags", "Tamil Nadu", "India"],
+    "Shop handmade crochet bags, amigurumi, home decor and gifts made to order in Kanniyakumari. Soft, dreamy, made just for you.",
+  keywords: ["crochet", "handmade", "amigurumi", "bags", "Kanniyakumari", "India"],
   openGraph: {
     type: "website",
     siteName: "Oviya's Crochet",
@@ -40,16 +56,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth" className={`${dmSans.variable} ${dmSerifDisplay.variable} ${montserrat.variable} ${nunito.variable}`}>
       <head>
-        {/* Initialize theme before render to prevent flash */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}})()`,
-          }}
-        />
       </head>
-      <body className={`${baloo.variable} ${dmSans.variable}`}>
+      <body>
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -1,6 +1,6 @@
 # Oviya's Crochet — E-commerce App
 
-A modern, mobile-first e-commerce website for **Oviya's Crochet**, a handmade crochet business based in Tamil Nadu, India.
+A modern, mobile-first e-commerce website for **Oviya's Crochet**, a handmade crochet business based in Kanniyakumari, India.
 
 ---
 

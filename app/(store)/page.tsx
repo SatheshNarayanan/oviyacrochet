@@ -14,21 +14,29 @@ export const revalidate = 300;
 export const metadata: Metadata = {
   title: "Oviya's Crochet | Handmade crochet toys, bags and gifts",
   description:
-    "Cuddly toys, everyday bags and thoughtful gifts, crocheted to order in Tamil Nadu and delivered across India. Made with love, shipped with care.",
+    "Cuddly toys, everyday bags and thoughtful gifts, crocheted to order in Kanniyakumari and delivered across India. Made with love, shipped with care.",
   openGraph: {
     title: "Oviya's Crochet | Handmade crochet toys, bags and gifts",
-    description: "Handmade crochet from Tamil Nadu — amigurumi, bags, baby gifts and more.",
+    description: "Handmade crochet from Kanniyakumari — amigurumi, bags, baby gifts and more.",
     type: "website",
   },
 };
 
-const ROUTE_TILES = [
-  { href: "/shop", emoji: "🧶", bg: "#F9C6DB", label: "Shop all", hint: "Every handmade piece" },
-  { href: "/shop/amigurumi", emoji: "🐼", bg: "#E7D6FA", label: "Amigurumi", hint: "Soft toys and plushies" },
-  { href: "/shop/bags", emoji: "👜", bg: "#CFEBDD", label: "Bags", hint: "Totes, pouches, sleeves" },
-  { href: "/shop/gift-hampers", emoji: "🎁", bg: "#FBE3B5", label: "Gift hampers", hint: "Ready to give" },
-  { href: "/custom-orders", emoji: "✨", bg: "#B8D8F5", label: "Custom orders", hint: "Your colours, your idea" },
-  { href: "/track", emoji: "📦", bg: "#D9C9F4", label: "Track order", hint: "Where is my parcel?" },
+/* §9.1 Category cards data */
+const CATEGORY_CARDS = [
+  { slug: "amigurumi", label: "Amigurumi", image: "/cat_amigurumi.jpg" },
+  { slug: "bags", label: "Bags", image: "/cat_bags.jpg" },
+  { slug: "home-decor", label: "Home Décor", image: "/cat_home_decor.jpg" },
+  { slug: "baby", label: "Baby Gifts", image: "/cat_baby.jpg" },
+  { slug: "accessories", label: "Accessories", image: "/cat_accessories.jpg" },
+  { slug: "gift-hampers", label: "Gift Hampers", image: "/hero_placeholder.jpg" },
+];
+
+const COLLECTION_TILES = [
+  { href: "/shop?category=amigurumi", label: "Amigurumi", bg: "#CFEBDD", image: "/coll_amigurumi.jpg" },
+  { href: "/shop?category=bags", label: "Bags & Pouches", bg: "#F9C6DB", image: "/coll_bags.jpg" },
+  { href: "/shop?category=accessories", label: "Accessories", bg: "#E7D6FA", image: "/coll_accessories.jpg" },
+  { href: "/shop?category=home-decor", label: "Home Décor", bg: "#FBE3B5", image: "/cat_home_decor.jpg" },
 ];
 
 const HOW_STEPS = [
@@ -109,126 +117,116 @@ export default async function HomePage() {
       {/* ── HERO ───────────────────────────────────────────────────── */}
       <section className="hero" aria-label="Hero">
         <div>
-          <h1 className="text-hero" style={{ marginBottom: 16 }}>
+          <h1 className="text-hero" style={{ marginBottom: 16, textAlign: "left" }}>
             Little loops of love,<br />made by hand
           </h1>
           <p style={{ color: "var(--mute)", maxWidth: "46ch", marginBottom: 22, fontSize: 18, lineHeight: 1.55 }}>
-            Cuddly toys, everyday bags and thoughtful gifts, crocheted to order in Tamil Nadu and delivered across India.
+            Cuddly toys, everyday bags and thoughtful gifts, crocheted to order in Kanniyakumari and delivered across India.
           </p>
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 22 }}>
             <Link href="/shop" className="btn">Shop all products</Link>
             <Link href="/custom-orders" className="btn btn-alt">Order something custom</Link>
           </div>
-          <div style={{ display: "flex", gap: 16, flexWrap: "wrap", color: "var(--mute)", fontSize: 14 }}>
+          <div style={{ display: "flex", gap: 16, flexWrap: "wrap", color: "var(--text-muted)", fontSize: 14 }}>
             {["Made to order", "Ships across India", "Pay with UPI or card"].map((t) => (
               <span key={t} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <span style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--pink)", display: "inline-block", flexShrink: 0 }} />
+                <span style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--mint)", display: "inline-block", flexShrink: 0 }} />
                 {t}
               </span>
             ))}
           </div>
         </div>
 
-        <div className="art" style={{ position: "relative", maxWidth: 420, width: "100%", justifySelf: "center" }}>
-          <div className="blob" aria-hidden="true">
-            <YarnMascot size={180} animate />
-          </div>
+        <div className="art" style={{ position: "relative", width: "100%", maxWidth: 500, justifySelf: "center", aspectRatio: "1", borderRadius: "24px", overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.08)" }}>
+          <Image
+            src="/hero_placeholder.jpg"
+            alt="Handmade crochet toys and bags"
+            fill
+            sizes="(max-width: 1023px) 100vw, 50vw"
+            style={{ objectFit: "cover" }}
+            priority
+          />
           <span style={{
-            position: "absolute", top: "6%", left: "-2%",
+            position: "absolute", top: "6%", left: "4%",
             background: "var(--surface)", border: "2px solid var(--line)",
             borderRadius: 18, padding: "8px 14px", fontWeight: 700, fontSize: 14, zIndex: 2,
+            color: "var(--ink)",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
           }}>
             100% cotton yarn
           </span>
           <span style={{
-            position: "absolute", bottom: "8%", right: "-2%",
-            background: "var(--mint)", color: "#2E2442", borderRadius: 18,
+            position: "absolute", bottom: "8%", right: "4%",
+            background: "var(--mint)", color: "#fff", borderRadius: 18,
             padding: "8px 14px", fontWeight: 700, fontSize: 14, zIndex: 2,
+            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
           }}>
             Gift wrapping available
           </span>
         </div>
       </section>
 
-      {/* ── WHERE WOULD YOU LIKE TO GO? ────────────────────────────── */}
-      <section className="sec" id="routes" aria-labelledby="routes-heading" style={{ paddingTop: 36 }}>
-        <div style={{ padding: "0 var(--pad-mobile)", maxWidth: 1160, margin: "0 auto" }}>
-          <h2 id="routes-heading" className="text-section" style={{ marginBottom: 6 }}>Where would you like to go?</h2>
-          <p style={{ color: "var(--mute)", marginBottom: 20 }}>Jump straight to what you need.</p>
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(2, 1fr)",
-            gap: 12,
-          }}
-            className="routes-grid"
-          >
-            {ROUTE_TILES.map((tile) => (
+      {/* ── §9.1 CATEGORY CARDS ROW (circle photos) ─────────────────── */}
+      <section className="band--ice-mint" style={{ padding: "48px 0" }} aria-labelledby="cats-heading">
+        <div className="container">
+          <div className="section-head">
+            <h2 id="cats-heading" style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(1.6rem,3vw,2.25rem)", fontWeight: 500, marginBottom: 12 }}>
+              Shop by category
+            </h2>
+            <Link href="/shop" className="btn btn--white">View All</Link>
+          </div>
+          <div className="cat-row" role="list">
+            {CATEGORY_CARDS.map((cat) => (
               <Link
-                key={tile.href}
-                href={tile.href}
-                style={{
-                  background: "var(--surface)",
-                  border: "2px dashed var(--line)",
-                  borderRadius: 22,
-                  padding: 16,
-                  textDecoration: "none",
-                  display: "grid",
-                  gap: 6,
-                  minHeight: 120,
-                  alignContent: "start",
-                  transition: "transform .2s, border-color .2s",
-                }}
-                className="route-tile"
+                key={cat.slug}
+                href={`/shop?category=${cat.slug}`}
+                className="cat-card"
+                role="listitem"
               >
-                <span style={{
-                  width: 44, height: 44, borderRadius: 14,
-                  background: tile.bg, display: "grid", placeItems: "center",
-                  fontSize: 22,
+                <span>{cat.label}</span>
+                <div style={{
+                  width: "100%", aspectRatio: "1/1", borderRadius: "50%",
+                  background: "#EEF1F4", position: "relative", overflow: "hidden"
                 }}>
-                  {tile.emoji}
-                </span>
-                <b style={{ font: "700 18px 'Baloo 2', sans-serif", color: "var(--ink)" }}>{tile.label}</b>
-                <small style={{ color: "var(--mute)", lineHeight: 1.35 }}>{tile.hint}</small>
+                  <Image src={cat.image} alt={cat.label} fill sizes="160px" style={{ objectFit: "cover" }} />
+                </div>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── OUR TOP 3 PICKS ────────────────────────────────────────── */}
-      <section className="sec" id="shop" aria-labelledby="featured-heading" style={{ paddingTop: 8 }}>
+      {/* ── OUR TOP PICKS ────────────────────────────────────────── */}
+      <section className="sec" id="shop" aria-labelledby="featured-heading">
         <div style={{ padding: "0 var(--pad-mobile)", maxWidth: 1160, margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 12, flexWrap: "wrap", marginBottom: 20 }}>
             <div>
-              <h2 id="featured-heading" className="text-section">Our top 3 picks</h2>
+              <h2 id="featured-heading" className="text-section">Our top picks</h2>
               <p style={{ color: "var(--mute)", margin: "6px 0 0" }}>The pieces customers love most right now.</p>
             </div>
-            <Link href="/shop" style={{ color: "var(--pri)", fontWeight: 700, textDecoration: "none" }}>
-              See all products
-            </Link>
+            <Link href="/shop" className="btn btn--white">See all products</Link>
           </div>
 
           {featured.length > 0 ? (
             <div className="feat-grid">
               {featured.map((p, i) => (
                 <article key={p.id} style={{
-                  background: "var(--surface)", border: "2px solid var(--line)",
-                  borderRadius: 26, padding: "10px 10px 16px", position: "relative",
+                  background: "var(--surface)", border: "1px solid var(--line)",
+                  borderRadius: "var(--radius-card)", padding: "10px 10px 16px", position: "relative",
+                  transition: "transform 0.2s ease, box-shadow 0.2s ease",
                 }}>
-                  <span style={{
-                    position: "absolute", top: 26, left: 26, zIndex: 2,
-                    background: "var(--ink)", color: "var(--bg)",
-                    font: "700 13px 'DM Sans', sans-serif",
-                    padding: "4px 12px", borderRadius: 99,
-                  }}>{p.featuredLabel}</span>
                   {p.discountPercent > 0 && (
-                    <span style={{
-                      position: "absolute", top: 26, right: 26, zIndex: 2,
-                      background: "var(--pink)", color: "#2E2442",
-                      fontWeight: 700, fontSize: 12, padding: "4px 10px", borderRadius: 99,
-                    }}>{p.discountPercent}% off</span>
+                    <span className="badge-save" style={{ position: "absolute", top: 14, right: 14, zIndex: 2 }}>
+                      SAVE {Math.round(p.discountPercent)}%
+                    </span>
                   )}
-                  <div className={`ph ${phClass(i)}`} style={{ borderRadius: 18, position: "relative", overflow: "hidden", aspectRatio: "1" }}>
+                  <span style={{
+                    position: "absolute", top: 14, left: 14, zIndex: 2,
+                    background: "var(--ink)", color: "#fff",
+                    fontFamily: "var(--font-body)", fontWeight: 700, fontSize: 12,
+                    padding: "4px 12px", borderRadius: 999,
+                  }}>{p.featuredLabel}</span>
+                  <div className={`ph ${phClass(i)}`} style={{ borderRadius: "var(--radius-card)", position: "relative", overflow: "hidden", aspectRatio: "1" }}>
                     {p.primaryImage ? (
                       <Image src={p.primaryImage} alt={p.name} fill sizes="(min-width:768px) 33vw, 100vw" style={{ objectFit: "cover" }} />
                     ) : (
@@ -236,26 +234,24 @@ export default async function HomePage() {
                     )}
                   </div>
                   <Link href={`/product/${p.slug}`} style={{ textDecoration: "none", color: "inherit" }}>
-                    <h3 style={{ font: "700 21px 'Baloo 2', sans-serif", margin: "14px 8px 4px" }}>{p.name}</h3>
-                    <p style={{ margin: "0 8px", color: "var(--mute)", fontSize: 14, lineHeight: 1.5 }}>
+                    <h3 className="card__title" style={{ fontSize: "1rem", margin: "14px 4px 4px", color: "var(--text-muted)" }}>{p.name}</h3>
+                    <p style={{ margin: "0 4px", color: "var(--text-muted)", fontSize: 13 }}>
                       {p.description.slice(0, 60)}{p.description.length > 60 ? "…" : ""}
                     </p>
                   </Link>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "12px 8px 0", gap: 8 }}>
-                    <span style={{ font: "700 22px 'Baloo 2', sans-serif" }}>
-                      {formatINR(p.price)}
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "12px 4px 0", gap: 8 }}>
+                    <p className="price">
+                      <span className="price__now">{formatINR(p.price)}</span>
                       {p.discountPercent > 0 && (
-                        <s style={{ font: "400 14px 'DM Sans', sans-serif", color: "var(--mute)", marginLeft: 6 }}>
-                          {formatINR(p.originalPrice)}
-                        </s>
+                        <span className="price__mrp">MRP <s>{formatINR(p.originalPrice)}</s></span>
                       )}
-                    </span>
+                    </p>
                     <AddToCartButton
                       productId={p.id} name={p.name}
                       price={p.price} originalPrice={p.originalPrice}
                       image={p.primaryImage ?? ""}
                       slug={p.slug}
-                      style={{ border: "2px solid var(--pri)", background: "transparent", color: "var(--pri)", borderRadius: 99, padding: "9px 16px", fontWeight: 700, cursor: "pointer", minHeight: 44, fontFamily: "inherit" }}
+                      className="btn btn-sm"
                     >
                       Add to cart
                     </AddToCartButton>
@@ -272,33 +268,196 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── §9.2 SPLIT SECTION — Crochet Kits / Custom Orders ──────── */}
+      <section className="band band--ice" aria-label="Custom orders and kits">
+        <div className="container co-intro">
+          <div>
+            <h2 style={{ fontFamily: "var(--font-heading)", fontWeight: 500, fontSize: "clamp(1.6rem,3vw,2.25rem)", marginBottom: 12 }}>
+              Custom orders, made for you
+            </h2>
+            <p>
+              Have something special in mind? We&apos;ll crochet it in your colours, your style, your size. We also make <strong>custom crochet outfits for babies</strong>, including dresses, sweaters, hats and shoes. They&apos;re perfect for special occasions, gifts, or something uniquely yours.
+            </p>
+            <p style={{ marginTop: 12 }}>
+              Whether it&apos;s everyday wear or a full superhero or anime baby suit, we can bring your idea to life.
+            </p>
+            <Link href="/custom-orders" className="btn btn--white" style={{ marginTop: 20, display: "inline-flex" }}>
+              Request a custom piece
+            </Link>
+            <p style={{ fontSize: 14, marginTop: 12, color: "var(--text-muted)" }}>Fill in the request form and we&apos;ll reach back to you by email.</p>
+          </div>
+          <div className="co-photos" aria-hidden="true">
+            <div className="a">
+              <Image src="/girl_outfit.jpg" alt="Custom crochet baby girl outfit" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "cover" }} />
+            </div>
+            <div className="b">
+              <Image src="/boy_outfit.jpg" alt="Custom crochet baby boy outfit" fill sizes="(max-width: 768px) 50vw, 30vw" style={{ objectFit: "cover" }} />
+            </div>
+          </div>
+        </div>
+
+        <div className="container">
+          {/* ── CHARACTER REQUESTS BLOCK ── */}
+          <div className="co-char">
+            <div>
+              <h3 style={{ fontSize: 22, marginBottom: 10, fontFamily: "var(--font-heading)", fontWeight: 600 }}>Have a favourite character? We&apos;ll make it.</h3>
+              <p style={{ color: "var(--text-muted)", lineHeight: 1.6 }}>We take custom orders for <strong>any anime or superhero reference</strong>. Send us the character, a picture, or just the name, and we&apos;ll crochet it as a baby outfit, hat, set or toy.</p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 16 }}>
+                {["Superheroes", "Anime", "Cartoons", "Video games"].map(t => (
+                  <span key={t} style={{ background: "#ffe3ee", color: "#a3285f", borderRadius: 999, padding: "6px 14px", fontSize: 13.5, fontWeight: 500 }}>{t}</span>
+                ))}
+              </div>
+              <Link href="/custom-orders" className="btn" style={{ marginTop: 22, display: "inline-flex" }}>
+                Request a custom piece
+              </Link>
+              <p style={{ fontSize: 14, marginTop: 12, color: "var(--text-muted)" }}>Send us the character and your details on the request page. We&apos;ll reach back to you by email.</p>
+            </div>
+            <ul className="co-steps">
+              {[
+                { t: "Share your idea.", d: "Fill in the request page with the character name or reference photos." },
+                { t: "Tell us the details.", d: "Size, colours and when you need it by." },
+                { t: "We reach back to you.", d: "We'll email you to confirm the design and price. We start crocheting once you approve." }
+              ].map((s, i) => (
+                <li key={i}>
+                  <span><b style={{ color: "var(--ink)", fontWeight: 600 }}>{s.t}</b> {s.d}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* ── SUPERHERO & ANIME CAROUSEL ── */}
+        {/* <div style={{ marginTop: 64, paddingBottom: 16 }}>
+          <div className="container" style={{ marginBottom: 20 }}>
+            <h3 style={{ fontSize: 24, fontFamily: "var(--font-heading)", fontWeight: 600 }}>Superhero &amp; Anime Knits</h3>
+            <p style={{ marginTop: 4, fontSize: 15, color: "var(--text-muted)" }}>A few of our made-to-order pieces. Yours could be next.</p>
+          </div>
+          <div className="hide-scroll" style={{
+            display: "flex", gap: 16, overflowX: "auto", scrollSnapType: "x mandatory", 
+            paddingInline: "max(var(--pad-mobile), calc((100vw - 1160px) / 2))",
+          }}>
+            {[
+              { src: "/superhero_batman.jpg", title: "Batman set", sub: "Cowl, cape and gauntlets" },
+              { src: "/superhero_spiderman.jpg", title: "Spider-Man set", sub: "Bodysuit, hat and booties" },
+              { src: "/superhero_naruto.png", title: "Naruto set", sub: "Jacket, pants and headband" },
+              { src: "/superhero_luffy.jpg", title: "Luffy set", sub: "Straw hat, vest and shorts" },
+              { src: "/superhero_zoro.png", title: "Zoro set", sub: "Coat, sash and hat" }
+            ].map((item, i) => (
+              <figure key={i} style={{ flex: "0 0 min(260px, 72%)", scrollSnapAlign: "start", margin: 0 }}>
+                <div style={{ position: "relative", aspectRatio: "4/5", borderRadius: 18, overflow: "hidden", background: "#d8e4f2" }}>
+                  <Image src={item.src} alt={item.title} fill sizes="260px" style={{ objectFit: "cover" }} />
+                </div>
+                <figcaption style={{ padding: "10px 4px 0", fontWeight: 600, fontSize: 15 }}>
+                  {item.title}
+                  <small style={{ display: "block", fontWeight: 400, color: "var(--text-muted)", fontSize: 13, marginTop: 2 }}>{item.sub}</small>
+                </figcaption>
+              </figure>
+            ))}
+            <div style={{ 
+              flex: "0 0 min(260px, 72%)", scrollSnapAlign: "start", 
+              background: "var(--ink)", borderRadius: 18, padding: 24, display: "flex", flexDirection: "column", justifyContent: "center" 
+            }}>
+              <h4 style={{ color: "#fff", fontSize: 20, lineHeight: 1.3, margin: "0 0 10px", fontWeight: 600 }}>Don&apos;t see your character?</h4>
+              <p style={{ color: "#c9d6e8", fontSize: 15, marginBottom: 20 }}>Tell us the name or send a picture. We&apos;ll reach back by email.</p>
+              <Link href="/custom-orders" className="btn btn--white" style={{ alignSelf: "flex-start", padding: "10px 18px", fontSize: 14 }}>
+                Request a custom piece
+              </Link>
+            </div>
+          </div>
+        </div> */}
+      </section>
+
+      {/* ── §9.3 STAGGERED COLLECTION TILES ─────────────────────────── */}
+      <section className="sec" aria-labelledby="collections-heading">
+        <div className="container">
+          <h2 id="collections-heading" className="text-section" style={{ textAlign: "center", marginBottom: 8 }}>
+            Explore collections
+          </h2>
+          <p className="page-intro">Everything is crocheted by hand, made to order — no two pieces are identical.</p>
+          <div className="tiles">
+            {COLLECTION_TILES.map((tile) => (
+              <Link key={tile.href} href={tile.href} className="coll-tile">
+                <div style={{
+                  width: "100%", height: "100%",
+                  background: tile.bg,
+                  position: "relative", overflow: "hidden"
+                }}>
+                  <Image src={tile.image} alt={tile.label} fill sizes="(max-width: 768px) 50vw, 33vw" style={{ objectFit: "cover" }} />
+                </div>
+                <span className="coll-tile__label">{tile.label}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── §9.2 SPLIT (reversed) — Learn / Story ───────────────────── */}
+      <section className="band band--ice" aria-label="Our story">
+        <div className="container split split--reverse">
+          <div className="split__text">
+            <h2 style={{ fontFamily: "var(--font-heading)", fontWeight: 500, fontSize: "clamp(1.6rem,3vw,2.25rem)", marginBottom: 12 }}>
+              Made in Kanniyakumari, with love
+            </h2>
+            <p>
+              Every stitch is made by Oviya and her team in Kanniyakumari. We crochet after you order, so each piece is fresh, personalised and made with full attention.
+            </p>
+            <Link href="/about" className="btn btn--white" style={{ marginTop: 20, display: "inline-flex" }}>
+              Our story
+            </Link>
+          </div>
+          <div className="collage" aria-hidden="true">
+            <div className="collage__back" style={{
+              borderRadius: "var(--radius-img)",
+              overflow: "hidden",
+              boxShadow: "0 12px 32px rgba(0,0,0,0.1)",
+              position: "absolute",
+              right: 0, top: 0, width: "70%", aspectRatio: "1/1"
+            }}>
+              <Image src="/kanniyakumari_scenic_1.jpg" alt="Beautiful sunrise in Kanniyakumari with subtle crochet texture" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "cover" }} />
+            </div>
+            <div className="collage__front" style={{
+              borderRadius: "var(--radius-img)",
+              overflow: "hidden",
+              boxShadow: "0 12px 32px rgba(0,0,0,0.1)",
+              border: "4px solid var(--white)",
+              position: "absolute",
+              left: 0, bottom: "20px", width: "42%", aspectRatio: "1/1"
+            }}>
+              <Image src="/kanniyakumari_scenic_2.jpg" alt="Palm trees and coast in Kanniyakumari with cozy handmade crochet texture" fill sizes="(max-width: 768px) 50vw, 30vw" style={{ objectFit: "cover" }} />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── HOW YOUR ORDER IS MADE ──────────────────────────────────── */}
       <section className="sec band" id="how" aria-labelledby="how-heading">
         <div style={{ padding: "36px var(--pad-mobile)", maxWidth: 1160, margin: "0 auto" }}>
           <h2 id="how-heading" className="text-section" style={{ marginBottom: 6 }}>How your order is made</h2>
-          <p style={{ color: "var(--mute)", marginBottom: 24 }}>Every piece is stitched after you order, so it is truly yours.</p>
+          <p style={{ color: "var(--text-muted)", marginBottom: 24 }}>Every piece is stitched after you order, so it is truly yours.</p>
           <div className="steps-grid">
             {HOW_STEPS.map((step, i) => (
               <div key={step.title} style={{
-                background: "var(--surface)", borderRadius: 22, padding: 18,
+                background: "var(--white)", borderRadius: 22, padding: 18,
+                border: "1px solid var(--line)",
               }}>
                 <div style={{
-                  width: 36, height: 36, borderRadius: "50%", background: "var(--pink)",
-                  color: "#2E2442", font: "700 18px 'Baloo 2', sans-serif",
+                  width: 36, height: 36, borderRadius: "50%", background: "var(--mint)",
+                  color: "#fff", fontFamily: "var(--font-body)", fontWeight: 700, fontSize: 18,
                   display: "grid", placeItems: "center", marginBottom: 10,
                 }}>
                   {i + 1}
                 </div>
-                <b style={{ font: "700 19px 'Baloo 2', sans-serif" }}>{step.title}</b>
-                <p style={{ margin: "4px 0 0", color: "var(--mute)" }}>{step.desc}</p>
+                <b style={{ fontFamily: "var(--font-heading)", fontWeight: 500, fontSize: 18, color: "var(--ink)" }}>{step.title}</b>
+                <p style={{ margin: "4px 0 0", color: "var(--text-muted)" }}>{step.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
+
       {/* ── FRESH FROM THE HOOK ─────────────────────────────────────── */}
-      <section className="sec" id="story" aria-labelledby="ig-heading">
+      {/* <section className="sec" id="story" aria-labelledby="ig-heading">
         <div style={{ padding: "0 var(--pad-mobile)", maxWidth: 1160, margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 12, flexWrap: "wrap", marginBottom: 20 }}>
             <div>
@@ -308,7 +467,7 @@ export default async function HomePage() {
             <a
               href={process.env.NEXT_PUBLIC_INSTAGRAM_URL ?? "https://www.instagram.com/oviyas_crochet"}
               target="_blank" rel="noopener noreferrer"
-              style={{ color: "var(--pri)", fontWeight: 700, textDecoration: "none" }}
+              className="btn btn--white"
             >
               Follow on Instagram
             </a>
@@ -326,20 +485,23 @@ export default async function HomePage() {
             })}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ── HAPPY HOMES ─────────────────────────────────────────────── */}
-      <section className="sec" aria-labelledby="reviews-heading" style={{ paddingTop: 0 }}>
-        <div style={{ padding: "0 var(--pad-mobile)", maxWidth: 1160, margin: "0 auto" }}>
-          <h2 id="reviews-heading" className="text-section" style={{ marginBottom: 20 }}>Happy homes 💬</h2>
+      <section className="sec band--ice-mint" aria-labelledby="reviews-heading" style={{ paddingTop: 0 }}>
+        <div style={{ padding: "48px var(--pad-mobile)", maxWidth: 1160, margin: "0 auto" }}>
+          <h2 id="reviews-heading" className="text-section" style={{ marginBottom: 8 }}>Happy homes 💬</h2>
+          <p className="page-intro" style={{ marginBottom: 24 }}>Real reviews from real customers across India.</p>
           <div className="quotes-grid">
             {testimonials.map((t) => (
               <div key={t.id} style={{
-                background: "var(--surface)", border: "2px solid var(--line)",
-                borderRadius: 22, padding: 18,
+                background: "var(--white)", border: "1px solid var(--line)",
+                borderRadius: "var(--radius-card)", padding: 20,
+                transition: "transform 0.2s ease, box-shadow 0.2s ease",
               }}>
-                <p style={{ margin: "0 0 10px", lineHeight: 1.6 }}>&ldquo;{t.quote}&rdquo;</p>
-                <small style={{ color: "var(--mute)", fontWeight: 600 }}>{t.name}, {t.town}</small>
+                <div style={{ color: "var(--star)", marginBottom: 8 }}>★★★★★</div>
+                <p style={{ margin: "0 0 10px", lineHeight: 1.6, fontFamily: "var(--font-heading)", fontWeight: 400, fontSize: "1.05rem" }}>&ldquo;{t.quote}&rdquo;</p>
+                <small style={{ color: "var(--text-muted)", fontWeight: 600 }}>{t.name}, {t.town}</small>
               </div>
             ))}
           </div>
@@ -350,11 +512,11 @@ export default async function HomePage() {
       <section className="sec" aria-labelledby="nl-heading" style={{ paddingTop: 0 }}>
         <div style={{ padding: "0 var(--pad-mobile)", maxWidth: 1160, margin: "0 auto" }}>
           <div style={{
-            background: "var(--surface)", border: "2px dashed var(--pri)",
-            borderRadius: 28, padding: 26, textAlign: "center",
+            background: "var(--ice)", border: "1px solid var(--line)",
+            borderRadius: "var(--radius-img)", padding: "40px 32px", textAlign: "center",
           }}>
             <h2 id="nl-heading" className="text-section">Get 10% off your first order</h2>
-            <p style={{ color: "var(--mute)", margin: "6px 0 0" }}>Join for new arrivals and festive offers. No spam.</p>
+            <p className="page-intro" style={{ marginBottom: 20 }}>Join for new arrivals and festive offers. No spam.</p>
             <NewsletterForm />
           </div>
         </div>

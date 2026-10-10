@@ -113,7 +113,7 @@ export default function SignupPage() {
       });
 
       if (signInResult?.ok) {
-        router.push("/account");
+        router.push("/shop");
         router.refresh();
       } else {
         router.push("/account/login");

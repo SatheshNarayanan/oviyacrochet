@@ -9,29 +9,35 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        baloo: ["var(--font-baloo)", "DM Sans", "sans-serif"],
-        dm: ["var(--font-dm)", "system-ui", "sans-serif"],
+        primary: ["var(--font-primary)", "DM Sans", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "DM Serif Display", "Georgia", "serif"],
       },
       colors: {
-        bg: "var(--bg)",
+        "cotton-candy": "var(--color-cotton-candy)",
+        "chalk-white":  "var(--color-chalk-white)",
+        "jet-black":    "var(--color-jet-black)",
+        "pewter-gray":  "var(--color-pewter-gray)",
+        bg:      "var(--bg)",
         surface: "var(--surface)",
-        lav: "var(--lav)",
-        pri: "var(--pri)",
+        text:    "var(--text)",
+        muted:   "var(--text-muted)",
+        accent:  "var(--accent)",
+        border:  "var(--border)",
+        /* Legacy aliases kept for backward compat */
+        pri:  "var(--pri)",
         pink: "var(--pink)",
-        lilac: "var(--lilac)",
-        mint: "var(--mint)",
-        ink: "var(--ink)",
+        ink:  "var(--ink)",
         mute: "var(--mute)",
         line: "var(--line)",
       },
       borderRadius: {
-        pill: "999px",
-        card: "22px",
-        tile: "16px",
+        pill:  "999px",
+        card:  "20px",
+        tile:  "16px",
         thumb: "12px",
-        img: "24px",
+        img:   "20px",
         input: "12px",
-        frame: "32px",
+        frame: "28px",
       },
     },
   },
@@ -39,3 +45,4 @@ const config: Config = {
 };
 
 export default config;
+

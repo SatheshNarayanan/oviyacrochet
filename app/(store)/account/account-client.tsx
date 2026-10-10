@@ -200,7 +200,7 @@ export function AccountClient({ user, addresses: initialAddresses, orders }: Pro
                     </p>
                   </div>
                   <div style={{ textAlign: "right", flexShrink: 0 }}>
-                    <p style={{ fontWeight: 700, fontFamily: "Baloo 2" }}>₹{o.total.toLocaleString("en-IN")}</p>
+                    <p style={{ fontWeight: 400, fontFamily: "var(--font-display)" }}>₹{o.total.toLocaleString("en-IN")}</p>
                     <ChevronRight size={16} style={{ color: "var(--mute)" }} />
                   </div>
                 </div>
