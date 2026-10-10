@@ -89,16 +89,16 @@ async function getProducts(params: {
                 ...(params.q
                   ? [{
                     OR: [
-                      { name: { contains: params.q, mode: "insensitive" } },
-                      { description: { contains: params.q, mode: "insensitive" } },
+                      { name: { contains: params.q, mode: "insensitive" as any } },
+                      { description: { contains: params.q, mode: "insensitive" as any } },
                     ],
                   }]
                   : []),
                 ...(params.color
                   ? [{
                     OR: [
-                      { name: { contains: params.color, mode: "insensitive" } },
-                      { description: { contains: params.color, mode: "insensitive" } },
+                      { name: { contains: params.color, mode: "insensitive" as any } },
+                      { description: { contains: params.color, mode: "insensitive" as any } },
                     ],
                   }]
                   : []),
