@@ -31,7 +31,7 @@ export default function FAQPage() {
           </details>
           <details className="faq__item">
             <summary>I need to cancel or modify my order. What do I do?</summary>
-            <div className="faq__body"><p>Message us on WhatsApp at +919363341924or email contact.oviyascrochet@gmail.com with your order number as soon as possible. We can usually cancel or change an order within 12 hours of ordering, before making starts. Because every piece is handmade, we can't change or cancel once making has started or the order has been dispatched.</p></div>
+            <div className="faq__body"><p>Message us on WhatsApp at +919363341924 or email contact.oviyascrochet@gmail.com with your order number as soon as possible. We can usually cancel or change an order within 12 hours of ordering, before making starts. Because every piece is handmade, we can't change or cancel once making has started or the order has been dispatched.</p></div>
           </details>
           <details className="faq__item">
             <summary>Why choose Oviya's Crochet?</summary>
@@ -80,7 +80,7 @@ export default function FAQPage() {
         </div>
 
         <div className="callout"><strong>Still need help?</strong>
-          <p>Message us on <a href="https://wa.me/919999999999">WhatsApp</a> or write to <a href="mailto:contact.oviyascrochet@gmail.com">contact.oviyascrochet@gmail.com</a>. We reply within 1 business day.</p>
+          <p>Message us on <a href="https://wa.me/919363341924">WhatsApp</a> or write to <a href="mailto:contact.oviyascrochet@gmail.com">contact.oviyascrochet@gmail.com</a>. We reply within 1 business day.</p>
           <Link className="btn btn--primary" href="/contact">Contact us</Link>
         </div>
       </div>

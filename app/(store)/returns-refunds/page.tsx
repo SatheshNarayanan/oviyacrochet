@@ -36,7 +36,7 @@ export default function RefundPolicyPage() {
 
         <h2>3. How to request a return or replacement</h2>
         <ol>
-          <li>Message us within 7 days from delivery on WhatsApp (+919999999999) or email contact.oviyascrochet@gmail.com.</li>
+          <li>Message us within 7 days from delivery on WhatsApp (+919363341924) or email contact.oviyascrochet@gmail.com.</li>
           <li>Include your <strong>order number</strong>, clear <strong>photos</strong> and, for damage or missing items, the <strong>unboxing video</strong> (see our <Link href="/shipping-policy">Shipping policy</Link>).</li>
           <li>We'll review and reply within 1 business day. If approved, we'll arrange a pickup or tell you how to send the item back.</li>
         </ol>

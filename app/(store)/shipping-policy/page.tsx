@@ -50,7 +50,7 @@ export default function ShippingPolicyPage() {
         <p><strong>Unboxing video:</strong> to process damage, missing-item or wrong-item claims (including courier insurance claims), we need <strong>one continuous video</strong> that shows the parcel sealed, the opening, and the problem. Please record it before opening the parcel. Without this video we may not be able to approve a claim.</p>
 
         <div className="callout">
-          <strong>Need help?</strong> For any shipping question, contact us at <a href="mailto:contact.oviyascrochet@gmail.com">contact.oviyascrochet@gmail.com</a> or on <a href="https://wa.me/919999999999">WhatsApp</a> before you order.
+          <strong>Need help?</strong> For any shipping question, contact us at <a href="mailto:contact.oviyascrochet@gmail.com">contact.oviyascrochet@gmail.com</a> or on <a href="https://wa.me/919363341924">WhatsApp</a> before you order.
         </div>
       </div>
     </main>

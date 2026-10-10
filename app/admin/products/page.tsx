@@ -12,8 +12,20 @@ async function getCategories() {
   }
 }
 
+async function getProducts() {
+  try {
+    return await prisma.product.findMany({
+      orderBy: { createdAt: "desc" },
+      include: { images: true },
+    });
+  } catch {
+    return [];
+  }
+}
+
 export default async function AdminProductsPage() {
   const categories = await getCategories();
+  const products = await getProducts();
 
   return (
     <div style={{ padding: "20px var(--pad-mobile) 40px" }}>
@@ -21,7 +33,7 @@ export default async function AdminProductsPage() {
       <p style={{ color: "var(--mute)", fontSize: 14, marginBottom: 24 }}>
         Fill in the details below to add a new product to the shop.
       </p>
-      <AdminProductsClient categories={categories} />
+      <AdminProductsClient categories={categories} initialProducts={products} />
     </div>
   );
 }

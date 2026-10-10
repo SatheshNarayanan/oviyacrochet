@@ -47,7 +47,6 @@ export const metadata: Metadata = {
     locale: "en_IN",
   },
   twitter: { card: "summary_large_image" },
-  icons: { icon: "/brand/logo.png", apple: "/brand/logo.png" },
 };
 
 export default function RootLayout({

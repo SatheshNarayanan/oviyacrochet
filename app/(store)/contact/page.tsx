@@ -44,7 +44,7 @@ export default function ContactPage() {
         <div className="container" style={{ maxWidth: 780, textAlign: "center", padding: "48px 0" }}>
           <h2 style={{ fontFamily: "var(--font-heading)", fontSize: "1.5rem", marginBottom: "16px" }}>Custom orders &amp; bulk gifting</h2>
           <p style={{ marginBottom: "24px" }}>Planning a wedding favour, corporate gift or something one-of-a-kind? Tell us your idea and we'll make it happen.</p>
-          <a className="btn btn--primary" href="https://wa.me/919999999999">Start a custom order</a>
+          <a className="btn btn--primary" href="https://wa.me/919363341924">Start a custom order</a>
         </div>
       </section>
     </main >

@@ -221,6 +221,7 @@ export default async function ShopPage({
 
   return (
     <div style={{ paddingBottom: 48 }}>
+      <input type="checkbox" id="filter-toggle" className="filter-toggle-cb" style={{ display: "none" }} />
       {/* ── Page title (v2 centered, Montserrat) ── */}
       <div style={{ padding: "32px var(--gutter) 0", textAlign: "center" }}>
         <h1 className="page-title">
@@ -236,8 +237,11 @@ export default async function ShopPage({
       {/* ── v2 Shop layout: sidebar + results ── */}
       <div className="container shop-layout" style={{ marginTop: 24 }}>
 
-        {/* ── LEFT: Filter sidebar (desktop only) ── */}
-        <aside className="filters-sidebar" aria-label="Product filters">
+        {/* ── LEFT: Filter sidebar (desktop only, togglable on mobile) ── */}
+        <aside className="filters-sidebar" aria-label="Product filters" id="filters-sidebar">
+          <label htmlFor="filter-toggle" className="filters-sidebar-close" id="close-filter-btn" aria-label="Close filters" style={{ cursor: "pointer" }}>
+            &times;
+          </label>
           <h2 className="filters__title">Filters</h2>
 
           {/* Category filter */}
@@ -316,28 +320,15 @@ export default async function ShopPage({
 
         {/* ── RIGHT: Results area ── */}
         <section className="results" aria-label="Product results">
-          {/* Mobile subcategory bubbles */}
-          <div className="subcat-row shop-subcat-mobile" role="navigation" aria-label="Browse by category">
-            {CATEGORIES_FILTER.map((c) => (
-              <Link
-                key={c.slug}
-                href={buildUrl({ category: c.slug })}
-                className={`subcat-bubble${activeCategory === c.slug ? " active" : ""}`}
-                aria-current={activeCategory === c.slug ? "page" : undefined}
-              >
-                <span className="subcat-bubble__img" aria-hidden="true">{c.emoji}</span>
-                <span className="subcat-bubble__label">{c.label}</span>
-              </Link>
-            ))}
-          </div>
+          {/* Mobile subcategory bubbles removed per request */}
 
           {/* Toolbar: sort (mobile) + view switcher */}
           <div className="toolbar">
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               {/* Mobile filter button */}
-              <button className="btn-filter shop-filter-mobile" aria-label="Open filters" id="open-filter-btn">
+              <label htmlFor="filter-toggle" className="btn-filter shop-filter-mobile" aria-label="Open filters" id="open-filter-btn" style={{ cursor: "pointer" }}>
                 Filter &amp; sort
-              </button>
+              </label>
               <span className="result-count" aria-live="polite" style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>
                 {inStockCount} product{inStockCount !== 1 ? "s" : ""} in stock
                 {soldOutCount > 0 && ` · ${soldOutCount} sold out`}
@@ -411,26 +402,27 @@ export default async function ShopPage({
         </section>
       </div>
 
-      {/* View switcher JS — toggles data-cols on #product-grid */}
+      {/* View switcher JS */}
       <script
         dangerouslySetInnerHTML={{
           __html: `(function(){
             var switcher = document.getElementById('view-switch');
             var grid = document.getElementById('product-grid');
-            if(!switcher||!grid) return;
-            switcher.querySelectorAll('button[data-cols]').forEach(function(btn){
-              btn.addEventListener('click',function(){
-                var cols = btn.getAttribute('data-cols');
-                grid.className = 'shop-grid';
-                if(cols==='1'){grid.style.gridTemplateColumns='1fr';}
-                else if(cols==='2'){grid.style.gridTemplateColumns='repeat(2,1fr)';}
-                else if(cols==='3'){grid.style.gridTemplateColumns='repeat(3,1fr)';}
-                else if(cols==='4'){grid.style.gridTemplateColumns='';}
-                else if(cols==='5'){grid.classList.add('shop-grid--compact');}
-                switcher.querySelectorAll('button').forEach(function(b){b.removeAttribute('aria-pressed');});
-                btn.setAttribute('aria-pressed','true');
+            if(switcher && grid) {
+              switcher.querySelectorAll('button[data-cols]').forEach(function(btn){
+                btn.addEventListener('click',function(){
+                  var cols = btn.getAttribute('data-cols');
+                  grid.className = 'shop-grid';
+                  if(cols==='1'){grid.style.gridTemplateColumns='1fr';}
+                  else if(cols==='2'){grid.style.gridTemplateColumns='repeat(2,minmax(0,1fr))';}
+                  else if(cols==='3'){grid.style.gridTemplateColumns='repeat(3,1fr)';}
+                  else if(cols==='4'){grid.style.gridTemplateColumns='';}
+                  else if(cols==='5'){grid.classList.add('shop-grid--compact');}
+                  switcher.querySelectorAll('button').forEach(function(b){b.removeAttribute('aria-pressed');});
+                  btn.setAttribute('aria-pressed','true');
+                });
               });
-            });
+            }
           })();`,
         }}
       />
