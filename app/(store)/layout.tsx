@@ -105,7 +105,7 @@ export default async function StoreLayout({
             <p style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>
               📍 Kanniyakumari, India<br />
               🚚 Ships across India<br />
-              ✉️ oviyas.crochet@gmail.com
+              ✉️ contact.oviyascrochet@gmail.com
             </p>
           </div>
         </div>

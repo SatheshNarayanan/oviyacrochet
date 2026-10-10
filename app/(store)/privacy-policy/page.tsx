@@ -11,7 +11,7 @@ export default function PrivacyPolicyPage() {
         <div className="container">
           <nav className="crumbs" aria-label="Breadcrumb"><Link href="/">Home</Link> <span>/</span> <span>Privacy Policy</span></nav>
           <h1 className="page-title">Privacy Policy</h1>
-          <p className="meta" style={{marginTop: 16}}>Last updated: October 2026</p>
+          <p className="meta" style={{ marginTop: 16 }}>Last updated: October 2026</p>
         </div>
       </header>
 
@@ -70,14 +70,14 @@ export default function PrivacyPolicyPage() {
           <li>withdraw consent you've given, for example for marketing messages</li>
           <li>opt out of advertising-related sharing</li>
         </ul>
-        <p>To use any of these rights, email oviyas.crochet@gmail.com.</p>
+        <p>To use any of these rights, email contact.oviyascrochet@gmail.com.</p>
 
         <h2>6. Changes, contact and grievance officer</h2>
         <p>We may update this policy to reflect changes in our practices or legal requirements. The latest version is always on this page, with the date at the top.</p>
         <p>Questions or complaints about your privacy:</p>
-        <p><strong>Email:</strong> oviyas.crochet@gmail.com<br />
-        <strong>Address:</strong> Oviya's Crochet, Kanniyakumari, India<br />
-        <strong>Grievance officer:</strong> Oviya · oviyas.crochet@gmail.com</p>
+        <p><strong>Email:</strong> contact.oviyascrochet@gmail.com<br />
+          <strong>Address:</strong> Oviya's Crochet, Kanniyakumari, India<br />
+          <strong>Grievance officer:</strong> Oviya · contact.oviyascrochet@gmail.com</p>
 
         <div className="callout"><strong>Need help?</strong> If you have questions about your data or privacy, contact us any time. <Link href="/contact">Contact us</Link>.</div>
       </div>

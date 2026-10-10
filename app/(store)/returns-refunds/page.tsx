@@ -11,7 +11,7 @@ export default function RefundPolicyPage() {
         <div className="container">
           <nav className="crumbs" aria-label="Breadcrumb"><Link href="/">Home</Link> <span>/</span> <span>Returns & Refunds</span></nav>
           <h1 className="page-title">Returns & Refunds</h1>
-          <p className="meta" style={{marginTop: 16}}>Last updated: October 2026</p>
+          <p className="meta" style={{ marginTop: 16 }}>Last updated: October 2026</p>
         </div>
       </header>
 
@@ -36,7 +36,7 @@ export default function RefundPolicyPage() {
 
         <h2>3. How to request a return or replacement</h2>
         <ol>
-          <li>Message us within 7 days from delivery on WhatsApp (+919999999999) or email oviyas.crochet@gmail.com.</li>
+          <li>Message us within 7 days from delivery on WhatsApp (+919999999999) or email contact.oviyascrochet@gmail.com.</li>
           <li>Include your <strong>order number</strong>, clear <strong>photos</strong> and, for damage or missing items, the <strong>unboxing video</strong> (see our <Link href="/shipping-policy">Shipping policy</Link>).</li>
           <li>We'll review and reply within 1 business day. If approved, we'll arrange a pickup or tell you how to send the item back.</li>
         </ol>

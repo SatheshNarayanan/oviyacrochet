@@ -5,7 +5,7 @@ import { prisma } from "@/lib/db";
 import { getEffectivePrice } from "@/lib/pricing";
 import { toDiscountInput } from "@/lib/discount-mapper";
 import { YarnMascot } from "@/components/ui/yarn-mascot";
-import { AddToCartButton } from "@/components/store/add-to-cart-button";
+import { ProductCard } from "@/components/store/product-card";
 import { NewsletterForm } from "@/components/store/newsletter-form";
 import { formatINR, phClass } from "@/lib/utils";
 
@@ -84,13 +84,17 @@ async function getData() {
         { id: p.id, price: Number(p.price), categoryId: p.categoryId },
         discounts, now
       );
-      const primaryImage = p.images.find((i) => i.isPrimary)?.url ?? p.images[0]?.url;
+      const sortedImages = [...p.images].sort((a, b) => a.position - b.position);
+      const primaryImage = sortedImages.find((i) => i.isPrimary)?.url ?? sortedImages[0]?.url;
+      const secondaryImage = sortedImages[1]?.url;
       return {
         id: p.id, name: p.name, slug: p.slug, description: p.description,
         price: pricing.finalPrice, originalPrice: pricing.originalPrice,
         discountPercent: pricing.savingPercent,
         featuredLabel: p.featuredLabel ?? "Featured",
         primaryImage,
+        secondaryImage,
+        inStock: (p as any).inStock ?? true,
       };
     });
 
@@ -125,7 +129,7 @@ export default async function HomePage() {
           </p>
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 22 }}>
             <Link href="/shop" className="btn">Shop all products</Link>
-            <Link href="/custom-orders" className="btn btn-alt">Order something custom</Link>
+            <Link href="/custom-orders#request-form" className="btn btn-alt">Order something custom</Link>
           </div>
           <div style={{ display: "flex", gap: 16, flexWrap: "wrap", color: "var(--text-muted)", fontSize: 14 }}>
             {["Made to order", "Ships across India", "Pay with UPI or card"].map((t) => (
@@ -210,53 +214,19 @@ export default async function HomePage() {
           {featured.length > 0 ? (
             <div className="feat-grid">
               {featured.map((p, i) => (
-                <article key={p.id} style={{
-                  background: "var(--surface)", border: "1px solid var(--line)",
-                  borderRadius: "var(--radius-card)", padding: "10px 10px 16px", position: "relative",
-                  transition: "transform 0.2s ease, box-shadow 0.2s ease",
-                }}>
-                  {p.discountPercent > 0 && (
-                    <span className="badge-save" style={{ position: "absolute", top: 14, right: 14, zIndex: 2 }}>
-                      SAVE {Math.round(p.discountPercent)}%
-                    </span>
-                  )}
-                  <span style={{
-                    position: "absolute", top: 14, left: 14, zIndex: 2,
-                    background: "var(--ink)", color: "#fff",
-                    fontFamily: "var(--font-body)", fontWeight: 700, fontSize: 12,
-                    padding: "4px 12px", borderRadius: 999,
-                  }}>{p.featuredLabel}</span>
-                  <div className={`ph ${phClass(i)}`} style={{ borderRadius: "var(--radius-card)", position: "relative", overflow: "hidden", aspectRatio: "1" }}>
-                    {p.primaryImage ? (
-                      <Image src={p.primaryImage} alt={p.name} fill sizes="(min-width:768px) 33vw, 100vw" style={{ objectFit: "cover" }} />
-                    ) : (
-                      <YarnMascot size={90} animate={false} />
-                    )}
-                  </div>
-                  <Link href={`/product/${p.slug}`} style={{ textDecoration: "none", color: "inherit" }}>
-                    <h3 className="card__title" style={{ fontSize: "1rem", margin: "14px 4px 4px", color: "var(--text-muted)" }}>{p.name}</h3>
-                    <p style={{ margin: "0 4px", color: "var(--text-muted)", fontSize: 13 }}>
-                      {p.description.slice(0, 60)}{p.description.length > 60 ? "…" : ""}
-                    </p>
-                  </Link>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "12px 4px 0", gap: 8 }}>
-                    <p className="price">
-                      <span className="price__now">{formatINR(p.price)}</span>
-                      {p.discountPercent > 0 && (
-                        <span className="price__mrp">MRP <s>{formatINR(p.originalPrice)}</s></span>
-                      )}
-                    </p>
-                    <AddToCartButton
-                      productId={p.id} name={p.name}
-                      price={p.price} originalPrice={p.originalPrice}
-                      image={p.primaryImage ?? ""}
-                      slug={p.slug}
-                      className="btn btn-sm"
-                    >
-                      Add to cart
-                    </AddToCartButton>
-                  </div>
-                </article>
+                <ProductCard
+                  key={p.id}
+                  id={p.id}
+                  name={p.name}
+                  slug={p.slug}
+                  price={p.price}
+                  originalPrice={p.originalPrice}
+                  discountPercent={p.discountPercent}
+                  primaryImage={p.primaryImage}
+                  secondaryImage={p.secondaryImage}
+                  inStock={p.inStock}
+                  index={i}
+                />
               ))}
             </div>
           ) : (
@@ -281,7 +251,7 @@ export default async function HomePage() {
             <p style={{ marginTop: 12 }}>
               Whether it&apos;s everyday wear or a full superhero or anime baby suit, we can bring your idea to life.
             </p>
-            <Link href="/custom-orders" className="btn btn--white" style={{ marginTop: 20, display: "inline-flex" }}>
+            <Link href="/custom-orders#request-form" className="btn btn--white" style={{ marginTop: 20, display: "inline-flex" }}>
               Request a custom piece
             </Link>
             <p style={{ fontSize: 14, marginTop: 12, color: "var(--text-muted)" }}>Fill in the request form and we&apos;ll reach back to you by email.</p>
@@ -307,7 +277,7 @@ export default async function HomePage() {
                   <span key={t} style={{ background: "#ffe3ee", color: "#a3285f", borderRadius: 999, padding: "6px 14px", fontSize: 13.5, fontWeight: 500 }}>{t}</span>
                 ))}
               </div>
-              <Link href="/custom-orders" className="btn" style={{ marginTop: 22, display: "inline-flex" }}>
+              <Link href="/custom-orders#request-form" className="btn" style={{ marginTop: 22, display: "inline-flex" }}>
                 Request a custom piece
               </Link>
               <p style={{ fontSize: 14, marginTop: 12, color: "var(--text-muted)" }}>Send us the character and your details on the request page. We&apos;ll reach back to you by email.</p>

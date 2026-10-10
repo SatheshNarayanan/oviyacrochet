@@ -11,7 +11,7 @@ export default function TermsOfServicePage() {
         <div className="container">
           <nav className="crumbs" aria-label="Breadcrumb"><Link href="/">Home</Link> <span>/</span> <span>Terms of Service</span></nav>
           <h1 className="page-title">Terms of Service</h1>
-          <p className="meta" style={{marginTop: 16}}>Last updated: October 2026</p>
+          <p className="meta" style={{ marginTop: 16 }}>Last updated: October 2026</p>
         </div>
       </header>
 
@@ -53,9 +53,9 @@ export default function TermsOfServicePage() {
 
         <h2>7. Contact and grievance officer</h2>
         <p>Questions about these terms? Contact us:</p>
-        <p><strong>Email:</strong> oviyas.crochet@gmail.com<br />
-        <strong>Address:</strong> Oviya's Crochet, Kanniyakumari, India</p>
-        <p><strong>Grievance officer:</strong> Oviya · oviyas.crochet@gmail.com. We acknowledge complaints within 48 hours.</p>
+        <p><strong>Email:</strong> contact.oviyascrochet@gmail.com<br />
+          <strong>Address:</strong> Oviya's Crochet, Kanniyakumari, India</p>
+        <p><strong>Grievance officer:</strong> Oviya · contact.oviyascrochet@gmail.com. We acknowledge complaints within 48 hours.</p>
 
         <div className="callout"><strong>Need help?</strong> If you have questions about these terms, reach out before placing your order. <Link href="/contact">Contact us</Link>.</div>
       </div>
