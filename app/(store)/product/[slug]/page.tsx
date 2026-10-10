@@ -6,6 +6,10 @@ import { getEffectivePrice } from "@/lib/pricing";
 import { toDiscountInput } from "@/lib/discount-mapper";
 import { ProductCard } from "@/components/store/product-card";
 import { ProductGallery, ProductActions } from "./product-client";
+import { JsonLd } from "@/components/JsonLd";
+import { productJsonLd, breadcrumbJsonLd } from "@/lib/jsonld";
+
+import { pageMetadata } from "@/lib/seo";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -15,14 +19,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const product = await prisma.product.findUnique({
     where: { slug },
-    include: { category: true },
+    include: { category: true, images: { orderBy: { position: "asc" } } },
   }).catch(() => null);
-  if (!product) return { title: "Product Not Found" };
-  return {
-    title: `${product.name} — Oviya's Crochet`,
-    description: product.description.slice(0, 160),
-    openGraph: { title: product.name, description: product.description.slice(0, 160) },
-  };
+  if (!product) return { title: "Product not found", robots: { index: false, follow: false } };
+  const description = product.description.replace(/\s+/g, " ").slice(0, 150).trim();
+  const image = product.images?.[0]?.url;
+  return pageMetadata({
+    title: `${product.name} | Handmade Crochet ${product.category.name}`,
+    description: `${description} Made to order in Kanniyakumari.`.slice(0, 160),
+    path: `/product/${product.slug}`,
+    image,
+  });
 }
 
 async function getProduct(slug: string) {
@@ -87,22 +94,25 @@ export default async function ProductPage({ params }: Props) {
 
   const { product, pricing, primaryImage, colors, related } = data;
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
+  const pJsonLd = productJsonLd({
     name: product.name,
     description: product.description,
-    offers: {
-      "@type": "Offer",
-      price: pricing.finalPrice,
-      priceCurrency: "INR",
-      availability: "https://schema.org/InStock",
-    },
-  };
+    images: product.images.map((img) => img.url),
+    price: Number(pricing.finalPrice),
+    inStock: true, // Assuming inStock is always true as per the current logic
+    path: `/product/${product.slug}`,
+  });
+
+  const bJsonLd = breadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Shop", path: "/shop" },
+    { name: product.category.name, path: `/shop/${product.category.slug}` },
+    { name: product.name, path: `/product/${product.slug}` },
+  ]);
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <JsonLd data={[pJsonLd, bJsonLd]} />
       <div className="page-pad" style={{ paddingTop: 20 }}>
         <nav aria-label="Breadcrumb" style={{ marginBottom: 16, fontSize: 13, color: "var(--mute)" }}>
           <Link href="/" style={{ color: "var(--mute)" }}>Home</Link>{" / "}

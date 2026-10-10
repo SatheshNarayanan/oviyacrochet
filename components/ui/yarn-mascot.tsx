@@ -62,9 +62,7 @@ export function YarnMascotSleepy({ size = 80 }: { size?: number }) {
       {/* Sleepy eyes (closed) */}
       <path d="M40 50 Q43 48 46 50" fill="none" stroke="#2E2442" strokeWidth="2" strokeLinecap="round" />
       <path d="M54 50 Q57 48 60 50" fill="none" stroke="#2E2442" strokeWidth="2" strokeLinecap="round" />
-      {/* Zzz */}
-      <text x="64" y="30" fontSize="10" fill="#8B6BC8" fontFamily="sans-serif" fontWeight="bold">z</text>
-      <text x="70" y="24" fontSize="8" fill="#8B6BC8" fontFamily="sans-serif" fontWeight="bold">z</text>
+      {/* Zzz removed per SEO audit */}
     </svg>
   );
 }

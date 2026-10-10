@@ -11,16 +11,13 @@ import { formatINR, phClass } from "@/lib/utils";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  title: "Oviya's Crochet | Handmade crochet toys, bags and gifts",
-  description:
-    "Cuddly toys, everyday bags and thoughtful gifts, crocheted to order in Kanniyakumari and delivered across India. Made with love, shipped with care.",
-  openGraph: {
-    title: "Oviya's Crochet | Handmade crochet toys, bags and gifts",
-    description: "Handmade crochet from Kanniyakumari — amigurumi, bags, baby gifts and more.",
-    type: "website",
-  },
-};
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = pageMetadata({
+  title: { absolute: "Oviya's Crochet | Handmade crochet toys, bags and gifts" },
+  description: "Cuddly toys, everyday bags and thoughtful gifts, crocheted to order in Kanniyakumari and delivered across India. Made with love, shipped with care.",
+  path: "/",
+});
 
 /* §9.1 Category cards data */
 const CATEGORY_CARDS = [

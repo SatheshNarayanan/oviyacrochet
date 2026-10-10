@@ -6,6 +6,9 @@ import { getEffectivePrice } from "@/lib/pricing";
 import { toDiscountInput } from "@/lib/discount-mapper";
 import { ProductCard } from "@/components/store/product-card";
 import { SortSelect } from "@/components/store/sort-select";
+import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { breadcrumbJsonLd } from "@/lib/jsonld";
 
 interface Props {
   params: Promise<{ category: string }>;
@@ -15,11 +18,33 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category } = await params;
   const cat = await prisma.category.findUnique({ where: { slug: category } }).catch(() => null);
-  if (!cat) return { title: "Category Not Found" };
-  return {
-    title: `${cat.name} — Oviya's Crochet`,
-    description: `Shop handmade crochet ${cat.name.toLowerCase()} — made to order in Kanniyakumari.`,
+  if (!cat) return { title: "Category not found", robots: { index: false, follow: false } };
+  
+  const descriptions: Record<string, string> = {
+    amigurumi: "Soft, cuddly handmade amigurumi toys, crocheted to order in Kanniyakumari from 100% cotton yarn and shipped across India.",
+    bags: "Sturdy, colourful crochet totes and pouches, handmade to order in cotton yarn. Choose your colour and get it delivered across India.",
+    baby: "Soft handmade crochet baby gifts and outfits, made to order with gentle cotton yarn. A thoughtful gift, delivered across India.",
+    "gift-hampers": "Thoughtful handmade crochet gift hampers with gift wrapping available, made to order and delivered across India.",
+    "home-decor": "Handmade crochet home décor, made to order in Kanniyakumari and shipped across India.",
+    accessories: "Handmade crochet accessories, made to order in Kanniyakumari and shipped across India.",
   };
+  const desc = descriptions[category] ?? `Shop handmade crochet ${cat.name.toLowerCase()} — made to order in Kanniyakumari and shipped across India.`;
+  
+  const titles: Record<string, string> = {
+    amigurumi: "Handmade Amigurumi Crochet Toys",
+    bags: "Handmade Crochet Bags & Pouches",
+    baby: "Handmade Crochet Baby Gifts",
+    "gift-hampers": "Crochet Gift Hampers",
+    "home-decor": "Handmade Crochet Home Décor",
+    accessories: "Handmade Crochet Accessories",
+  };
+  const title = titles[category] ?? `Handmade Crochet ${cat.name}`;
+
+  return pageMetadata({
+    title,
+    description: desc,
+    path: `/shop/${category}`,
+  });
 }
 
 async function getCategoryProducts(slug: string, sortKey?: string) {
@@ -98,8 +123,15 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   };
   const tagline = taglines[slug] ?? "Handmade warmth, woven for individual style.";
 
+  const bJsonLd = breadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Shop", path: "/shop" },
+    { name: data.category.name, path: `/shop/${slug}` },
+  ]);
+
   return (
     <div style={{ paddingBottom: 48 }}>
+      <JsonLd data={bJsonLd} />
       {/* ── Collection banner (Jet Black, guide §4.1) ── */}
       <div className="collection-banner">
         <div>

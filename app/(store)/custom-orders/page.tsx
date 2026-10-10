@@ -2,15 +2,26 @@ import { CustomDesignGallery } from "@/components/store/custom-design-gallery";
 import { CustomRequestForm } from "@/components/store/custom-request-form";
 import { Suspense } from "react";
 import Image from "next/image";
+import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { breadcrumbJsonLd } from "@/lib/jsonld";
 
-export const metadata = {
-  title: "Request a Custom Piece | Oviya's Crochet",
-  description: "Order custom handmade crochet baby outfits, hats, keychains and accessories, including superhero and anime-inspired designs. We'll reach back to you by email.",
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Custom Crochet Orders: Baby Outfits, Hats & Character Sets",
+  description: "Request custom handmade crochet baby outfits, hats, keychains and superhero or anime-inspired sets. Send your idea and we'll reach back by email.",
+  path: "/custom-orders",
+});
 
 export default function CustomOrdersPage() {
+  const bJsonLd = breadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Custom Orders", path: "/custom-orders" },
+  ]);
+
   return (
     <main className="page">
+      <JsonLd data={bJsonLd} />
       {/* Hero */}
       <section className="band band--ice" style={{ padding: "64px 0", textAlign: "center" }}>
         <div className="container" style={{ maxWidth: "800px" }}>

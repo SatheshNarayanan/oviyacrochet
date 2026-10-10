@@ -7,11 +7,13 @@ import { ProductCard } from "@/components/store/product-card";
 import { YarnMascot } from "@/components/ui/yarn-mascot";
 import { SortSelect } from "@/components/store/sort-select";
 
-export const metadata: Metadata = {
-  title: "Shop — Oviya's Crochet",
-  description:
-    "Browse all handmade crochet products. Amigurumi, bags, baby gifts, accessories and more — all made to order.",
-};
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Shop Handmade Crochet Toys, Bags & Gifts",
+  description: "Browse handmade crochet amigurumi, bags, baby gifts, home décor and gift hampers. Made to order in Kanniyakumari and shipped across India.",
+  path: "/shop",
+});
 
 /* Subcategory bubbles – emoji used as fallback when no image */
 const CATEGORIES_FILTER = [

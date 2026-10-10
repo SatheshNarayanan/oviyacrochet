@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 import { CheckoutForm } from "./checkout-client";
 
 export const metadata: Metadata = {
+  robots: { index: false, follow: false },
   title: "Checkout — Oviya's Crochet",
   description: "Complete your handmade crochet order.",
 };

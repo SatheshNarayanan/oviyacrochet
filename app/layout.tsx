@@ -1,6 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { DM_Sans, DM_Serif_Display, Montserrat, Nunito } from "next/font/google";
 import { Providers } from "@/components/ui/providers";
+import { SITE, IS_PRODUCTION_SITE } from "@/lib/site";
+import { JsonLd } from "@/components/JsonLd";
+import { organizationJsonLd, websiteJsonLd } from "@/lib/jsonld";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -34,22 +37,36 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE.url),
   title: {
-    default: "Oviya's Crochet — Handmade with Love",
-    template: "%s | Oviya's Crochet",
+    default: `${SITE.name} | ${SITE.tagline}`,
+    template: `%s | ${SITE.name}`,
   },
-  description:
-    "Shop handmade crochet bags, amigurumi, home decor and gifts made to order in Kanniyakumari. Soft, dreamy, made just for you.",
-  keywords: ["crochet", "handmade", "amigurumi", "bags", "Kanniyakumari", "India"],
+  description: SITE.description,
+  applicationName: SITE.name,
   openGraph: {
     type: "website",
-    siteName: "Oviya's Crochet",
-    locale: "en_IN",
+    siteName: SITE.name,
+    locale: SITE.locale,
+    url: "/",
+    title: `${SITE.name} | ${SITE.tagline}`,
+    description: SITE.description,
+    images: [{ url: SITE.ogImage, width: 1200, height: 630, alt: `${SITE.name} logo` }],
   },
-  twitter: { card: "summary_large_image" },
-  icons: {
-    icon: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/favicon.png` : "/favicon.png",
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE.name} | ${SITE.tagline}`,
+    description: SITE.description,
+    images: [SITE.ogImage],
   },
+  robots: IS_PRODUCTION_SITE ? { index: true, follow: true } : { index: false, follow: false },
+  verification: { google: process.env.GOOGLE_SITE_VERIFICATION },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#edf4fb",
 };
 
 export default function RootLayout({
@@ -58,10 +75,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth" className={`${dmSans.variable} ${dmSerifDisplay.variable} ${montserrat.variable} ${nunito.variable}`}>
+    <html lang="en-IN" suppressHydrationWarning data-scroll-behavior="smooth" className={`${dmSans.variable} ${dmSerifDisplay.variable} ${montserrat.variable} ${nunito.variable}`}>
       <head>
       </head>
       <body>
+        <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         <Providers>{children}</Providers>
       </body>
     </html>

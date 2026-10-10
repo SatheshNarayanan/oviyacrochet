@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { YarnMascot } from "@/components/ui/yarn-mascot";
 
-export const metadata: Metadata = {
-  title: "About — Oviya's Crochet",
-  description: "The story behind Oviya's Crochet — handmade in Kanniyakumari with love.",
-};
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Our Story: Handmade in Kanniyakumari",
+  description: "Meet Oviya and her team, who crochet every piece by hand in Kanniyakumari. See how each made-to-order piece is made.",
+  path: "/about"
+});
 
 export default function AboutPage() {
   return (
