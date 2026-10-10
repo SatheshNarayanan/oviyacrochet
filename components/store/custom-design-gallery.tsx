@@ -4,14 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 const slideshowDesigns = [
-  { id: "batman", character: "Batman", title: "Batman-inspired Design", blurb: "Dark cowl with ears, cape and gauntlet cuffs, finished with a bold yellow accent.", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/batman.webp` : "/images/custom-gallery/batman.webp" },
-  { id: "levi", character: "Levi", title: "Levi-inspired Design", blurb: "Scout regiment cape and detailed Survey Corps aesthetic.", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/levi.webp` : "/images/custom-gallery/levi.webp" },
-  { id: "luffy", character: "Luffy", title: "Luffy-inspired Design", blurb: "Straw-hat style cap with a red band, red vest and blue shorts.", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/luffy.webp` : "/images/custom-gallery/luffy.webp" },
-  { id: "naruto", character: "Naruto", title: "Naruto-inspired Design", blurb: "Orange and navy jacket set with a headband and spiky-hair hat.", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/naruto.webp` : "/images/custom-gallery/naruto.webp" },
-  { id: "zoro", character: "Zoro", title: "Zoro-inspired Design", blurb: "Deep green coat with a red sash, green hat and miniature crochet swords.", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/zoro.webp` : "/images/custom-gallery/zoro.webp" },
-  { id: "mermaid-princess", character: "Mermaid Princess", title: "Mermaid Princess-inspired Design", blurb: "Beautiful under-the-sea aesthetics with scale patterns and elegant fins.", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/mermaid%20princess.webp` : "/images/custom-gallery/mermaid%20princess.webp" },
-  { id: "micky-mouse", character: "Mickey Mouse", title: "Mickey Mouse-inspired Design", blurb: "Iconic red, white, and black style featuring classic round mouse ears.", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/micky%20mouse.webp` : "/images/custom-gallery/micky%20mouse.webp" },
-  { id: "pikachu", character: "Pikachu", title: "Pikachu-inspired Design", blurb: "Bright yellow set with pointed black-tipped ears and a lightning bolt tail.", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/pikachu.webp` : "/images/custom-gallery/pikachu.webp" },
+  { id: "batman", character: "Batman", title: "Batman-inspired Design", blurb: "Dark cowl with ears, cape and gauntlet cuffs, finished with a bold yellow accent.", image: `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/batman.webp` },
+  { id: "levi", character: "Levi", title: "Levi-inspired Design", blurb: "Scout regiment cape and detailed Survey Corps aesthetic.", image: `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/levi.webp` },
+  { id: "luffy", character: "Luffy", title: "Luffy-inspired Design", blurb: "Straw-hat style cap with a red band, red vest and blue shorts.", image: `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/luffy.webp` },
+  { id: "naruto", character: "Naruto", title: "Naruto-inspired Design", blurb: "Orange and navy jacket set with a headband and spiky-hair hat.", image: `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/naruto.webp` },
+  { id: "zoro", character: "Zoro", title: "Zoro-inspired Design", blurb: "Deep green coat with a red sash, green hat and miniature crochet swords.", image: `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/zoro.webp` },
+  { id: "mermaid-princess", character: "Mermaid Princess", title: "Mermaid Princess-inspired Design", blurb: "Beautiful under-the-sea aesthetics with scale patterns and elegant fins.", image: `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/mermaid%20princess.webp` },
+  { id: "micky-mouse", character: "Mickey Mouse", title: "Mickey Mouse-inspired Design", blurb: "Iconic red, white, and black style featuring classic round mouse ears.", image: `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/micky%20mouse.webp` },
+  { id: "pikachu", character: "Pikachu", title: "Pikachu-inspired Design", blurb: "Bright yellow set with pointed black-tipped ears and a lightning bolt tail.", image: `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/pikachu.webp` },
 ];
 
 export function CustomDesignGallery() {

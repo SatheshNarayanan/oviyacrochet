@@ -45,10 +45,10 @@ export default function CustomOrdersPage() {
         <h2 style={{ fontSize: "2rem", color: "var(--ink)", textAlign: "center", marginBottom: "48px" }}>What we can make</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "32px" }}>
           {[
-            { title: "Baby outfits and dresses", text: "Rompers, dresses, sweaters, jackets and full themed sets, made to your baby's size.", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/outfits.jpg` : "/images/custom-orders/outfits.jpg" },
-            { title: "Hats and beanies", text: "Cosy hats with ears, spikes, straw-hat brims and more, so your little one can dress up as their favourite character.", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/hats.jpg` : "/images/custom-orders/hats.jpg" },
-            { title: "Keychains", text: "Small handmade character keychains, a thoughtful gift for fans of any age.", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/keychains.jpg` : "/images/custom-orders/keychains.jpg" },
-            { title: "Accessories", text: "Booties, mittens, headbands, capes, bibs and photo-shoot props to complete the look.", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/accessories.jpg` : "/images/custom-orders/accessories.jpg" }
+            { title: "Baby outfits and dresses", text: "Rompers, dresses, sweaters, jackets and full themed sets, made to your baby's size.", image: `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/outfits.jpg` },
+            { title: "Hats and beanies", text: "Cosy hats with ears, spikes, straw-hat brims and more, so your little one can dress up as their favourite character.", image: `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/hats.jpg` },
+            { title: "Keychains", text: "Small handmade character keychains, a thoughtful gift for fans of any age.", image: `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/keychains.jpg` },
+            { title: "Accessories", text: "Booties, mittens, headbands, capes, bibs and photo-shoot props to complete the look.", image: `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/accessories.jpg` }
           ].map(c => (
             <div key={c.title} style={{ background: "var(--ice)", borderRadius: "16px", textAlign: "center", overflow: "hidden", display: "flex", flexDirection: "column" }}>
               <div style={{ position: "relative", width: "100%", aspectRatio: "4/3" }}>

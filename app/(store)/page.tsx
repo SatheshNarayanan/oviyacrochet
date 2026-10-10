@@ -21,19 +21,19 @@ export const metadata: Metadata = pageMetadata({
 
 /* §9.1 Category cards data */
 const CATEGORY_CARDS = [
-  { slug: "amigurumi", label: "Amigurumi", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/cat_amigurumi.jpg` : "/cat_amigurumi.jpg" },
-  { slug: "bags", label: "Bags", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/cat_bags.jpg` : "/cat_bags.jpg" },
-  { slug: "home-decor", label: "Home Décor", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/cat_home_decor.jpg` : "/cat_home_decor.jpg" },
-  { slug: "baby", label: "Baby Gifts", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/cat_baby.jpg` : "/cat_baby.jpg" },
-  { slug: "accessories", label: "Accessories", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/cat_accessories.jpg` : "/cat_accessories.jpg" },
-  { slug: "gift-hampers", label: "Gift Hampers", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/hero_placeholder.jpg` : "/hero_placeholder.jpg" },
+  { slug: "amigurumi", label: "Amigurumi", image: `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/cat_amigurumi.jpg` },
+  { slug: "bags", label: "Bags", image: `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/cat_bags.jpg` },
+  { slug: "home-decor", label: "Home Décor", image: `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/cat_home_decor.jpg` },
+  { slug: "baby", label: "Baby Gifts", image: `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/cat_baby.jpg` },
+  { slug: "accessories", label: "Accessories", image: `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/cat_accessories.jpg` },
+  { slug: "gift-hampers", label: "Gift Hampers", image: `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/hero_placeholder.jpg` },
 ];
 
 const COLLECTION_TILES = [
-  { href: "/shop?category=amigurumi", label: "Amigurumi", bg: "#CFEBDD", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/coll_amigurumi.jpg` : "/coll_amigurumi.jpg" },
-  { href: "/shop?category=bags", label: "Bags & Pouches", bg: "#F9C6DB", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/coll_bags.jpg` : "/coll_bags.jpg" },
-  { href: "/shop?category=accessories", label: "Accessories", bg: "#E7D6FA", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/coll_accessories.jpg` : "/coll_accessories.jpg" },
-  { href: "/shop?category=home-decor", label: "Home Décor", bg: "#FBE3B5", image: process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/cat_home_decor.jpg` : "/cat_home_decor.jpg" },
+  { href: "/shop?category=amigurumi", label: "Amigurumi", bg: "#CFEBDD", image: `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/coll_amigurumi.jpg` },
+  { href: "/shop?category=bags", label: "Bags & Pouches", bg: "#F9C6DB", image: `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/coll_bags.jpg` },
+  { href: "/shop?category=accessories", label: "Accessories", bg: "#E7D6FA", image: `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/coll_accessories.jpg` },
+  { href: "/shop?category=home-decor", label: "Home Décor", bg: "#FBE3B5", image: `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/cat_home_decor.jpg` },
 ];
 
 const HOW_STEPS = [
@@ -140,7 +140,7 @@ export default async function HomePage() {
 
         <div className="art" style={{ position: "relative", width: "100%", maxWidth: 500, justifySelf: "center", aspectRatio: "1", borderRadius: "24px", overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.08)" }}>
           <Image
-            src={process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/hero_placeholder.jpg` : "/hero_placeholder.jpg"}
+            src={`${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/hero_placeholder.jpg`}
             alt="Handmade crochet toys and bags"
             fill
             sizes="(max-width: 1023px) 100vw, 50vw"
@@ -255,10 +255,10 @@ export default async function HomePage() {
           </div>
           <div className="co-photos" aria-hidden="true">
             <div className="a">
-              <Image src={process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/girl_outfit.jpg` : "/girl_outfit.jpg"} alt="Custom crochet baby girl outfit" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "cover" }} />
+              <Image src={`${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/girl_outfit.jpg`} alt="Custom crochet baby girl outfit" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "cover" }} />
             </div>
             <div className="b">
-              <Image src={process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/boy_outfit.jpg` : "/boy_outfit.jpg"} alt="Custom crochet baby boy outfit" fill sizes="(max-width: 768px) 50vw, 30vw" style={{ objectFit: "cover" }} />
+              <Image src={`${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/boy_outfit.jpg`} alt="Custom crochet baby boy outfit" fill sizes="(max-width: 768px) 50vw, 30vw" style={{ objectFit: "cover" }} />
             </div>
           </div>
         </div>
@@ -341,7 +341,7 @@ export default async function HomePage() {
               position: "absolute",
               right: 0, top: 0, width: "70%", aspectRatio: "1/1"
             }}>
-              <Image src={process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/kanniyakumari_scenic_1.jpg` : "/kanniyakumari_scenic_1.jpg"} alt="Beautiful sunrise in Kanniyakumari with subtle crochet texture" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "cover" }} />
+              <Image src={`${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/kanniyakumari_scenic_1.jpg`} alt="Beautiful sunrise in Kanniyakumari with subtle crochet texture" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "cover" }} />
             </div>
             <div className="collage__front" style={{
               borderRadius: "var(--radius-img)",
@@ -351,7 +351,7 @@ export default async function HomePage() {
               position: "absolute",
               left: 0, bottom: "20px", width: "42%", aspectRatio: "1/1"
             }}>
-              <Image src={process.env.NEXT_PUBLIC_CLOUDFLARE_R2 ? `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/kanniyakumari_scenic_2.jpg` : "/kanniyakumari_scenic_2.jpg"} alt="Palm trees and coast in Kanniyakumari with cozy handmade crochet texture" fill sizes="(max-width: 768px) 50vw, 30vw" style={{ objectFit: "cover" }} />
+              <Image src={`${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/kanniyakumari_scenic_2.jpg`} alt="Palm trees and coast in Kanniyakumari with cozy handmade crochet texture" fill sizes="(max-width: 768px) 50vw, 30vw" style={{ objectFit: "cover" }} />
             </div>
           </div>
         </div>

@@ -76,13 +76,13 @@ export function CustomRequestForm() {
   }
 
   return (
-    <form id="request-form" onSubmit={handleSubmit} noValidate className="box" style={{ display: "flex", flexDirection: "column", gap: "24px", maxWidth: "800px", margin: "0 auto", padding: "32px", borderRadius: "16px", background: "var(--surface)", boxShadow: "0 8px 30px rgba(0, 0, 0, 0.04)", border: "1px solid var(--line)" }}>
+    <form id="request-form" onSubmit={handleSubmit} noValidate className="box" style={{ display: "flex", flexDirection: "column", gap: "24px", maxWidth: "800px", margin: "0 auto", padding: "clamp(16px, 5vw, 32px)", borderRadius: "16px", background: "var(--surface)", boxShadow: "0 8px 30px rgba(0, 0, 0, 0.04)", border: "1px solid var(--line)" }}>
       {/* Honeypot */}
       <div style={{ display: "none" }} aria-hidden="true">
         <label>Leave this empty <input name="website" type="text" tabIndex={-1} autoComplete="off" /></label>
       </div>
       
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "24px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: "24px" }}>
         <div>
           <label style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: "var(--ink)" }}>Your name *</label>
           <input name="name" type="text" required autoComplete="name" className="input" />
@@ -94,7 +94,7 @@ export function CustomRequestForm() {
         </div>
       </div>
       
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "24px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: "24px" }}>
         <div>
           <label style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: "var(--ink)" }}>Phone / WhatsApp (optional)</label>
           <input name="phone" type="tel" autoComplete="tel" className="input" />
@@ -114,7 +114,7 @@ export function CustomRequestForm() {
         </div>
       </div>
       
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "24px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: "24px" }}>
         <div>
           <label style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: "var(--ink)" }}>Character or idea (optional)</label>
           <input name="character" type="text" value={characterVal} onChange={e => setCharacterVal(e.target.value)} placeholder="e.g. Naruto, Batman, a cute bunny..." className="input" />
@@ -126,7 +126,7 @@ export function CustomRequestForm() {
         </div>
       </div>
       
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "24px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: "24px" }}>
         <div>
           <label style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: "var(--ink)" }}>Preferred colours (optional)</label>
           <input name="colours" type="text" className="input" />
