@@ -6,7 +6,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCartStore } from "@/lib/cart-store";
 import { formatINR, phClass } from "@/lib/utils";
-import { YarnMascotSleepy } from "@/components/ui/yarn-mascot";
 
 export function CartDrawer() {
   const { items, isOpen, closeCart, removeItem, updateQuantity, subtotal } =
@@ -106,7 +105,13 @@ export function CartDrawer() {
               gap: 16, height: "100%", color: "var(--mute)",
               textAlign: "center",
             }}>
-              <YarnMascotSleepy size={80} />
+              <Image
+                src="https://pub-f4009fab71cc4affa9a480dfa912e095.r2.dev/app/favicon.png"
+                alt="Oviya's Crochet"
+                width={80}
+                height={80}
+                style={{ objectFit: "contain" }}
+              />
               <p style={{ fontWeight: 500 }}>Your cart is empty</p>
               <p style={{ fontSize: 13 }}>Add something handmade to get started!</p>
               <Link href="/shop" className="btn btn-sm" onClick={closeCart}>
@@ -127,9 +132,13 @@ export function CartDrawer() {
                     width: 64, height: 64, flexShrink: 0,
                     borderRadius: 12, position: "relative", overflow: "hidden",
                   }}>
-                    {item.image && (
-                      <Image src={item.image} alt={item.name} fill style={{ objectFit: "cover" }} sizes="64px" />
-                    )}
+                    <Image
+                      src={item.image || "https://pub-f4009fab71cc4affa9a480dfa912e095.r2.dev/app/favicon.png"}
+                      alt={item.name}
+                      fill
+                      style={{ objectFit: "cover" }}
+                      sizes="64px"
+                    />
                   </div>
 
                   {/* Info */}
