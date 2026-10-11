@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     serverActions: {
-      allowedOrigins: ["localhost:3000", "140.245.205.19"],
+      allowedOrigins: ["localhost:3000", "140.245.205.19", "oviyascrochet.ignisailabs.com"],
     },
   },
 };
