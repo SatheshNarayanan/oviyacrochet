@@ -13,15 +13,29 @@ export default function AboutPage() {
   return (
     <div style={{ maxWidth: 760, margin: "0 auto", padding: "40px var(--pad-mobile) 60px" }}>
       <div style={{ textAlign: "center", marginBottom: 40 }}>
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
-          <Image
-            src={`${process.env.NEXT_PUBLIC_CLOUDFLARE_R2 || "https://pub-f4009fab71cc4affa9a480dfa912e095.r2.dev"}/app/oc-logo.png`}
-            alt="Oviya's Crochet logo"
-            width={340}
-            height={340}
-            style={{ borderRadius: "50%", objectFit: "cover", boxShadow: "0 8px 24px rgba(0,0,0,0.08)" }}
-            priority
-          />
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 28 }}>
+          <div
+            style={{
+              padding: "16px 28px",
+              background: "#ffffff",
+              borderRadius: 20,
+              // boxShadow: "0 8px 24px rgba(0,0,0,0.06)",
+              // border: "1px solid var(--line)",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              maxWidth: "100%",
+            }}
+          >
+            <Image
+              src="/oc-logo.png"
+              alt="Oviyas Crochet logo"
+              width={340}
+              height={156}
+              style={{ width: "100%", maxWidth: 320, height: "auto", objectFit: "contain" }}
+              priority
+            />
+          </div>
         </div>
         <h1 className="text-hero" style={{ marginBottom: 12, color: "var(--pri)" }}>Our story</h1>
         <p style={{ color: "var(--mute)", fontSize: 16 }}>Handmade with love in Kanniyakumari 🌸</p>

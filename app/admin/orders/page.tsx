@@ -3,7 +3,7 @@ import { prisma } from "@/lib/db";
 import { formatINR } from "@/lib/utils";
 import { AdminOrdersClient } from "./orders-client";
 
-export const metadata: Metadata = { title: "Orders — Admin | Oviya's Crochet" };
+export const metadata: Metadata = { title: "Orders — Admin | Oviyas Crochet" };
 
 async function getAdminData() {
   const now = new Date();
@@ -15,7 +15,7 @@ async function getAdminData() {
         where: { status: { not: "PENDING_PAYMENT" } },
         orderBy: [{ isSeenByAdmin: "asc" }, { createdAt: "desc" }],
         include: { items: true },
-        take: 50,
+        take: 200,
       }),
       prisma.order.count({ where: { isSeenByAdmin: false, status: { not: "PENDING_PAYMENT" } } }),
       prisma.order.aggregate({

@@ -5,6 +5,7 @@ import {
   ownerNewOrder,
   orderStatusUpdate,
   OrderStatus,
+  Order,
 } from "@/lib/email/templates";
 
 const OWNER_EMAIL = process.env.OWNER_EMAIL ?? "oviyascrochet@gmail.com";
@@ -15,23 +16,47 @@ export async function sendOrderEmail(orderId: string, template: string): Promise
       where: { id: orderId },
       include: {
         items: true,
+        payments: true,
       },
     });
 
     if (!order) return;
 
-    // Convert Prisma Order into templates.ts Order
-    const mappedOrder = {
+    const shippingAddr = (order.shippingAddress as Record<string, unknown>) || {};
+    const successfulPayment = order.payments?.find((p) => p.status === "PAID") || order.payments?.[0];
+
+    // Convert Prisma Order into enriched templates.ts Order invoice
+    const mappedOrder: Order = {
       id: order.orderNumber,
       customerName: order.customerName,
       customerEmail: order.customerEmail,
+      customerPhone: order.customerPhone,
       items: order.items.map((item) => ({
         name: item.nameSnapshot,
         qty: item.quantity,
         price: typeof item.finalUnitPrice === "object" ? Number((item.finalUnitPrice as any).toNumber()) : Number(item.finalUnitPrice),
       })),
+      subtotal: Number(order.subtotal),
+      discountTotal: Number(order.discountTotal || 0),
+      shippingFee: Number(order.shippingFee || 0),
       total: Number(order.total),
       currency: "INR",
+      paymentMethod: order.paymentMethod === "RAZORPAY" ? "Razorpay (Online)" : "Cash on Delivery",
+      paymentStatus: order.paymentStatus,
+      paymentId: successfulPayment?.providerPaymentId || undefined,
+      shippingAddress: {
+        fullName: (shippingAddr.fullName as string) || order.customerName,
+        phone: (shippingAddr.phone as string) || order.customerPhone,
+        line1: (shippingAddr.line1 as string) || "",
+        line2: (shippingAddr.line2 as string) || "",
+        city: (shippingAddr.city as string) || "",
+        state: (shippingAddr.state as string) || "",
+        pincode: (shippingAddr.pincode as string) || "",
+      },
+      date: new Intl.DateTimeFormat("en-IN", {
+        dateStyle: "medium",
+        timeZone: "Asia/Kolkata",
+      }).format(new Date(order.createdAt)),
     };
 
     let mailObj;

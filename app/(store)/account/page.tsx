@@ -6,7 +6,7 @@ import { AccountClient } from "./account-client";
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
-  title: "My Account — Oviya's Crochet",
+  title: "My Account — Oviyas Crochet",
   description: "Manage your account, addresses and orders.",
 };
 

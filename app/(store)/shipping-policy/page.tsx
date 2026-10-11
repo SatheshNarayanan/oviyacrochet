@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Shipping Policy | Oviya's Crochet",
+  title: "Shipping Policy | Oviyas Crochet",
 };
 
 export default function ShippingPolicyPage() {
@@ -16,7 +16,7 @@ export default function ShippingPolicyPage() {
       </header>
 
       <div className="container prose">
-        <p>At <strong>Oviya's Crochet</strong>, we want your handmade pieces to reach you safely and on time. Please read this policy before ordering.</p>
+        <p>At <strong>Oviyas Crochet</strong>, we want your handmade pieces to reach you safely and on time. Please read this policy before ordering.</p>
 
         <h2>1. Processing time</h2>
         <p>Orders are processed on business days, Monday to Saturday, excluding holidays. Orders placed on Sundays, public holidays or during sale and festive periods may take longer.</p>

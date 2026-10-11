@@ -47,7 +47,7 @@ function makeImages(arr: string[], name: string) {
 }
 
 async function main() {
-  console.log("🌱 Seeding Oviya's Crochet database...");
+  console.log("🌱 Seeding Oviyas Crochet database...");
 
   // ─── Categories ───────────────────────────────────────
   const categories = await Promise.all([
@@ -350,7 +350,7 @@ async function main() {
   await prisma.setting.upsert({ where: { key: "shippingFee" }, create: { key: "shippingFee", value: 60 }, update: {} });
   await prisma.setting.upsert({ where: { key: "freeShippingThreshold" }, create: { key: "freeShippingThreshold", value: 1000 }, update: {} });
   await prisma.setting.upsert({ where: { key: "codEnabled" }, create: { key: "codEnabled", value: false }, update: {} });
-  await prisma.setting.upsert({ where: { key: "storeName" }, create: { key: "storeName", value: "Oviya's Crochet" }, update: {} });
+  await prisma.setting.upsert({ where: { key: "storeName" }, create: { key: "storeName", value: "Oviyas Crochet" }, update: {} });
   await prisma.setting.upsert({ where: { key: "storeEmail" }, create: { key: "storeEmail", value: "hello@oviyas.in" }, update: {} });
 
   console.log("✅ Seed complete!");

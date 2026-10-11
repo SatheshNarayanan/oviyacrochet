@@ -6,6 +6,7 @@ import { toDiscountInput } from "@/lib/discount-mapper";
 import { generateOrderNumber } from "@/lib/utils";
 import { auth } from "@/auth";
 import Razorpay from "razorpay";
+import { sendOrderEmail } from "@/lib/email";
 
 const CheckoutSchema = z.object({
   items: z.array(
@@ -164,14 +165,13 @@ export async function POST(req: NextRequest) {
     });
 
     if (paymentMethod === "COD") {
-      // Send confirmation emails (best-effort)
+      // Send confirmation emails directly
       try {
-        await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/email/send`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ template: "order-confirmation", orderId: order.id }),
-        });
-      } catch { /* non-fatal */ }
+        await sendOrderEmail(order.id, "order-confirmation");
+        await sendOrderEmail(order.id, "admin-new-order");
+      } catch (err) {
+        console.error("[EMAIL_COD_FAIL]", err);
+      }
 
       return NextResponse.json({ orderNumber: order.orderNumber, orderId: order.id });
     }
@@ -192,6 +192,14 @@ export async function POST(req: NextRequest) {
           },
         },
       });
+
+      try {
+        await sendOrderEmail(order.id, "order-confirmation");
+        await sendOrderEmail(order.id, "admin-new-order");
+      } catch (err) {
+        console.error("[EMAIL_DEMO_FAIL]", err);
+      }
+
       return NextResponse.json({
         orderNumber: order.orderNumber,
         orderId: order.id,

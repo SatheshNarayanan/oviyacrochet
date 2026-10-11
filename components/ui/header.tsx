@@ -79,10 +79,17 @@ function ThemeToggle() {
 }
 
 export function Header({ isAdmin = false, offerText }: HeaderProps) {
-  const itemCount = useCartStore((s) => s.itemCount());
+  const rawItemCount = useCartStore((s) => s.itemCount());
   const toggleCart = useCartStore((s) => s.toggleCart);
   const pathname = usePathname();
   const { data: session } = useSession();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const itemCount = mounted ? rawItemCount : 0;
 
   const navLinks = isAdmin
     ? [
@@ -158,11 +165,17 @@ export function Header({ isAdmin = false, offerText }: HeaderProps) {
           {/* Logo */}
           <Link
             href={isAdmin ? "/admin" : "/"}
-            // className="logo-circle"
-            aria-label="Oviya's Crochet — home"
+            aria-label="Oviyas Crochet — home"
             style={{ textDecoration: "none", display: "flex", alignItems: "center" }}
           >
-            <Image src={`${process.env.NEXT_PUBLIC_CLOUDFLARE_R2}/app/oc-logo.png`} alt="Oviya's Crochet" width={120} height={120} style={{ borderRadius: "50%", objectFit: "cover" }} />
+            <Image
+              src="/oc-logo.png"
+              alt="Oviya's Crochet"
+              width={160}
+              height={62}
+              style={{ width: "auto", height: 62, maxHeight: 62, objectFit: "contain" }}
+              priority
+            />
           </Link>
           {isAdmin && (
             <span className="brand-text">Admin</span>

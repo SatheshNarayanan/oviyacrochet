@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
-  title: { default: "Admin — Oviya's Crochet", template: "%s — Admin | Oviya's Crochet" },
+  title: { default: "Admin — Oviyas Crochet", template: "%s — Admin | Oviyas Crochet" },
 };
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

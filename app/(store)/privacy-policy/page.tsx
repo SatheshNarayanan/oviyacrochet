@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Privacy Policy | Oviya's Crochet",
+  title: "Privacy Policy | Oviyas Crochet",
 };
 
 export default function PrivacyPolicyPage() {
@@ -16,7 +16,7 @@ export default function PrivacyPolicyPage() {
       </header>
 
       <div className="container prose">
-        <p>This policy explains how <strong>Oviya's Crochet</strong> ("Oviya's Crochet", "we", "us") collects, uses and shares your personal information when you visit or buy from our site, and what choices you have.</p>
+        <p>This policy explains how <strong>Oviyas Crochet</strong> ("Oviyas Crochet", "we", "us") collects, uses and shares your personal information when you visit or buy from our site, and what choices you have.</p>
 
         <h2>1. Information we collect</h2>
         <p><strong>Information about your device and visit.</strong> When you visit the Site, we automatically collect certain information, including:</p>
@@ -76,7 +76,7 @@ export default function PrivacyPolicyPage() {
         <p>We may update this policy to reflect changes in our practices or legal requirements. The latest version is always on this page, with the date at the top.</p>
         <p>Questions or complaints about your privacy:</p>
         <p><strong>Email:</strong> contact.oviyascrochet@gmail.com<br />
-          <strong>Address:</strong> Oviya's Crochet, Kanniyakumari, India<br />
+          <strong>Address:</strong> Oviyas Crochet, Kanniyakumari, India<br />
           <strong>Grievance officer:</strong> Oviya · contact.oviyascrochet@gmail.com</p>
 
         <div className="callout"><strong>Need help?</strong> If you have questions about your data or privacy, contact us any time. <Link href="/contact">Contact us</Link>.</div>

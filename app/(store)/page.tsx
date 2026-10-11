@@ -14,7 +14,7 @@ export const revalidate = 300;
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
-  title: { absolute: "Oviya's Crochet | Handmade crochet toys, bags and gifts" },
+  title: { absolute: "Oviyas Crochet | Handmade crochet toys, bags and gifts" },
   description: "Cuddly toys, everyday bags and thoughtful gifts, crocheted to order in Kanniyakumari and delivered across India. Made with love, shipped with care.",
   path: "/",
 });

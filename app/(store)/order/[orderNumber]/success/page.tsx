@@ -4,7 +4,7 @@ import { CheckCircle } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { formatINR } from "@/lib/utils";
 
-export const metadata: Metadata = { title: "Order Confirmed — Oviya's Crochet" };
+export const metadata: Metadata = { title: "Order Confirmed — Oviyas Crochet" };
 
 interface Props {
   params: Promise<{ orderNumber: string }>;

@@ -144,33 +144,58 @@ export function CheckoutForm({
         return;
       }
 
-      const rzp = new (window as unknown as { Razorpay: new (opts: unknown) => { open(): void } }).Razorpay({
+      const rzp = new (window as unknown as {
+        Razorpay: new (opts: unknown) => {
+          open(): void;
+          on(event: string, handler: (resp: unknown) => void): void;
+        };
+      }).Razorpay({
         key: razorpayKeyId,
         order_id: data.razorpayOrderId,
         amount: data.amount,
         currency: "INR",
-        name: "Oviya's Crochet",
+        name: "Oviyas Crochet",
         description: "Handmade crochet order",
         prefill: { name: contact.fullName, email: contact.email, contact: contact.phone },
         theme: { color: "#6F4FB0" },
         handler: async (response: {
           razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string;
         }) => {
-          const verifyRes = await fetch("/api/payments/razorpay/verify", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              orderId: data.orderId,
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_signature: response.razorpay_signature,
-            }),
-          });
-          if (verifyRes.ok) { clearCart(); window.location.href = `/order/${data.orderNumber}/success`; }
-          else alert("Payment verification failed. Please contact support.");
+          try {
+            const verifyRes = await fetch("/api/payments/razorpay/verify", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                orderId: data.orderId,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              }),
+            });
+            if (verifyRes.ok) {
+              clearCart();
+              window.location.href = `/order/${data.orderNumber}/success`;
+            } else {
+              alert("Payment verification failed. Please contact support.");
+              setLoading(false);
+            }
+          } catch {
+            alert("Payment verification error. Please check your order status.");
+            setLoading(false);
+          }
         },
-        modal: { ondismiss: () => setLoading(false) },
+        modal: {
+          ondismiss: () => {
+            setLoading(false);
+          },
+        },
       });
+
+      rzp.on("payment.failed", (resp: unknown) => {
+        setLoading(false);
+        console.warn("[RAZORPAY_PAYMENT_FAILED]", resp);
+      });
+
       rzp.open();
     } catch {
       alert("Something went wrong. Please try again.");
@@ -427,8 +452,8 @@ export function CheckoutForm({
           {loading
             ? "Processing…"
             : paymentMethod === "COD"
-            ? `Place order — ${formatINR(total)}`
-            : `Pay ${formatINR(total)} with Razorpay`}
+              ? `Place order — ${formatINR(total)}`
+              : `Pay ${formatINR(total)} with Razorpay`}
         </button>
         <p style={{ fontSize: 12, color: "var(--mute)", textAlign: "center", marginTop: 8 }}>
           {paymentMethod === "RAZORPAY" ? "UPI, cards and netbanking accepted" : "Pay when your order arrives"}

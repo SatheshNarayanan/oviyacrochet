@@ -107,7 +107,7 @@ export function CartDrawer() {
             }}>
               <Image
                 src="https://pub-f4009fab71cc4affa9a480dfa912e095.r2.dev/app/favicon.png"
-                alt="Oviya's Crochet"
+                alt="Oviyas Crochet"
                 width={80}
                 height={80}
                 style={{ objectFit: "contain" }}

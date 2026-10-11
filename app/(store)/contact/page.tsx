@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ContactForm } from "@/components/store/contact-form";
 
 export const metadata = {
-  title: "Contact Us | Oviya's Crochet",
+  title: "Contact Us | Oviyas Crochet",
 };
 
 export default function ContactPage() {
@@ -28,7 +28,7 @@ export default function ContactPage() {
           <p><a href="mailto:contact.oviyascrochet@gmail.com">contact.oviyascrochet@gmail.com</a></p>
 
           <h3>Address</h3>
-          <p>Oviya's Crochet<br />Kanniyakumari, India</p>
+          <p>Oviyas Crochet<br />Kanniyakumari, India</p>
 
           <h3>Hours</h3>
           <p>Mon–Sat, 10 AM – 6 PM IST. We usually reply within 1 business day.</p>

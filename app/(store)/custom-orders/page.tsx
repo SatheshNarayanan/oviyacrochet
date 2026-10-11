@@ -97,7 +97,7 @@ export default function CustomOrdersPage() {
         <CustomDesignGallery />
 
         <p style={{ textAlign: "center", fontSize: "0.8rem", color: "var(--text-muted)", marginTop: "48px" }}>
-          Oviya's Crochet is not affiliated with or endorsed by the owners of the characters shown. All pieces are handmade, fan-inspired creations.
+          Oviyas Crochet is not affiliated with or endorsed by the owners of the characters shown. All pieces are handmade, fan-inspired creations.
         </p>
       </section>
 

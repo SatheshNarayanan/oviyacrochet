@@ -1,6 +1,6 @@
 export const SITE = {
   url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://oviyascrochet.ignisailabs.com").replace(/\/$/, ""),
-  name: "Oviya's Crochet",            // TODO_OWNER: confirm spelling (Oviya's vs Oviyas) and use it everywhere
+  name: "Oviyas Crochet",            // TODO_OWNER: confirm spelling (Oviyas vs Oviyas) and use it everywhere
   alternateName: "Oviyas Crochet",
   tagline: "Handmade crochet toys, bags and gifts",
   description:

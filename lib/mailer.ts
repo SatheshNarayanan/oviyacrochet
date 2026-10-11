@@ -25,7 +25,7 @@ export async function sendMail({ to, subject, html, text, replyTo }: MailInput) 
     return;
   }
   return transporter.sendMail({
-    from: `"Oviya's Crochet" <${user}>`,
+    from: `"Oviyas Crochet" <${user}>`,
     to,
     subject,
     html,

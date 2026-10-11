@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { prisma } from "@/lib/db";
 import { AdminProductsClient } from "./products-client";
 
-export const metadata: Metadata = { title: "Products — Admin | Oviya's Crochet" };
+export const metadata: Metadata = { title: "Products — Admin | Oviyas Crochet" };
 
 async function getCategories() {
   try {

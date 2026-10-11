@@ -81,25 +81,25 @@ export function CustomRequestForm() {
       <div style={{ display: "none" }} aria-hidden="true">
         <label>Leave this empty <input name="website" type="text" tabIndex={-1} autoComplete="off" /></label>
       </div>
-      
+
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: "24px" }}>
         <div>
           <label style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: "var(--ink)" }}>Your name *</label>
           <input name="name" type="text" required autoComplete="name" className="input" />
         </div>
-        
+
         <div>
           <label style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: "var(--ink)" }}>Email *</label>
           <input name="email" type="email" required autoComplete="email" className="input" />
         </div>
       </div>
-      
+
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: "24px" }}>
         <div>
           <label style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: "var(--ink)" }}>Phone / WhatsApp (optional)</label>
           <input name="phone" type="tel" autoComplete="tel" className="input" />
         </div>
-        
+
         <div>
           <label style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: "var(--ink)" }}>What would you like? *</label>
           <select name="itemType" value={itemVal} onChange={e => setItemVal(e.target.value)} required className="input" style={{ appearance: "none", backgroundImage: `url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%231F3347%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 12px center", backgroundSize: "16px" }}>
@@ -113,54 +113,54 @@ export function CustomRequestForm() {
           </select>
         </div>
       </div>
-      
+
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: "24px" }}>
         <div>
           <label style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: "var(--ink)" }}>Character or idea (optional)</label>
           <input name="character" type="text" value={characterVal} onChange={e => setCharacterVal(e.target.value)} placeholder="e.g. Naruto, Batman, a cute bunny..." className="input" />
         </div>
-        
+
         <div>
           <label style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: "var(--ink)" }}>Size or baby's age *</label>
           <input name="size" type="text" required placeholder="e.g. 6-9 months, newborn, adult..." className="input" />
         </div>
       </div>
-      
+
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: "24px" }}>
         <div>
           <label style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: "var(--ink)" }}>Preferred colours (optional)</label>
           <input name="colours" type="text" className="input" />
         </div>
-        
+
         <div>
           <label style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: "var(--ink)" }}>Needed by (date - optional)</label>
           <input name="neededBy" type="date" className="input" />
         </div>
       </div>
-      
+
       <div>
         <label style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: "var(--ink)" }}>Reference links (optional)</label>
         <input name="referenceLinks" type="text" value={referenceVal} onChange={e => setReferenceVal(e.target.value)} placeholder="Link to a photo or post..." className="input" />
       </div>
-      
+
       <div>
         <label style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: "var(--ink)" }}>Details *</label>
         <textarea name="details" rows={5} required value={detailsVal} onChange={e => setDetailsVal(e.target.value)} placeholder="Tell us more about your request..." className="input" style={{ resize: "vertical" }}></textarea>
       </div>
-      
+
       <div style={{ display: "flex", alignItems: "flex-start", gap: "12px", padding: "16px", background: "var(--ice)", borderRadius: "12px" }}>
         <input name="consent" id="consent" type="checkbox" required style={{ marginTop: "4px", width: "20px", height: "20px", accentColor: "var(--mint)" }} />
         <label htmlFor="consent" style={{ fontSize: "0.95rem", color: "var(--text-muted)", lineHeight: "1.5", fontWeight: "600" }}>
-          I agree that Oviya's Crochet may email me about this request. *
+          I agree that Oviyas Crochet may email me about this request. *
         </label>
       </div>
-      
+
       {status === "error" && (
         <div style={{ color: "var(--danger)", padding: "12px", background: "rgba(214, 51, 108, 0.1)", borderRadius: "8px", marginTop: "8px" }} role="alert" aria-live="polite">
           {errorMsg}
         </div>
       )}
-      
+
       <div style={{ marginTop: "8px", textAlign: "center" }}>
         <button type="submit" disabled={status === "loading"} className="btn btn--primary" style={{ width: "100%", maxWidth: "320px", padding: "16px", fontSize: "1.1rem", borderRadius: "999px" }}>
           {status === "loading" ? "Sending..." : "Request a custom piece"}

@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Terms of Service | Oviya's Crochet",
+  title: "Terms of Service | Oviyas Crochet",
 };
 
 export default function TermsOfServicePage() {
@@ -16,7 +16,7 @@ export default function TermsOfServicePage() {
       </header>
 
       <div className="container prose">
-        <p>This website is operated by <strong>Oviya's Crochet</strong>, trading as <strong>Oviya's Crochet</strong>. In these terms, "we", "us" and "our" mean Oviya's Crochet, and "you" means anyone who visits the site or buys from us.</p>
+        <p>This website is operated by <strong>Oviyas Crochet</strong>, trading as <strong>Oviyas Crochet</strong>. In these terms, "we", "us" and "our" mean Oviyas Crochet, and "you" means anyone who visits the site or buys from us.</p>
         <p>By visiting this site or placing an order, you agree to these Terms of Service and to the policies linked below. If you don't agree, please don't use the site.</p>
         <ul>
           <li><Link href="/privacy-policy">Privacy policy</Link></li>
@@ -54,7 +54,7 @@ export default function TermsOfServicePage() {
         <h2>7. Contact and grievance officer</h2>
         <p>Questions about these terms? Contact us:</p>
         <p><strong>Email:</strong> contact.oviyascrochet@gmail.com<br />
-          <strong>Address:</strong> Oviya's Crochet, Kanniyakumari, India</p>
+          <strong>Address:</strong> Oviyas Crochet, Kanniyakumari, India</p>
         <p><strong>Grievance officer:</strong> Oviya · contact.oviyascrochet@gmail.com. We acknowledge complaints within 48 hours.</p>
 
         <div className="callout"><strong>Need help?</strong> If you have questions about these terms, reach out before placing your order. <Link href="/contact">Contact us</Link>.</div>

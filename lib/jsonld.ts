@@ -5,7 +5,7 @@ export const organizationJsonLd = () => ({
   "@type": "Organization",
   "@id": `${SITE.url}/#organization`,
   name: SITE.name,
-  alternateName: SITE.alternateName,       // covers the Oviya's / Oviyas spelling
+  alternateName: SITE.alternateName,       // covers the Oviyas / Oviyas spelling
   url: SITE.url,
   logo: absoluteUrl("/logo.png"),
   email: SITE.email,

@@ -1,8 +1,12 @@
 const BRAND = {
-  name: "Oviya's Crochet",
+  name: "Oviyas Crochet",
+  pri: "#6F4FB0",
   mint: "#5CC9B3",
-  ink: "#2E3A36",
-  bg: "#F9FAF9",
+  pink: "#F58FB5",
+  ink: "#2E2442",
+  bg: "#F6F1FD",
+  logo: "https://pub-f4009fab71cc4affa9a480dfa912e095.r2.dev/app/oc-logo.png",
+  siteUrl: "https://oviyascrochet.ignisailabs.com",
 };
 
 // Escape anything that came from a user before putting it into HTML
@@ -18,20 +22,45 @@ export function esc(value: unknown): string {
 function layout(title: string, bodyHtml: string) {
   return `<!doctype html>
 <html>
-<body style="margin:0;padding:24px;background:${BRAND.bg};font-family:Arial,Helvetica,sans-serif;color:${BRAND.ink};">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${esc(title)}</title>
+</head>
+<body style="margin:0;padding:24px 12px;background:#F6F1FD;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#2E2442;-webkit-font-smoothing:antialiased;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
     <tr><td align="center">
-      <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #E8EBEA;">
-        <tr><td style="background:${BRAND.ink};padding:20px 28px;color:#ffffff;font-size:20px;font-weight:bold;">
-          ${BRAND.name}
-        </td></tr>
-        <tr><td style="padding:28px;line-height:1.6;font-size:15px;">
-          <h1 style="margin:0 0 16px;font-size:22px;color:${BRAND.ink};">${esc(title)}</h1>
-          ${bodyHtml}
-        </td></tr>
-        <tr><td style="padding:16px 28px;background:#F1F3F2;font-size:12px;color:#55627a;text-align:center;">
-          Handmade with love by ${BRAND.name}. Just reply to this email if you have any questions.
-        </td></tr>
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:20px;overflow:hidden;border:1px solid #E9E1F5;box-shadow:0 8px 30px rgba(111,79,176,0.06);">
+        <!-- Header with Official Logo -->
+        <tr>
+          <td align="center" style="background:linear-gradient(135deg, #2E2442 0%, #473268 100%);padding:32px 24px;text-align:center;">
+            <a href="${BRAND.siteUrl}" target="_blank" style="text-decoration:none;display:inline-block;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto 12px;border-collapse:separate;">
+                <tr>
+                  <td align="center" valign="middle" width="90" height="90" style="width:90px;height:90px;background:#ffffff;border-radius:50%;border:3px solid rgba(255,255,255,0.25);text-align:center;vertical-align:middle;padding:0;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+                    <img src="${BRAND.logo}" alt="${BRAND.name}" width="78" height="41" style="width:78px;height:41px;display:block;margin:0 auto;border:0;outline:none;" />
+                  </td>
+                </tr>
+              </table>
+              <div style="color:#ffffff;font-size:22px;font-weight:700;letter-spacing:0.5px;margin-bottom:4px;">${BRAND.name}</div>
+              <div style="color:#CFEBDD;font-size:12px;letter-spacing:1px;text-transform:uppercase;font-weight:600;">Handmade with love in Kanniyakumari 🌸</div>
+            </a>
+          </td>
+        </tr>
+        <!-- Body Content -->
+        <tr>
+          <td style="padding:32px 28px;line-height:1.6;font-size:15px;color:#2E2442;">
+            ${bodyHtml}
+          </td>
+        </tr>
+        <!-- Footer -->
+        <tr>
+          <td style="padding:24px 28px;background:#FAF8FD;font-size:12px;color:#7A708C;text-align:center;border-top:1px solid #EFEAF7;">
+            <p style="margin:0 0 8px;font-weight:600;color:#2E2442;">Oviyas Crochet • Handmade Craft Studio</p>
+            <p style="margin:0 0 8px;">Kanniyakumari, Tamil Nadu, India • <a href="https://instagram.com/oviyas_crochet" target="_blank" style="color:#6F4FB0;text-decoration:none;font-weight:600;">@oviyas_crochet</a></p>
+            <p style="margin:0;font-size:11px;color:#9B92AB;">Need help with your invoice? Simply reply to this email or reach us at <a href="mailto:contact.oviyascrochet@gmail.com" style="color:#6F4FB0;text-decoration:none;">contact.oviyascrochet@gmail.com</a></p>
+          </td>
+        </tr>
       </table>
     </td></tr>
   </table>
@@ -40,13 +69,33 @@ function layout(title: string, bodyHtml: string) {
 }
 
 export type OrderItem = { name: string; qty: number; price: number };
+
+export type ShippingAddress = {
+  fullName?: string;
+  phone?: string;
+  line1?: string;
+  line2?: string | null;
+  city?: string;
+  state?: string;
+  pincode?: string;
+};
+
 export type Order = {
-  id: string;
+  id: string; // Order Number
   customerName: string;
   customerEmail: string;
+  customerPhone?: string;
   items: OrderItem[];
+  subtotal?: number;
+  discountTotal?: number;
+  shippingFee?: number;
   total: number;
   currency?: string; // e.g. "INR"
+  paymentMethod?: string;
+  paymentStatus?: string;
+  paymentId?: string; // Razorpay payment ID
+  shippingAddress?: ShippingAddress;
+  date?: string;
 };
 
 const money = (n: number, c = "INR") =>
@@ -60,7 +109,7 @@ function renderOrderItems(order: Order) {
          <td align="right" style="border-bottom:1px solid #E8EBEA;">${money(i.price * i.qty, order.currency)}</td></tr>`
     )
     .join("");
-    
+
   return `<table width="100%" cellpadding="0" cellspacing="0" style="margin:16px 0;">
        ${rows}
        <tr><td style="padding:12px 0;font-weight:bold;">Total</td>
@@ -70,21 +119,163 @@ function renderOrderItems(order: Order) {
 
 function renderOrderItemsText(order: Order) {
   return order.items
-    .map((i) => `- ${i.name} x ${i.qty}`)
+    .map((i) => `- ${i.name} x ${i.qty} (${money(i.price * i.qty, order.currency)})`)
     .join("\n") + `\nTotal: ${money(order.total, order.currency)}`;
 }
 
-/* 1. Order confirmation (to customer) */
+/* 1. Order confirmation / Invoice (to customer) */
 export function orderConfirmation(order: Order) {
-  const html = layout(
-    `Thank you, ${order.customerName}!`,
-    `<p>We've received your order <strong>#${esc(order.id)}</strong>. We'll start on it soon and keep you updated by email.</p>
-     ${renderOrderItems(order)}`
-  );
+  const isPaid = order.paymentStatus === "PAID" || order.paymentMethod?.toLowerCase().includes("razorpay");
+  const paymentBadge = isPaid
+    ? `<span style="display:inline-block;background:#D1E7DD;color:#0F5132;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:0.5px;">PAID</span>`
+    : `<span style="display:inline-block;background:#FFF3CD;color:#664D03;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:0.5px;">CASH ON DELIVERY</span>`;
 
-  const text = `Thank you, ${order.customerName}!\n\nWe've received your order #${order.id}.\n${renderOrderItemsText(order)}\n\nWe'll keep you updated by email.`;
+  const addr = order.shippingAddress;
+  const formattedAddress = addr
+    ? [
+      addr.fullName && `<strong>${esc(addr.fullName)}</strong>`,
+      addr.phone && `Phone: ${esc(addr.phone)}`,
+      addr.line1 && esc(addr.line1),
+      addr.line2 && esc(addr.line2),
+      (addr.city || addr.state || addr.pincode) &&
+      `${esc(addr.city || "")}${addr.city && addr.state ? ", " : ""}${esc(addr.state || "")} ${esc(addr.pincode ? `- ${addr.pincode}` : "")}`,
+    ]
+      .filter(Boolean)
+      .join("<br>")
+    : "";
 
-  return { subject: `Order #${order.id} received - Oviya's Crochet`, html, text };
+  const itemsHtml = order.items
+    .map(
+      (item) => `
+      <tr>
+        <td style="padding:12px 8px;border-bottom:1px solid #EFEAF7;font-size:14px;color:#2E2442;">
+          <strong>${esc(item.name)}</strong>
+        </td>
+        <td align="center" style="padding:12px 8px;border-bottom:1px solid #EFEAF7;font-size:14px;color:#6A617A;">
+          ${item.qty}
+        </td>
+        <td align="right" style="padding:12px 8px;border-bottom:1px solid #EFEAF7;font-size:14px;color:#6A617A;">
+          ${money(item.price, order.currency)}
+        </td>
+        <td align="right" style="padding:12px 8px;border-bottom:1px solid #EFEAF7;font-size:14px;font-weight:600;color:#2E2442;">
+          ${money(item.price * item.qty, order.currency)}
+        </td>
+      </tr>`
+    )
+    .join("");
+
+  const subtotalRow = order.subtotal !== undefined
+    ? `<tr>
+        <td colspan="3" align="right" style="padding:8px 8px 4px;font-size:13px;color:#7A708C;">Subtotal:</td>
+        <td align="right" style="padding:8px 8px 4px;font-size:13px;font-weight:600;color:#2E2442;">${money(order.subtotal, order.currency)}</td>
+      </tr>`
+    : "";
+
+  const discountRow = order.discountTotal && order.discountTotal > 0
+    ? `<tr>
+        <td colspan="3" align="right" style="padding:4px 8px;font-size:13px;color:#2E7D32;">Discount:</td>
+        <td align="right" style="padding:4px 8px;font-size:13px;font-weight:600;color:#2E7D32;">−${money(order.discountTotal, order.currency)}</td>
+      </tr>`
+    : "";
+
+  const shippingRow = order.shippingFee !== undefined
+    ? `<tr>
+        <td colspan="3" align="right" style="padding:4px 8px;font-size:13px;color:#7A708C;">Shipping:</td>
+        <td align="right" style="padding:4px 8px;font-size:13px;font-weight:600;color:${order.shippingFee === 0 ? "#2E7D32" : "#2E2442"};">
+          ${order.shippingFee === 0 ? "Free" : money(order.shippingFee, order.currency)}
+        </td>
+      </tr>`
+    : "";
+
+  const totalRow = `
+    <tr>
+      <td colspan="3" align="right" style="padding:12px 8px 4px;font-size:15px;font-weight:700;color:#2E2442;border-top:2px solid #E0D7EE;">Total Paid:</td>
+      <td align="right" style="padding:12px 8px 4px;font-size:18px;font-weight:800;color:#6F4FB0;border-top:2px solid #E0D7EE;">
+        ${money(order.total, order.currency)}
+      </td>
+    </tr>`;
+
+  const bodyHtml = `
+    <div style="margin-bottom:24px;">
+      <h2 style="margin:0 0 6px;font-size:22px;color:#2E2442;">Payment Confirmed 🎉</h2>
+      <p style="margin:0;font-size:14px;color:#6A617A;">
+        Hi ${esc(order.customerName)}, thank you for your order! Here is your official order invoice and receipt.
+      </p>
+    </div>
+
+    <!-- Invoice Summary Box -->
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FAF8FD;border:1px solid #E9E1F5;border-radius:12px;margin-bottom:24px;border-collapse:separate;">
+      <tr>
+        <td style="padding:14px 16px;font-size:13px;color:#7A708C;width:50%;border-bottom:1px solid #EFEAF7;">
+          <div style="font-size:11px;text-transform:uppercase;font-weight:700;color:#7A708C;letter-spacing:0.5px;margin-bottom:4px;">Invoice / Order #</div>
+          <span style="font-family:monospace;font-size:15px;color:#2E2442;font-weight:700;">#${esc(order.id)}</span>
+        </td>
+        <td style="padding:14px 16px;font-size:13px;color:#7A708C;width:50%;text-align:right;border-bottom:1px solid #EFEAF7;">
+          <div style="font-size:11px;text-transform:uppercase;font-weight:700;color:#7A708C;letter-spacing:0.5px;margin-bottom:4px;">Date</div>
+          <span style="color:#2E2442;font-weight:600;">${esc(order.date || "Today")}</span>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding:14px 16px;font-size:13px;color:#7A708C;">
+          <div style="font-size:11px;text-transform:uppercase;font-weight:700;color:#7A708C;letter-spacing:0.5px;margin-bottom:4px;">Payment Method</div>
+          <span style="color:#2E2442;font-weight:600;">${esc(order.paymentMethod || "Razorpay (Online)")}</span>
+          ${order.paymentId ? `<div style="font-size:11px;color:#9B92AB;font-family:monospace;margin-top:2px;">ID: ${esc(order.paymentId)}</div>` : ""}
+        </td>
+        <td style="padding:14px 16px;font-size:13px;color:#7A708C;text-align:right;">
+          <div style="font-size:11px;text-transform:uppercase;font-weight:700;color:#7A708C;letter-spacing:0.5px;margin-bottom:4px;">Status</div>
+          ${paymentBadge}
+        </td>
+      </tr>
+    </table>
+
+    <!-- Shipping Address Box -->
+    ${formattedAddress ? `
+    <div style="background:#FFFFFF;border:1px solid #EFEAF7;border-radius:12px;padding:16px;margin-bottom:24px;">
+      <div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;color:#6F4FB0;margin-bottom:8px;">
+        📦 Delivery Address
+      </div>
+      <div style="font-size:13px;line-height:1.6;color:#4A415A;">
+        ${formattedAddress}
+      </div>
+    </div>` : ""}
+
+    <!-- Items Table -->
+    <div style="margin-bottom:24px;">
+      <div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;color:#6F4FB0;margin-bottom:10px;">
+        🧶 Invoice Details
+      </div>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:100%;">
+        <thead>
+          <tr style="background:#F2EDF9;border-bottom:2px solid #E0D7EE;">
+            <th align="left" style="padding:10px 8px;font-size:12px;font-weight:700;color:#53436B;text-transform:uppercase;letter-spacing:0.5px;">Item</th>
+            <th align="center" style="padding:10px 8px;font-size:12px;font-weight:700;color:#53436B;text-transform:uppercase;letter-spacing:0.5px;width:40px;">Qty</th>
+            <th align="right" style="padding:10px 8px;font-size:12px;font-weight:700;color:#53436B;text-transform:uppercase;letter-spacing:0.5px;width:80px;">Price</th>
+            <th align="right" style="padding:10px 8px;font-size:12px;font-weight:700;color:#53436B;text-transform:uppercase;letter-spacing:0.5px;width:90px;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${itemsHtml}
+          ${subtotalRow}
+          ${discountRow}
+          ${shippingRow}
+          ${totalRow}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Crafting Timeline Box -->
+    <div style="background:#EFF8F4;border-left:4px solid #5CC9B3;padding:14px 16px;border-radius:0 10px 10px 0;margin-bottom:16px;">
+      <div style="font-weight:700;color:#1B5E4B;font-size:13px;margin-bottom:4px;">✨ What happens next?</div>
+      <div style="color:#2E4A40;font-size:13px;line-height:1.5;">
+        Every piece is made to order by Oviya and her team in Kanniyakumari. Your order is scheduled for production (5–7 business days). We'll send you tracking updates as soon as it's on its way!
+      </div>
+    </div>
+  `;
+
+  const html = layout(`Invoice #${order.id} - ${BRAND.name}`, bodyHtml);
+  const text = `Invoice #${order.id}\nThank you, ${order.customerName}!\n\nOrder: #${order.id}\nStatus: ${order.paymentStatus || "PAID"}\n${order.paymentId ? `Transaction ID: ${order.paymentId}\n` : ""}\nItems:\n${renderOrderItemsText(order)}\n\nDelivery Address:\n${addr?.fullName || order.customerName}\n${addr?.line1 || ""}, ${addr?.city || ""} ${addr?.pincode || ""}\n\nHandmade with love by Oviyas Crochet.`;
+
+  return { subject: `Invoice & Order Confirmation #${order.id} - Oviyas Crochet`, html, text };
 }
 
 /* 2. Status update (to customer) */
@@ -101,7 +292,7 @@ export function orderStatusUpdate(order: Order, status: OrderStatus, trackingInf
   const c = STATUS_COPY[status];
   const tracking = trackingInfo ? `<p><strong>Tracking:</strong> ${esc(trackingInfo)}</p>` : "";
   const html = layout(
-    c.subject, 
+    c.subject,
     `<p>Hi ${esc(order.customerName)},</p>
      <p>${c.message}</p>
      ${tracking}
@@ -135,7 +326,7 @@ export function customRequestReceived(req: CustomRequest) {
      <p style="color:#55627a;">Your message:<br>${esc(req.details).replace(/\n/g, "<br>")}</p>`
   );
   const text = `Hi ${req.name},\n\nThank you for your custom request${req.character ? ` for ${req.character}` : ""}. We'll reach back to you by email to confirm the design and price. We start crocheting only after you approve.\n\nYour message:\n${req.details}`;
-  return { subject: "We received your custom request - Oviya's Crochet", html, text };
+  return { subject: "We received your custom request - Oviyas Crochet", html, text };
 }
 
 /* 4. Owner alerts */

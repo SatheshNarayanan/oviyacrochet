@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { prisma } from "@/lib/db";
+import { sendOrderEmail } from "@/lib/email";
 
 export async function POST(req: NextRequest) {
   try {
@@ -60,20 +61,13 @@ export async function POST(req: NextRequest) {
       }),
     ]);
 
-    // Send confirmation emails (best-effort, non-blocking)
+    // Send invoice and admin alert directly
     try {
-      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-      await fetch(`${siteUrl}/api/email/send`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ template: "order-confirmation", orderId }),
-      });
-      await fetch(`${siteUrl}/api/email/send`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ template: "admin-new-order", orderId }),
-      });
-    } catch { /* non-fatal */ }
+      await sendOrderEmail(orderId, "order-confirmation");
+      await sendOrderEmail(orderId, "admin-new-order");
+    } catch (emailErr) {
+      console.error("[EMAIL_DISPATCH_FAIL]", emailErr);
+    }
 
     return NextResponse.json({ ok: true });
   } catch (err) {

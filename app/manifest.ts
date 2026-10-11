@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Oviya's Crochet",
-    short_name: "Oviya's",
+    name: "Oviyas Crochet",
+    short_name: "Oviyas",
     description: "Handmade crochet toys, bags and gifts, made to order in Kanniyakumari.",
     start_url: "/",
     display: "standalone",

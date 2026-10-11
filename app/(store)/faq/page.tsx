@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "FAQ | Oviya's Crochet",
+  title: "FAQ | Oviyas Crochet",
 };
 
 export default function FAQPage() {
@@ -34,7 +34,7 @@ export default function FAQPage() {
             <div className="faq__body"><p>Message us on WhatsApp at +919363341924 or email contact.oviyascrochet@gmail.com with your order number as soon as possible. We can usually cancel or change an order within 12 hours of ordering, before making starts. Because every piece is handmade, we can't change or cancel once making has started or the order has been dispatched.</p></div>
           </details>
           <details className="faq__item">
-            <summary>Why choose Oviya's Crochet?</summary>
+            <summary>Why choose Oviyas Crochet?</summary>
             <div className="faq__body"><p>Every piece is handmade with care, so you won't find the same factory-made look everywhere. Our designs are bold, playful and made for people who love to express themselves. We use quality yarns, finish each piece by hand, and you can talk to the people who made it.</p></div>
           </details>
           <details className="faq__item">
