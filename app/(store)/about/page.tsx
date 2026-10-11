@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { YarnMascot } from "@/components/ui/yarn-mascot";
+import Image from "next/image";
 
 import { pageMetadata } from "@/lib/seo";
 
@@ -13,8 +13,15 @@ export default function AboutPage() {
   return (
     <div style={{ maxWidth: 760, margin: "0 auto", padding: "40px var(--pad-mobile) 60px" }}>
       <div style={{ textAlign: "center", marginBottom: 40 }}>
-        <div className="blob" style={{ maxWidth: 180, margin: "0 auto 24px", aspectRatio: "1" }}>
-          <YarnMascot size={100} animate />
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
+          <Image
+            src={`${process.env.NEXT_PUBLIC_CLOUDFLARE_R2 || "https://pub-f4009fab71cc4affa9a480dfa912e095.r2.dev"}/app/oc-logo.png`}
+            alt="Oviya's Crochet logo"
+            width={340}
+            height={340}
+            style={{ borderRadius: "50%", objectFit: "cover", boxShadow: "0 8px 24px rgba(0,0,0,0.08)" }}
+            priority
+          />
         </div>
         <h1 className="text-hero" style={{ marginBottom: 12, color: "var(--pri)" }}>Our story</h1>
         <p style={{ color: "var(--mute)", fontSize: 16 }}>Handmade with love in Kanniyakumari 🌸</p>
