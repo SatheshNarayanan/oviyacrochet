@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/db";
 import { getEffectivePrice } from "@/lib/pricing";
@@ -105,89 +105,12 @@ async function getCategoryProducts(slug: string, sortKey?: string) {
 
 export default async function CategoryPage({ params, searchParams }: Props) {
   const { category: slug } = await params;
-  const { sort } = await searchParams;
-  const data = await getCategoryProducts(slug, sort);
-  if (!data) notFound();
+  const sp = await searchParams;
 
-  const inStockCount = data.products.filter((p) => p.inStock).length;
-  const soldOutCount = data.products.filter((p) => !p.inStock).length;
+  const qs = new URLSearchParams();
+  qs.set("category", slug);
+  if (sp.sort) qs.set("sort", sp.sort);
 
-  /* Witty collection taglines per guide §4.1 */
-  const taglines: Record<string, string> = {
-    amigurumi:    "Cute. Stitched. Yours.",
-    bags:         "Carry something handmade.",
-    "home-decor": "Cozy corners, handcrafted.",
-    baby:         "Soft things for tiny people.",
-    accessories:  "The finishing stitch.",
-    "gift-hampers":"Gifts that feel like hugs.",
-  };
-  const tagline = taglines[slug] ?? "Handmade warmth, woven for individual style.";
-
-  const bJsonLd = breadcrumbJsonLd([
-    { name: "Home", path: "/" },
-    { name: "Shop", path: "/shop" },
-    { name: data.category.name, path: `/shop/${slug}` },
-  ]);
-
-  return (
-    <div style={{ paddingBottom: 48 }}>
-      <JsonLd data={bJsonLd} />
-      {/* ── Collection banner (Jet Black, guide §4.1) ── */}
-      <div className="collection-banner">
-        <div>
-          <nav aria-label="Breadcrumb" style={{ fontSize: 12, marginBottom: 6, opacity: 0.6 }}>
-            <Link href="/" style={{ color: "inherit" }}>Home</Link>
-            {" / "}
-            <Link href="/shop" style={{ color: "inherit" }}>Shop</Link>
-            {" / "}
-            <span>{data.category.name}</span>
-          </nav>
-          <h1 style={{ margin: 0 }}>{data.category.name}</h1>
-          <p style={{ margin: "4px 0 0" }}>{tagline}</p>
-        </div>
-      </div>
-
-      {/* ── Sticky toolbar ── */}
-      <div className="shop-toolbar">
-        <button className="btn-filter" aria-label="Open filters" id="open-filter-btn">
-          Filter &amp; sort
-        </button>
-        <div className="shop-toolbar__chips no-scrollbar" />
-        <SortSelect activeSort={sort ?? "featured"} />
-      </div>
-
-      {/* ── Result count ── */}
-      <div className="applied-filters">
-        <span className="result-count" aria-live="polite">
-          {inStockCount} product{inStockCount !== 1 ? "s" : ""} in stock
-          {soldOutCount > 0 && ` · ${soldOutCount} sold out`}
-        </span>
-      </div>
-
-      {/* ── Product grid ── */}
-      <div style={{ padding: "8px var(--pad-mobile)" }}>
-        {data.products.length > 0 ? (
-          <>
-            <div className="shop-grid">
-              {data.products.map((p) => (
-                <ProductCard key={p.id} {...p} />
-              ))}
-            </div>
-
-            {/* Progress */}
-            <div className="load-more-wrap">
-              <p>Showing <b>{data.products.length}</b> of <b>{data.products.length}</b></p>
-              <div className="progress-bar">
-                <span className="progress-bar__fill" style={{ width: "100%" }} />
-              </div>
-            </div>
-          </>
-        ) : (
-          <p style={{ color: "var(--text-muted)", textAlign: "center", padding: "40px 0" }}>
-            Nothing here yet — check back soon!
-          </p>
-        )}
-      </div>
-    </div>
-  );
+  redirect(`/shop?${qs.toString()}`);
 }
+

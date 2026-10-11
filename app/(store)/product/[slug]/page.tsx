@@ -117,7 +117,7 @@ export default async function ProductPage({ params }: Props) {
         <nav aria-label="Breadcrumb" style={{ marginBottom: 16, fontSize: 13, color: "var(--mute)" }}>
           <Link href="/" style={{ color: "var(--mute)" }}>Home</Link>{" / "}
           <Link href="/shop" style={{ color: "var(--mute)" }}>Shop</Link>{" / "}
-          <Link href={`/shop/${product.category.slug}`} style={{ color: "var(--mute)" }}>{product.category.name}</Link>{" / "}
+          <Link href={`/shop?category=${product.category.slug}`} style={{ color: "var(--mute)" }}>{product.category.name}</Link>{" / "}
           <span style={{ color: "var(--ink)", fontWeight: 600 }}>{product.name}</span>
         </nav>
       </div>

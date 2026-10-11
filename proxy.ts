@@ -45,24 +45,9 @@ export default auth(function middleware(req) {
     return NextResponse.redirect(new URL("/admin/orders", getOrigin(req)));
   }
 
-  // SEO Redirect: /shop?category=<slug> -> /shop/<slug>
-  if (pathname === "/shop" && req.nextUrl.searchParams.has("category")) {
-    const category = req.nextUrl.searchParams.get("category");
-    if (category) {
-      const origin = getOrigin(req);
-      const newUrl = new URL(`/shop/${category}`, origin);
-      req.nextUrl.searchParams.forEach((value, key) => {
-        if (key !== "category") {
-          newUrl.searchParams.set(key, value);
-        }
-      });
-      return NextResponse.redirect(newUrl, 308);
-    }
-  }
-
   return NextResponse.next();
 });
 
 export const config = {
-  matcher: ["/admin/:path*", "/api/admin/:path*", "/shop"],
+  matcher: ["/admin/:path*", "/api/admin/:path*"],
 };

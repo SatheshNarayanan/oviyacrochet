@@ -1,23 +1,46 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { prisma } from "@/lib/db";
 import { getEffectivePrice } from "@/lib/pricing";
 import { toDiscountInput } from "@/lib/discount-mapper";
 import { ProductCard } from "@/components/store/product-card";
 import { YarnMascot } from "@/components/ui/yarn-mascot";
 import { SortSelect } from "@/components/store/sort-select";
-
+import { ShopFilterButton } from "@/components/store/shop-filter-button";
+import { ShopFilterPanel } from "@/components/store/shop-filter-panel";
+import { ActiveFilters } from "@/components/store/active-filters";
 import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = pageMetadata({
-  title: "Shop Handmade Crochet Toys, Bags & Gifts",
-  description: "Browse handmade crochet amigurumi, bags, baby gifts, home décor and gift hampers. Made to order in Kanniyakumari and shipped across India.",
-  path: "/shop",
-});
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>;
+}): Promise<Metadata> {
+  const { category } = await searchParams;
+  const titles: Record<string, string> = {
+    amigurumi: "Handmade Amigurumi Crochet Toys",
+    bags: "Handmade Crochet Bags & Pouches",
+    baby: "Handmade Crochet Baby Gifts",
+    "gift-hampers": "Crochet Gift Hampers",
+    "home-decor": "Handmade Crochet Home Décor",
+    accessories: "Handmade Crochet Accessories",
+  };
+  const title =
+    category && titles[category]
+      ? `${titles[category]} | Oviyas Crochet`
+      : "Shop Handmade Crochet Toys, Bags & Gifts";
 
-/* Subcategory bubbles – emoji used as fallback when no image */
+  return pageMetadata({
+    title,
+    description:
+      "Browse handmade crochet amigurumi, bags, baby gifts, home décor and gift hampers. Made to order in Kanniyakumari and shipped across India.",
+    path: category && category !== "all" ? `/shop?category=${category}` : "/shop",
+  });
+}
+
 const CATEGORIES_FILTER = [
-  { slug: "all", label: "All", emoji: "🧶" },
+  { slug: "all", label: "All Products", emoji: "🧶" },
   { slug: "amigurumi", label: "Amigurumi", emoji: "🐻" },
   { slug: "bags", label: "Bags", emoji: "👜" },
   { slug: "home-decor", label: "Home Decor", emoji: "🏠" },
@@ -26,44 +49,13 @@ const CATEGORIES_FILTER = [
   { slug: "gift-hampers", label: "Gift Hampers", emoji: "🎁" },
 ];
 
-/* Quick filter chips shown in the toolbar */
-const QUICK_CHIPS = [
-  { key: "in_stock", label: "In stock", param: "availability", value: "in_stock" },
-  { key: "new", label: "New", param: "new", value: "1" },
-  { key: "under999", label: "Under ₹999", param: "max_price", value: "999" },
-  { key: "gifts", label: "Gift ideas", param: "tag", value: "gift" },
-  { key: "sale", label: "On sale", param: "sale", value: "1" },
-];
-
-/* Filter groups for the sidebar */
-const FILTER_GROUPS = [
-  {
-    id: "type",
-    label: "Category",
-    options: CATEGORIES_FILTER.filter((c) => c.slug !== "all").map((c) => ({
-      value: c.slug,
-      label: c.label,
-    })),
-  },
-  {
-    id: "price",
-    label: "Price",
-    options: [
-      { value: "under500", label: "Under ₹500" },
-      { value: "under999", label: "Under ₹999" },
-      { value: "under2000", label: "Under ₹2,000" },
-    ],
-  },
-];
-
-type SortKey = "featured" | "newest" | "best_selling" | "price_asc" | "price_desc";
-
 async function getProducts(params: {
   category?: string;
   sort?: string;
   sale?: string;
   new?: string;
   max_price?: string;
+  availability?: string;
   q?: string;
   color?: string;
 }) {
@@ -87,25 +79,29 @@ async function getProducts(params: {
             : {}),
           ...(params.q || params.color
             ? {
-              AND: [
-                ...(params.q
-                  ? [{
-                    OR: [
-                      { name: { contains: params.q, mode: "insensitive" as any } },
-                      { description: { contains: params.q, mode: "insensitive" as any } },
-                    ],
-                  }]
-                  : []),
-                ...(params.color
-                  ? [{
-                    OR: [
-                      { name: { contains: params.color, mode: "insensitive" as any } },
-                      { description: { contains: params.color, mode: "insensitive" as any } },
-                    ],
-                  }]
-                  : []),
-              ],
-            }
+                AND: [
+                  ...(params.q
+                    ? [
+                        {
+                          OR: [
+                            { name: { contains: params.q, mode: "insensitive" as any } },
+                            { description: { contains: params.q, mode: "insensitive" as any } },
+                          ],
+                        },
+                      ]
+                    : []),
+                  ...(params.color
+                    ? [
+                        {
+                          OR: [
+                            { name: { contains: params.color, mode: "insensitive" as any } },
+                            { description: { contains: params.color, mode: "insensitive" as any } },
+                          ],
+                        },
+                      ]
+                    : []),
+                ],
+              }
             : {}),
         },
         include: { images: { orderBy: { position: "asc" } }, category: true },
@@ -113,8 +109,8 @@ async function getProducts(params: {
           params.sort === "price_asc"
             ? { price: "asc" }
             : params.sort === "price_desc"
-              ? { price: "desc" }
-              : { createdAt: "desc" }, // newest / featured / best_selling all default to newest for now
+            ? { price: "desc" }
+            : { createdAt: "desc" },
       }),
     ]);
 
@@ -145,10 +141,18 @@ async function getProducts(params: {
 
     let result = mapped;
 
-    /* Apply quick-chip filters */
+    /* Apply filters */
     if (params.sale === "1") result = result.filter((p) => p.discountPercent > 0);
     if (params.new === "1") result = result.filter((p) => p.isNew);
     if (params.max_price) result = result.filter((p) => p.price <= Number(params.max_price));
+    if (params.availability === "in_stock") result = result.filter((p) => p.inStock);
+
+    /* Real-time price sorting based on effective price */
+    if (params.sort === "price_asc") {
+      result.sort((a, b) => a.price - b.price);
+    } else if (params.sort === "price_desc") {
+      result.sort((a, b) => b.price - a.price);
+    }
 
     /* In-stock first, sold-out last (always) */
     result = [
@@ -172,6 +176,7 @@ export default async function ShopPage({
     sale?: string;
     new?: string;
     max_price?: string;
+    availability?: string;
     tag?: string;
     q?: string;
     color?: string;
@@ -182,49 +187,12 @@ export default async function ShopPage({
   const activeCategory = params.category ?? "all";
   const activeSort = params.sort ?? "featured";
 
-  /* Build base URL helper (preserves current state) */
-  function buildUrl(extra: Record<string, string>) {
-    const p = new URLSearchParams();
-
-    // Copy existing params safely
-    if (params.category && params.category !== "all") p.set("category", params.category);
-    if (params.sort && params.sort !== "featured") p.set("sort", params.sort);
-    if (params.sale) p.set("sale", params.sale);
-    if (params.new) p.set("new", params.new);
-    if (params.max_price) p.set("max_price", params.max_price);
-    if (params.tag) p.set("tag", params.tag);
-    if (params.q) p.set("q", params.q);
-    if (params.color) p.set("color", params.color);
-
-    // Apply overrides
-    Object.entries(extra).forEach(([k, v]) => {
-      if (v && v !== "all" && v !== "featured") {
-        p.set(k, v);
-      } else {
-        p.delete(k);
-      }
-    });
-
-    const qs = p.toString();
-    return `/shop${qs ? `?${qs}` : ""}`;
-  }
-
-  /* Active quick chips */
-  const activeChips = {
-    in_stock: false, // we always sort in-stock first, no explicit filter needed in UI
-    new: params.new === "1",
-    under999: params.max_price === "999",
-    gifts: params.tag === "gift",
-    sale: params.sale === "1",
-  };
-
   const inStockCount = products.filter((p) => p.inStock).length;
   const soldOutCount = products.filter((p) => !p.inStock).length;
 
   return (
     <div style={{ paddingBottom: 48 }}>
-      <input type="checkbox" id="filter-toggle" className="filter-toggle-cb" style={{ display: "none" }} />
-      {/* ── Page title (v2 centered, Montserrat) ── */}
+      {/* ── Page title ── */}
       <div style={{ padding: "32px var(--gutter) 0", textAlign: "center" }}>
         <h1 className="page-title">
           {activeCategory === "all"
@@ -238,126 +206,50 @@ export default async function ShopPage({
 
       {/* ── v2 Shop layout: sidebar + results ── */}
       <div className="container shop-layout" style={{ marginTop: 24 }}>
-
-        {/* ── LEFT: Filter sidebar (desktop only, togglable on mobile) ── */}
-        <aside className="filters-sidebar" aria-label="Product filters" id="filters-sidebar">
-          <label htmlFor="filter-toggle" className="filters-sidebar-close" id="close-filter-btn" aria-label="Close filters" style={{ cursor: "pointer" }}>
-            &times;
-          </label>
-          <h2 className="filters__title">Filters</h2>
-
-          {/* Category filter */}
-          <details className="fgroup" open>
-            <summary>Category</summary>
-            <div className="fgroup__body">
-              {CATEGORIES_FILTER.map((cat) => (
-                <Link
-                  key={cat.slug}
-                  href={buildUrl({ category: cat.slug })}
-                  className="check"
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  <input
-                    type="radio"
-                    name="category"
-                    value={cat.slug}
-                    checked={activeCategory === cat.slug}
-                    readOnly
-                    style={{ pointerEvents: "none" }}
-                  />
-                  <span
-                    style={{
-                      color: activeCategory === cat.slug ? "var(--mint)" : "var(--text)",
-                      fontWeight: activeCategory === cat.slug ? 700 : 400,
-                    }}
-                  >
-                    {cat.label}
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </details>
-
-          {/* Quick filters */}
-          <details className="fgroup" open>
-            <summary>Filter by</summary>
-            <div className="fgroup__body">
-              {QUICK_CHIPS.filter((c) => c.key !== "in_stock").map((chip) => {
-                const isActive = activeChips[chip.key as keyof typeof activeChips];
-                return (
-                  <Link
-                    key={chip.key}
-                    href={isActive ? buildUrl({ [chip.param]: "" }) : buildUrl({ [chip.param]: chip.value })}
-                    className="check"
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={isActive}
-                      readOnly
-                      style={{ pointerEvents: "none" }}
-                    />
-                    <span
-                      style={{
-                        color: isActive ? "var(--mint)" : "var(--text)",
-                        fontWeight: isActive ? 700 : 400,
-                      }}
-                    >
-                      {chip.label}
-                    </span>
-                  </Link>
-                );
-              })}
-            </div>
-          </details>
-
-          {/* Sort (desktop sidebar) */}
-          <details className="fgroup" open>
-            <summary>Sort by</summary>
-            <div className="fgroup__body">
-              <SortSelect activeSort={activeSort} />
-            </div>
-          </details>
-        </aside>
+        {/* ── LEFT: Desktop filter sidebar (always visible on ≥768px) ── */}
+        <Suspense fallback={null}>
+          <ShopFilterPanel mode="desktop" />
+        </Suspense>
 
         {/* ── RIGHT: Results area ── */}
         <section className="results" aria-label="Product results">
-          {/* Mobile subcategory bubbles removed per request */}
-
-          {/* Toolbar: sort (mobile) + view switcher */}
-          <div className="toolbar">
+          {/* Toolbar: filter trigger (mobile) + result count + sort select (desktop) */}
+          <div
+            className="toolbar"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 12,
+            }}
+          >
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               {/* Mobile filter button */}
-              <label htmlFor="filter-toggle" className="btn-filter shop-filter-mobile" aria-label="Open filters" id="open-filter-btn" style={{ cursor: "pointer" }}>
-                Filter &amp; sort
-              </label>
-              <span className="result-count" aria-live="polite" style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>
+              <Suspense fallback={null}>
+                <ShopFilterButton />
+              </Suspense>
+              <span
+                className="result-count"
+                aria-live="polite"
+                style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}
+              >
                 {inStockCount} product{inStockCount !== 1 ? "s" : ""} in stock
                 {soldOutCount > 0 && ` · ${soldOutCount} sold out`}
               </span>
             </div>
-            {/* v2 View switcher (list / 2 / 3 / 4 / 5 columns) */}
-            {/* <div className="view-switch" role="group" aria-label="Grid size" id="view-switch">
-              {[
-                { cols: "1", label: "List view", icon: "☰" },
-                { cols: "2", label: "2 columns", icon: "⊞" },
-                { cols: "3", label: "3 columns", icon: "⊟" },
-                { cols: "4", label: "4 columns", icon: "⊠" },
-                { cols: "5", label: "5 columns", icon: "⊡" },
-              ].map(({ cols, label, icon }) => (
-                <button
-                  key={cols}
-                  data-cols={cols}
-                  aria-label={label}
-                  aria-pressed={cols === "4" ? "true" : undefined}
-                  title={label}
-                  style={{ fontSize: "1.1rem" }}
-                >
-                  {icon}
-                </button>
-              ))}
-            </div> */}
+
+            {/* Desktop sort selector */}
+            <div className="shop-desktop-sort">
+              <Suspense fallback={null}>
+                <SortSelect activeSort={activeSort} />
+              </Suspense>
+            </div>
           </div>
+
+          {/* Active filters row */}
+          <Suspense fallback={null}>
+            <ActiveFilters />
+          </Suspense>
 
           {/* ── Product grid ── */}
           {products.length > 0 ? (
@@ -403,31 +295,6 @@ export default async function ShopPage({
           )}
         </section>
       </div>
-
-      {/* View switcher JS */}
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `(function(){
-            var switcher = document.getElementById('view-switch');
-            var grid = document.getElementById('product-grid');
-            if(switcher && grid) {
-              switcher.querySelectorAll('button[data-cols]').forEach(function(btn){
-                btn.addEventListener('click',function(){
-                  var cols = btn.getAttribute('data-cols');
-                  grid.className = 'shop-grid';
-                  if(cols==='1'){grid.style.gridTemplateColumns='1fr';}
-                  else if(cols==='2'){grid.style.gridTemplateColumns='repeat(2,minmax(0,1fr))';}
-                  else if(cols==='3'){grid.style.gridTemplateColumns='repeat(3,1fr)';}
-                  else if(cols==='4'){grid.style.gridTemplateColumns='';}
-                  else if(cols==='5'){grid.classList.add('shop-grid--compact');}
-                  switcher.querySelectorAll('button').forEach(function(b){b.removeAttribute('aria-pressed');});
-                  btn.setAttribute('aria-pressed','true');
-                });
-              });
-            }
-          })();`,
-        }}
-      />
     </div>
   );
 }

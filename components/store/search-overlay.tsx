@@ -22,10 +22,10 @@ const COLOR_SWATCHES = [
 ];
 
 const RECOMMENDED_COLLECTIONS = [
-  { label: "Bags",         href: "/shop/bags",          emoji: "👜" },
-  { label: "Baby gifts",   href: "/shop/baby",          emoji: "🍼" },
-  { label: "Amigurumi",    href: "/shop/amigurumi",     emoji: "🐻" },
-  { label: "Gift hampers", href: "/shop/gift-hampers",  emoji: "🎁" },
+  { label: "Bags",         href: "/shop?category=bags",          emoji: "👜" },
+  { label: "Baby gifts",   href: "/shop?category=baby",          emoji: "🍼" },
+  { label: "Amigurumi",    href: "/shop?category=amigurumi",     emoji: "🐻" },
+  { label: "Gift hampers", href: "/shop?category=gift-hampers",  emoji: "🎁" },
 ];
 
 /**

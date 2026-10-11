@@ -1,26 +1,36 @@
 "use client";
 
-/* 5 sort options per the UI/UX update guide §4.5 */
+import { useRouter, useSearchParams } from "next/navigation";
+
 const SORT_OPTIONS = [
   { value: "featured",    label: "Featured" },
   { value: "newest",      label: "New arrivals" },
-  { value: "best_selling",label: "Best selling" },
   { value: "price_asc",   label: "Price: low to high" },
   { value: "price_desc",  label: "Price: high to low" },
 ];
 
 export function SortSelect({ activeSort }: { activeSort: string }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const handleChange = (newSort: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (newSort && newSort !== "featured") {
+      params.set("sort", newSort);
+    } else {
+      params.delete("sort");
+    }
+    const qs = params.toString();
+    router.push(`/shop${qs ? `?${qs}` : ""}`, { scroll: false });
+  };
+
   return (
     <label className="sort-label">
       <span>Sort:</span>
       <select
         className="sort-select"
-        defaultValue={activeSort}
-        onChange={(e) => {
-          const url = new URL(window.location.href);
-          url.searchParams.set("sort", e.target.value);
-          window.location.href = url.toString();
-        }}
+        value={activeSort}
+        onChange={(e) => handleChange(e.target.value)}
       >
         {SORT_OPTIONS.map((o) => (
           <option key={o.value} value={o.value}>
